@@ -2122,7 +2122,7 @@ Function DrawLoading(percent%, shortloading=False, hideCur=False, autoClose=Fals
 		Local LoadIcon%
 		If Not percent = 100 Then
 			;If LoadIcon = 0 Then LoadIcon = LoadTexture_Strict("GFX\menu\QuickLoading.png",3)
-			If LoadIcon = 0 Then LoadIcon = LoadImage("GFX\menu\QuickLoading.png")
+			If LoadIcon = 0 Then LoadIcon = LoadImage_Strict("GFX\menu\QuickLoading.png")
 			ResizeImage(LoadIcon, ImageWidth(LoadIcon) * MenuScale, ImageHeight(LoadIcon) * MenuScale)
 			MidHandle LoadIcon
 			DrawImage LoadIcon,MenuScale*140,RealGraphicHeight / 1.08

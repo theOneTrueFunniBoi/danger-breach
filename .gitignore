@@ -6,6 +6,7 @@ error_log_*
 .vscode
 updates/
 Thumbs.db
+*.backup
 *.SI
 *.psd
 *.aup3

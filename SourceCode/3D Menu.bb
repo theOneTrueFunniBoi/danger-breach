@@ -1,4 +1,4 @@
-;3D Main Menu for SCP - Containment Breach
+;3D Main Menu for SCP /-/-/ Danger Breach
 
 Global MenuMesh%,MenuCam%,MenuRoom$ ;room and camera
 Global Menu3DScale#
@@ -21,7 +21,7 @@ Function Init3DMenu()
 
 	Select Rand(0, 7)
 		Case 0
-			MenuMesh = LoadRMesh_3DMenu("GFX\map\173new2dark_opt.rmesh")
+			MenuMesh = LoadRMesh_3DMenu("GFX\map\room1start.rmesh")
 			MenuRoom = "start"
 			
 		Case 1
@@ -80,7 +80,7 @@ Function Init3dMenuQuick()
 	Menu3DScale = Min(1.0,Float(GraphicHeight)/Float(GraphicWidth))
 	MoveEntity MenuSprite[0],Menu3DScale*1.03,Menu3DScale*0.75,1.0
 	Local temptex% = LoadTexture("GFX\menu\back3d.jpg",3)
-	
+	DebugLog(Menu3DScale)
 	;MenuScale = Menu3DScale
 	
 	EntityTexture MenuSprite[0],temptex
@@ -1005,11 +1005,11 @@ End Function
 ;	
 ;	;Palauttaa:
 ;	;  True (1) kun:
-;	;      Ympyr‰ [keskipiste = (cx, cy): s‰de = r]
+;	;      Ympyr√§ [keskipiste = (cx, cy): s√§de = r]
 ;	;      leikkaa janan, joka kulkee pisteiden (l1x, l1y) & (l2x, l2y) kaitta
 ;	;  False (0) muulloin
 ;	
-;	;Ympyr‰n keskipisteen ja (ainakin toisen) janan p‰‰tepisteen et‰isyys < r
+;	;Ympyr√§n keskipisteen ja (ainakin toisen) janan p√§√§tepisteen et√§isyys < r
 ;	;-> leikkaus
 ;	If Distance(cx, cy, l1x, l1y) <= r Then
 ;		Return True
@@ -1019,7 +1019,7 @@ End Function
 ;		Return True
 ;	EndIf	
 ;	
-;	;Vektorit (janan vektori ja vektorit janan p‰‰tepisteist‰ ympyr‰n keskipisteeseen)
+;	;Vektorit (janan vektori ja vektorit janan p√§√§tepisteist√§ ympyr√§n keskipisteeseen)
 ;	Local SegVecX# = l2x - l1x
 ;	Local SegVecY# = l2y - l1y
 ;	
@@ -1042,21 +1042,21 @@ End Function
 ;		Return False
 ;	EndIf
 ;	
-;	;Janan p‰‰tepisteiden kautta kulkevan suoran ;yht‰lˆ; (ax + by + c = 0)
+;	;Janan p√§√§tepisteiden kautta kulkevan suoran ;yht√§l√∂; (ax + by + c = 0)
 ;	Local a# = (l2y - l1y) / (l2x - l1x)
 ;	Local b# = -1
 ;	Local c# = -(l2y - l1y) / (l2x - l1x) * l1x + l1y
 ;	
-;	;Ympyr‰n keskipisteen et‰isyys suorasta
+;	;Ympyr√§n keskipisteen et√§isyys suorasta
 ;	Local d# = Abs(a * cx + b * cy + c) / Sqr(a * a + b * b)
 ;	
-;	;Ympyr‰ on liian kaukana
+;	;Ympyr√§ on liian kaukana
 ;	;-> ei leikkausta
 ;	If d > r Then Return False
 ;	
 ;	;Local kateetin_pituus# = Cos(angle) * hyp
 ;	
-;	;Jos p‰‰st‰‰n t‰nne saakka, ympyr‰ ja jana leikkaavat (tai ovat sis‰kk‰in)
+;	;Jos p√§√§st√§√§n t√§nne saakka, ympyr√§ ja jana leikkaavat (tai ovat sis√§kk√§in)
 ;	Return True
 ;End Function
 ;
