@@ -1,0 +1,39 @@
+# File produced by Open Asset Import Library (http://www.assimp.sf.net)
+# (assimp v5.0.3224704888)
+
+newmtl dirtymetal
+illum 1
+map_Kd dirtymetal.jpg
+
+newmtl label173
+illum 1
+map_Kd label173.jpg
+
+newmtl ceiling
+illum 1
+map_Kd ceiling.jpg
+
+newmtl concretefloor
+illum 1
+map_Kd concretefloor.jpg
+
+newmtl metalpanels2
+illum 1
+map_Kd metalpanels2.jpg
+
+newmtl whitewall
+illum 1
+map_Kd whitewall.jpg
+
+newmtl white
+illum 1
+map_Kd white.jpg
+
+newmtl door01
+illum 1
+map_Kd door01.jpg
+
+newmtl tilefloor
+illum 1
+map_Kd tilefloor.jpg
+

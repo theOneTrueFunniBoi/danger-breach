@@ -1,6 +1,6 @@
-Include "BlitzAL.bb"
+Include "SourceCode/MusicPlayer/BlitzAL.bb"
 
-AppTitle "SCP:CB Music Player"
+AppTitle "SCP:DB Music Player"
 
 Graphics 800,600,0,2
 SetBuffer BackBuffer()

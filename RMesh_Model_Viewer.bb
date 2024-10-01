@@ -1,8 +1,46 @@
+Graphics3D 640,480,32,2
+
+AppTitle "---INIT---"
+
+Cls
+
+Print "---INIT---"
+
+Delay 800
+Graphics3D 640,480,32,2
+AppTitle "RMesh Room Viewer is Starting, Please Wait"
+Print "#######################"
+Delay 150
+Print "########################################"
+Delay 150
+Print "####################################"
+Delay 150
+Print ""
+Delay 250
+Print "################################"
+Delay 150
+Print "#########################"
+Delay 150
+Print ""
+Delay 250
+Print "##############"
+Delay 500
+
 Global XE_XF,XE_MAXtextures
+
+Global mesh%
+
+Global sphere%
+
+Global Camera%
+Global camPitch# : Global camYaw#
+
+Global BumpEnvMat#
 
 Type XE_texdata
 	Field idx,h,fn$
 End Type
+
 Function writemesh(mesh,e_filename$)
         ;Change to 0 for human readable but (((bigger))) output
         trunc=1
@@ -707,15 +745,68 @@ Function LoadRMesh(file$)
 	Return Opaque
 End Function
 
-Print "Hey Mark,"
-Print "stop losing this ffs"
-Print "Thanks for your time."
+Function stoopid()
+Delay 500
+AppTitle "RMesh Room Viewer - ERROR"
+Graphics3D 640,480,32,2
+Print "You must specify a file"
+Delay 1500
+Graphics3D 640,480,32,2
+AppTitle "##### #### ######"
+Print "#######################"
+Print "########################################"
+Print "####################################"
+Print ""
+Print "################################"
+Print "#########################"
+Print ""
+Print "##############"
+Delay 500
+Init()
+End Function
+
+Function stoopid2()
+Delay 500
+AppTitle "RMesh Room Viewer - ERROR"
+Graphics3D 640,480,32,2
+Print "The specified RMesh is invalid or corrupt"
+Delay 1500
+Graphics3D 640,480,32,2
+AppTitle "##### #### ######"
+Print "#######################"
+Print "########################################"
+Print "####################################"
+Print ""
+Print "################################"
+Print "#########################"
+Print ""
+Print "##############"
+Delay 500
+Init()
+End Function
+
+Function Init()
+
+Graphics3D 640,480,32,2
+
+Cls
+
+AppTitle "RMesh Room Viewer"
+
+Print "Welcome to RMesh Viewer"
+Print "Enter RMesh path and name with extension"
+Print "Example: GFX/map/173bright_opt.rmesh"
+Print ""
+Print "Note: RMesh Viewer does not show"
+Print "models/objects in the map"
 Print ""
 Local fname$ = Input("RMesh To load: ")
 
 Graphics3D 1280,720,32,2
 
-;Global bump% = LoadTexture("scpcb/gfx/map/tilebump.jpg")
+AppTitle "RMesh Room Viewer - Loading RMesh"
+
+;Global bump% = LoadTexture("GFX/map/tilebump.jpg")
 ;TextureBlend bump,6
 ;TextureBumpEnvMat bump,0,0,1.009
 ;TextureBumpEnvMat bump,0,1,-1.000
@@ -724,9 +815,21 @@ Graphics3D 1280,720,32,2
 ;TextureBumpEnvScale bump,1.0
 ;TextureBumpEnvOffset bump,0.0
 
-Global mesh% = LoadRMesh(fname)
+If fname="" Then
+stoopid()
+End If
 
-;white% = LoadTexture("scpcb/gfx/map/wood.jpg")
+If FileSize(fname)=0 Then
+stoopid2()
+End If
+
+mesh% = LoadRMesh(fname)
+
+AppTitle "RMesh Room Viewer - "+fname
+
+fname=""
+
+;white% = LoadTexture("GFX/map/wood.jpg")
 ;TextureCoords white,1
 ;EntityTexture mesh,bump,0,0
 ;FreeTexture bump
@@ -735,19 +838,20 @@ ScaleEntity mesh,0.1,0.1,0.1
 EntityPickMode mesh,2
 ShowEntity mesh
 
-Global sphere% = CreateSphere()
+sphere% = CreateSphere()
 ScaleEntity sphere,5,5,5
 EntityColor sphere,255,0,0
 
-Global Camera% = CreateCamera()
+Camera% = CreateCamera()
 TranslateEntity Camera,0,5,0
-Global camPitch# = 0 : Global camYaw# = 0
+camPitch# = 0 : camYaw# = 0
 
 HidePointer 
 
-Global BumpEnvMat# = 0.0075
+BumpEnvMat# = 0.0075
 
 While Not KeyHit(1)
+
 	;mouselook
 	Local diffX% = MouseX()-(GraphicsWidth()/2)
 	Local diffY% = MouseY()-(GraphicsHeight()/2)
@@ -821,3 +925,7 @@ While Not KeyHit(1)
 	
 	Flip
 Wend
+End Function
+Repeat
+Init()
+Forever

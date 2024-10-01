@@ -1,0 +1,135 @@
+this section is for earlier on in the intro sequence:
+
+beforedooropen - Everett: Control this is agent blitz, I'm making a request to open cell 3 11.
+
+exitcell - Everett: Hey, they've got some work for you. Do me a favor and step out of the cell.
+
+exitcellrefuse1 - Everett: What are you stupid or something? I said step out of the cell. If you don't step out, I'm gonna kill you.
+
+exitcellrefuse2 - Everett: Look buddy I don't got all day. If you don't step out of the cell, I'm gonna kick your ass.
+
+escort1 - Everett: Just follow me. oh and by the way, we're authorized to kill any disobedient test subjects so, don't try anything stupid.
+
+escort2 - Everett: Just follow me. oh and by the way, we're authorized to uhh, exterminate, any disobedient test subjects so, i'd recommend not doing anything stupid.
+
+cellgas1 - Everett: Well you've got to be the most idiotic test subject we've ever had. Open the gas valves.
+
+cellgas2 - Everett: Welp, can't blame me for trying. Shut the door and open the gas valves.
+
+escortkill1 - Everett: Fine. Be that way. We'll get someone else instead.
+
+escordkill2 - Everett: Well Fine. Be that way. We'll just get somebody else then.
+
+escortpissedoff1 - Everett: I'm not in the mood for this shit. Cooperate or theres gonna be blood.
+
+escortpissedoff2 - Everett: I'm can't with this shit. Cooperate now or theres going to be a bullet in your brain.
+
+escortrefuse1 - Everett: Hurry up dumbass! They're waiting for you.
+
+escortrefuse2 - Everett: I swear to fucking god if you do not get in that chamber!
+
+escortrun - Everett: Hey dumbass, get over here. You're going the wrong way.
+
+escortterminated - Everett: You, get rid of the body, I'll find another test subject.
+
+escortterminated - Oscar: Alright fine.
+
+escortdone1 - Everett: And we made it. Just follow the instructions, and you should be fine.
+
+escortdone2 - Everett: Welp we're here. It's kinda sad I didn't get to punch you in the face but, whatever.
+
+escortdone3 - Everett: Well we made it. Just follow the instructions, and you'll be fine. Or maybe you won't, I'm not paid enough to care.
+
+escortdone4 - Everett: And we're here. Unfortunately I didn't get to punch you in the face, but I guess it's fine.
+
+escortdone5 - Everett: Wow. You actually cooperated. Maybe if you survive I'll get you some 420-J. Then again, no guarantees.
+
+ohandbytheway - Everett: Oh, and by the way...
+
+---
+
+the rest are for the conversations:
+
+Everett: Soooo, hows you're day been?
+
+Oscar: Uhh, pretty good I'd say. Yours?
+
+Everett: It's fine.
+
+Oscar: Hey you got any idea what happened to that d class that escaped last month?
+
+Everett: A d class escaped during the containment breach?
+
+Oscar: Yeah, I think his designation was D-9341
+
+Everett: No, D-9341 was recaptured by the foundation, then designated as an scp.
+
+Oscar: Are you sure?
+
+Everett: Yes, I am. D-9341 escaping is just a rumor.
+
+Oscar: Whatever you say.
+
+---
+
+Everett: You know, I might quit this job soon.
+
+Oscar: You really hate this position don't you.
+
+Everett: Well I mean, I love working in security. But the pay is terrible, and us guards aren't respected at all!
+
+Oscar: Yeah I see where you're coming from. Wait, we should start a company together.
+
+Everett: Our own company? Ehh, I'll have to pass, I can't hold all that responsibility.
+
+Oscar: You'll be head of security.
+
+Everett: Deal!
+
+---
+
+Oscar: Soo, uhhh. Wana chat?
+
+Everett: No, I'm not in the mood.
+
+Oscar: Alright, alright.
+
+---
+
+Oscar: Well, you seen any good movies lately?
+
+Everett: Eh, no not really.
+
+Oscar: Alright. Well I just finished watching 2001 the other day and It's got to be one of my favourite movies of all time.
+
+Everett: 2001? Whats that?
+
+Oscar: 2001: A Space Odyssey. You've never heard of it?
+
+Everett: Nope. Doesn't ring a bell.
+
+Oscar: Dang. Well you should watch it, it's really good.
+
+Everett: I'll look into it.
+
+---
+
+Oscar: Well, you seen any good movies lately?
+
+Everett: Eh, no not really.
+
+Oscar: Oh ok. What about any new video games?
+
+Everett: No, just the same old.
+
+Oscar: What about books?
+
+Everett: Eh, no. Just the same old still.
+
+Oscar: Damn. Hey you know someone should make a video game about this place.
+
+Everett: Oh yeah, that would be pretty cool.
+
+Oscar: I'll start working on it.
+
+---

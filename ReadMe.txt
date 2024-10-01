@@ -1,15 +1,30 @@
-
+Note: If this build of the game has not been 4gb patched you are fucked!
 
 ***********************************************************************************
 
-**************************    SCP - CONTAINMENT BREACH   **************************
+*****************************   SCP - DANGER BREACH   *****************************
 
 ***********************************************************************************
 
 				 www.scpcbgame.com
+
+		                ---SCP - DB Stuff---
+
+There are a couple new rooms, and some minor source code tweaks.
+Most changes are rooms, sfx, or gfx
+
+Play the intro sequence for an achievement.
+
+Don't Spam the elevator buttons or something funny happens.
+
+The 3D Menu doesn't play nice with Anti-aliased text so AA gets disabled if you're using the 3D Menu and vise versa.
+
+Borderless windowed mode is fucked so i disabled it.
+
+The game saves options and save data to C:\Users\USERNAME\AppData\Local\DangerBreach.
+
+                                ---SCP - CB Stuff---
 							
-
-
 The game is based on the works of the SCP Foundation community (http://www.scp-wiki.net/).
 See "Credits.txt" for further details.
 
@@ -19,9 +34,7 @@ This game is licensed under Creative Commons Attribution-ShareAlike 3.0 License.
 http://creativecommons.org/licenses/by-sa/3.0/
 
 
-The source code of the game is available on GitHub: https://github.com/Regalis11/scpcb
-
-
+The source code of the game is available on GitHub: https://github.com/theOneTrueFunniBoi/danger-breach
 
 **** HOW TO RUN IT **************************************
 

@@ -1,4 +1,210 @@
-﻿v1.3.11
+Danger Breach v2.3.3
+Save Files From DB 2.3.2 are compatible with DB 2.3.3
+-Updated to Blitz3D SoLoud: MAVLess Edition (built upon Blitz3D v1.117)
+-Highly improved save file generation and handling
+(Now allows for upgrading save files from a previous format)
+-Guards now have Cell Phones
+-Partially implemented The Swift Shadow System by sswift
+-Intro sequence tweaks
+-SCP-173 document and intro SCP-173 document are now separate
+-Subtitles can now have up to 8 different languages
+-Updated Radio Functionality
+-Updated rooms: start
+-Added a Rotating Alarm Light system
+-Added Meme Mode (cringe)
+-Misc changes
+-Misc Bug Fixes
+------------------------------------------------------------
+
+Danger Breach v2.3.2
+Save Files From DB 2.3.1 are NOT compatible with DB 2.3.2
+-Updated Save Code (fixed broken save version loading, moved save data to appdata\dangerbreach)
+-Updated Launcher
+-Disabled gamma when viewing documents
+-Fixed non-default gamma breaking the 3D menu ui
+-Updated Tesla Gate Code (tesla gates now also react to: SCP-049, SCP-049-2, SCP-096, SCP-173)
+-Moved Options (appdata\dangerbreach)
+-Fixed Borderless Windowed Mode (now just runs game at different resolution)
+-Reverted Size of SCP-173 to SCP:CB default
+-Added Rooms: room2generators
+-Added Subtitles
+-Added new achievements
+-Added new loading screens
+-Added new "infection" state
+-Added... Them.
+-Misc Bug Fixes
+------------------------------------------------------------
+
+Danger Breach v2.3.1
+Save Files From DB 2.3.0 are NOT compatible with DB 2.3.1
+-Added Janitor Keycard (to introduce players to keycards)
+-Added SCP-268, SCP-005
+-Added Rooms: room009
+-Updated Rooms: room2closets, gatea, checkpoint1, 173, room096
+-Added Train to Intro Sequence
+-Fixed Laggy Startup Videos
+-Updated Achievement Error Checking
+-Added new achievements
+-Added new startup video
+-Changed Keycard Interact SFX to reflect design changes
+-Text assigned to use Bold Fonts no longer use Regular Fonts
+-Updated Discord RPC Statuses in Gate A and B
+-Map Creator Now has 4gb patch
+-Fixed A Crash in SCP-079's Chamber
+-Changed Size of SCP-173
+-SCP-173's Head now moves to look at the player
+-Replaced MTF Intercom Voice Lines
+-Entrance Zone Now uses a new door type
+-Hud Changes
+-Fixed Major Map Generation Bugs
+-3D MENUS!!!
+-Updated Map Creator (now MapBuilder)
+-Updated RMesh Viewer
+-Updated Intro Sequence
+-Added Entrance Zone Lighting Event
+-Disabled Borderless Windowed Mode (really glitchy)
+-Minor Bug Fixes
+------------------------------------------------------------
+
+Danger Breach v2.3.0
+Save Files From DB 2.2.9 are NOT compatible with DB 2.3.0
+-Slight Changes to RPC Update Function
+-Moved Discord RPC Functions to seperate file
+-Error Logs now generate with the .log extention
+-Changed the font for the Changelog Menu
+-Added SCP-178
+-Added SCP-1981
+-Adjusted Scramble Goggles Achv Image
+-Added Rooms: room018, room2video
+-Fixed Issue on Updater and Launcher Images
+-Updated Save File Generation
+-Sorted Source Code Files
+-Added Achievements: Achv018, Achv1981
+-Fixed Discord RPC being shit and not working
+-Removed Cringe Hand on S-Nav Texture
+-Restored SCPCB Beta S-Nav
+-Minor Bug fixes
+------------------------------------------------------------
+
+Danger Breach v2.2.9
+Save Files From DB 2.2.8 are NOT compatible with DB 2.2.9
+-Added Rooms: room2testpicture, room2testmisc, room096
+-Updated Rooms: start, 173
+-Added Events: room2testpicture, room096
+-Added Fullscreen Cursor to non-fullscreen
+-Added Menu Option for Cursor
+-Fixed Camera Not Turning Right in fullscreen
+-Updated Version Text to include mod dev and original game
+-Removed Lvl 5 keycard from room106
+-Added lvl 5 keycard to room096
+-Added "Note from Dr. Hoth" to room106
+-Adjusted Menu / Button Sizes
+-Fixed Intro Toilet and Sink models causing an Error
+-Changes to Intro
+-Fixed Scramble Goggles Not Working
+-Added Hazmat suit overlay
+-Recompiled RMesh Viewer
+-Added Changelog option to main menu
+------------------------------------------------------------
+
+Danger Breach v2.2.8
+Save Files From DB 2.2.6 and CB 1.3.11 are NOT compatible with DB 2.2.8
+-Finally Switched To Source Code
+-New Achievements: "Colapse", "Who's Eric?"
+-Added Loading Icon To Loading Screen
+-Changed Loading Icon
+-Changed rooms: 914, 173
+-Changed Error Log Message
+-Removed Rooms: room096, room2catwalk, room1offices (They Were From Other Mods)
+-Updated Credits
+-Attempted to add DiscordRPC with No Sucess :(
+-The Game Now Chooses Between 3 Voicelines that SCP-079 Can play after renabling the door control system
+-Changed SCP-079's Speech
+-Changed 914 Recipies
+-Added Scramble Goggles
+-Implemented Several Changes from scpcb source code
+------------------------------------------------------------
+
+No clue where v2.2.7 is.
+------------------------------------------------------------
+
+Danger Breach v2.2.6 Update
+Save Files From DB 2.2.5 CB and 1.3.11 are NOT compatible with DB 2.2.6
+-Added One new drink to SCP-294, (SCP-420-J)
+-Added 4 new rooms (endroom3, room096, room2catwalk, room1offices)
+-Removed Duplicate SFX Folder
+-Added test maps for the new rooms
+-Changed Game Icon
+-Gave MapCreator v2.1.exe an Icon
+------------------------------------------------------------
+
+Danger Breach v2.2.5 Minor Update
+All Save Files From DB 2.2.4 CB and 1.3.11 are compatible with DB 2.2.5
+-Added One new drink to SCP-294, (Ligma)
+-Updated SCP-294 035 drink
+-Updated SNAV Texture
+-Updated Tesla Gate Sound to [REDACTED]
+-Updated Credits
+-Updated SCP-173's Document
+------------------------------------------------------------
+
+Danger Breach v2.2.4 Minor Update
+All Save Files From DB 2.2.3 CB and 1.3.11 are compatible with DB 2.2.4
+
+-Updated ELevator Door UV Map
+-Updated Keycard and Finger Scanner UV Map
+-Updated SCP Containment Breach Branding To Danger Breach
+-Added [REDACTED] to Radio Channel 1
+------------------------------------------------------------
+
+Danger Breach v2.2.3 Minor Update
+All Save Files From DB 2.2.2 CB and 1.3.11 are compatible with DB 2.2.3
+
+-New 01 Key Card Texture has been lost and has been reverted to the old custom style
+-New 02 Key Card Texture has been lost and has been reverted to the old custom style
+-New 03 Key Card Texture has been lost and has been reverted to the old custom style
+-New 04 Key Card Texture has been lost and has been reverted to the old custom style
+-New 05 Key Card Texture has been lost and has been reverted to the old custom style
+-New CLOC Key Card Texture has been lost and has been reverted to the old custom style
+-Updated SCP-939's Size
+-Added Two new drinks to SCP-294, (Ur Mom and 035)
+-Added 294 Test Map
+-Updated Main Door Texture
+-Updated Many Other Textures
+-Dr. Maynard has scribbled all over the D-Class Panflits (especially D-9341's Panflit), we really need to terminated him
+------------------------------------------------------------
+
+Danger Breach v2.2.2 Minor Update
+All Save Files From DB 2.2.1 CB and 1.3.11 are compatible with DB 2.2.2
+
+-Changed 01 Key Card Texture
+-Changed 02 Key Card Texture
+-Changed 03 Key Card Texture
+-Changed 04 Key Card Texture
+-Changed 05 Key Card Texture
+-Changed OMNI (now called: Checkpoint Lockdown Override Card (CLOC)) Key Card Texture
+-Updated SCP-173's Speed And Size
+-Updated SCP-096's Speed And Size
+-Updated SCP-049's Speed And Size
+-Updated SCP-106's Speed And Size
+------------------------------------------------------------
+
+Danger Breach v2.2.1 Minor Patch
+All Save Files From CB 1.3.11 and CB 1.3.10 are compatible with DB 2.2.1
+
+-Changed Class-D Cell Door Texture
+-Changed 01 Key Card Texture
+-Changed 02 Key Card Texture
+-Changed 03 Key Card Texture
+-Changed 04 Key Card Texture
+-Changed 05 Key Card Texture
+-Changed OMNI Key Card Texture
+-Changed Tesla Gate Electricty Colour
+-Fixed Broken Map And Rooms
+
+----------------------------------------------------------------------------------
+
+v1.3.11
 Save files from version 1.3.10 are compatible with this version.
 
 - Added a mouse smoothing option.
