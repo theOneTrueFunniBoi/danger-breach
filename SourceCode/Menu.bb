@@ -1650,7 +1650,7 @@ Function UpdateLauncher()
 	
 	For i% = 1 To TotalGFXModes
 		Local samefound% = False
-		For  n% = 0 To TotalGFXModes - 1
+		For n% = 0 To TotalGFXModes - 1
 			If GfxModeWidths(n) = GfxModeWidth(i) And GfxModeHeights(n) = GfxModeHeight(i) Then samefound = True : Exit
 		Next
 		If samefound = False Then
@@ -1677,6 +1677,8 @@ Function UpdateLauncher()
 	;Local resizedWidth% = ((LauncherWidth * 1000) / 640) * 0.001
 	
 	;Local resizedHeight% = ((LauncherHeight * 1000) / 480) * 0.001
+	
+	CountGfxDrivers()
 	
 	Repeat
 		
@@ -1727,7 +1729,7 @@ Function UpdateLauncher()
 			If SelectedGFXDriver = i Then Rect(x - 1, y - 1, 290, 20, False)
 			;text(x, y, bbGfxDriverName(i))
 			If i = 1
-				LimitText("Primary Driver", x, y, 290, False)
+				LimitText("Primary Graphics Card", x, y, 290, False)
 			Else
 				LimitText(GfxDriverName(i), x, y, 290, False)
 			EndIf
