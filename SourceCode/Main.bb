@@ -366,7 +366,7 @@ InitAAFont()
 ;can load without FastText.
 ;NOTE FROM LE SCP-DB DEV - bro really understood this font glitch and yet put courier new bold in cour instead of courbd :skull:
 Font1% = AALoadFont("GFX\font\cour\Courier New.ttf", Int(19 * (GraphicHeight / 1024.0)), 0,0,0)
-Font2% = AALoadFont("GFX\font\courbd\Courier New Bold.ttf", Int(58 * (GraphicHeight / 1024.0)), 0,0,0)
+Font2% = AALoadFont("GFX\font\courbd\Courier New Bold.ttf", Int(58 * (GraphicHeight / 1024.0)), 1,0,0)
 Font3% = AALoadFont("GFX\font\DS-DIGI\DS-Digital.ttf", Int(22 * (GraphicHeight / 1024.0)), 0,0,0)
 Font4% = AALoadFont("GFX\font\DS-DIGI\DS-Digital.ttf", Int(60 * (GraphicHeight / 1024.0)), 0,0,0)
 Font5% = AALoadFont("GFX\font\Journal\Journal.ttf", Int(58 * (GraphicHeight / 1024.0)), 0,0,0)
@@ -4576,7 +4576,7 @@ Function InitCredits()
 	Local l$
 	
 	CreditsFont% = LoadFont_Strict("GFX\font\cour\Courier New.ttf", Int(21 * (GraphicHeight / 1024.0)), 0,0,0)
-	CreditsFont2% = LoadFont_Strict("GFX\font\courbd\Courier New Bold.ttf", Int(35 * (GraphicHeight / 1024.0)), 0,0,0)
+	CreditsFont2% = LoadFont_Strict("GFX\font\courbd\Courier New Bold.ttf", Int(35 * (GraphicHeight / 1024.0)), 1,0,0)
 	
 	If CreditsScreen = 0
 		CreditsScreen = LoadImage_Strict("GFX\creditsscreen.pt")
@@ -8862,7 +8862,7 @@ Function DrawMenu()
 						EndIf
 						InitAAFont()
 						Font1% = AALoadFont("GFX\font\cour\Courier New.ttf", Int(18 * (GraphicHeight / 1024.0)), 0,0,0)
-						Font2% = AALoadFont("GFX\font\courbd\Courier New Bold.ttf", Int(58 * (GraphicHeight / 1024.0)), 0,0,0)
+						Font2% = AALoadFont("GFX\font\courbd\Courier New Bold.ttf", Int(58 * (GraphicHeight / 1024.0)), 1,0,0)
 						Font3% = AALoadFont("GFX\font\DS-DIGI\DS-Digital.ttf", Int(22 * (GraphicHeight / 1024.0)), 0,0,0)
 						Font4% = AALoadFont("GFX\font\DS-DIGI\DS-Digital.ttf", Int(60 * (GraphicHeight / 1024.0)), 0,0,0)
 						Font5% = AALoadFont("GFX\font\Journal\Journal.ttf", Int(58 * (GraphicHeight / 1024.0)), 0,0,0)
