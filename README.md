@@ -9,7 +9,7 @@ http://creativecommons.org/licenses/by-sa/3.0/
 Requirements:
 •	[Blitz3D SoLoud: MAV-Less Edition v1.000](https://github.com/theOneTrueFunniBoi/mavless_soloud)
 
-Beware - the source code is a intertwined web of memory leaks and shit code, and is perhaps scarier than all SCPs combined.
+Beware - the source code is a intertwined web of memory leaks and shit code, and is perhaps an SCP in it's own right...
 
 ## PROCEED AT YOUR OWN RISK!!1!!1111!!1!
 
