@@ -5504,6 +5504,18 @@ Function UpdateNPCs()
 		EndIf
 	EndIf
 	
+End Function
+Function NullNPCs(n.NPCs)
+	
+	FreeEntity n\obj
+	FreeEntity n\obj2
+	FreeEntity n\obj3
+	FreeEntity n\obj4
+	n\SoundChn = 0
+	n\SoundChn2 = 0
+	If n\Sound <> 0 Then FreeSound_Strict(n\Sound)
+	If n\Sound2 <> 0 Then FreeSound_Strict(n\Sound2)
+	
 End Function
 
 Function TeleportCloser(n.NPCs)
@@ -7872,5 +7884,5 @@ End Function
 
 ;~IDEal Editor Parameters:
 ;~F#2BF
-;~B#1A6#1310#13AA#1443#15F7#18C3#191F
+;~B#1A6#1310#13AA#1443#1604#18D0#192C
 ;~C#Blitz3D

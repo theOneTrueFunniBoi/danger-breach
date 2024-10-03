@@ -1522,9 +1522,9 @@ Function UpdateMainMenu()
 		AAText 20,RealGraphicHeight-70,versionTextTemp
 		versionTextTemp = "Built upon SCP - Containment Breach v1.3.11"
 		AAText 20,RealGraphicHeight-50,versionTextTemp
-		versionTextTemp = "Made using Blitz3D SoLoud: MAV-Less v"+BlitzVersion()
+		versionTextTemp = "Made using Blitz3D SoLoud: MAV-Less v"+EngineVersionNumber
 	Else
-		versionTextTemp = "what a fuck"
+		versionTextTemp = "Sponsered by RedBull"
 	EndIf
 	AAText 20,RealGraphicHeight-30,versionTextTemp
 	
@@ -2129,7 +2129,7 @@ Function DrawLoading(percent%, shortloading=False, hideCur=False, autoClose=Fals
 			MidHandle LoadIcon
 			DrawImage LoadIcon,MenuScale*140,RealGraphicHeight / 1.08
 		Else
-			If (Not LoadIcon = 0) Then FreeImage LoadIcon
+			If LoadIcon <> 0 Then FreeImage(LoadIcon)
 		EndIf
 		Color 255,255,255
 		AAText(GraphicWidth / 2, GraphicHeight / 2 - 100, "LOADING - " + percent + " %", True, True)
@@ -3156,7 +3156,7 @@ Function DrawMapCreatorTooltip(x%,y%,width%,height%,mapname$)
 		CloseFile f%
 	Else
 		txt[0] = Left(mapname$,Len(mapname$)-6)
-		author$ = "[Unknown]"
+		author$ = "[Unspecified]"
 		descr$ = "[No description]"
 		ramount% = 0
 		hasForest% = False
@@ -3167,10 +3167,10 @@ Function DrawMapCreatorTooltip(x%,y%,width%,height%,mapname$)
 	If ramount > 0 Then
 		txt[3] = "Room amount: "+ramount
 	Else
-		txt[3] = "Room amount: [Unknown]"
+		txt[3] = "Room amount: [Illegal]"
 	EndIf
 	If hasForest Then
-		txt[4] = "Has custom forest: Yes"
+		txt[4] = "Has custom forest: ;Yes"
 	Else
 		txt[4] = "Has custom forest: No"
 	EndIf

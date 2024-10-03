@@ -1,8 +1,8 @@
 
 
-Global room079ground%
+;Global room079ground%
 
-Global room079happened%
+;Global room079happened%
 
 Type Materials
 	Field name$
@@ -712,7 +712,7 @@ Function LoadRMesh(file$,rt.RoomTemplates)
 					
 					DebugLog "Attempted To Load Model: 'GFX\Map\Props\"+file+"'."
 					
-					If (Not model) Then RuntimeError("Model: 'GFX\Map\Props\"+file+"' not found. RoomMesh that requested the model: '"+FileNameStore+"'.")
+					If (Not model) Then RuntimeError("Model: 'GFX\Map\Props\"+file+"' faiiled to load RoomMesh that requested the model: '"+FileNameStore+"'.")
 					
 					temp1=ReadFloat(f) : temp2=ReadFloat(f) : temp3=ReadFloat(f)
 					PositionEntity model,temp1,temp2,temp3
@@ -2048,18 +2048,18 @@ Function LoadRoomMeshes()
 	DrawLoading(58, True)
 	
 	Local i = 0
-	For rt.RoomTemplates = Each RoomTemplates
-		If Instr(rt\objpath,".rmesh")<>0 Then ;file is roommesh
-			rt\obj = LoadRMesh(rt\objPath, rt)
-		Else ;file is b3d
-			If rt\objpath <> "" Then rt\obj = LoadWorld(rt\objPath, rt) Else rt\obj = CreatePivot()
-		EndIf
-		If (Not rt\obj) Then RuntimeError "Failed to load map file "+Chr(34)+mapfile+Chr(34)+"."
-		
-		HideEntity(rt\obj)
-		DrawLoading(i)
-		i=i+1
-	Next
+	;For rt.RoomTemplates = Each RoomTemplates
+	;	If Instr(rt\objpath,".rmesh")<>0 Then ;file is roommesh
+	;		rt\obj = LoadRMesh(rt\objPath, rt)
+	;	Else ;file is b3d
+	;		If rt\objpath <> "" Then rt\obj = LoadWorld(rt\objPath, rt) Else rt\obj = CreatePivot()
+	;	EndIf
+	;	If (Not rt\obj) Then RuntimeError "Failed to load map file "+Chr(34)+mapfile+Chr(34)+"."
+	;	
+	;	HideEntity(rt\obj)
+	;	DrawLoading(i)
+	;	i=i+1
+	;Next
 End Function
 
 
@@ -2093,6 +2093,8 @@ Type Rooms
 	Field x#, y#, z#
 	Field angle%
 	Field RoomTemplate.RoomTemplates
+	
+	Field oldFilePath$
 	
 	Field dist#
 	
@@ -6627,8 +6629,40 @@ Function UpdateRooms()
 		
 		If hide Then
 			HideEntity r\obj
+			;If r\oldFilePath = "" Then
+			;	Local tmpX% = r\x
+			;	Local tmpY% = r\y
+			;	Local tmpZ% = r\z
+			;	HideEntity r\obj
+			;	r\oldFilePath = r\RoomTemplate\objpath
+			;	;r\RoomTemplate\objpath = "GFX\map\room1archive_opt.rmesh"
+			;	;FreeEntity r\obj
+			;	;LoadRoomMesh(r\RoomTemplate)
+			;	r\obj = CopyEntity(DoorFrameOBJ)
+			;	ScaleEntity(r\obj,RoomScale,RoomScale,RoomScale)
+			;	PositionEntity(r\obj,tmpX,tmpY,tmpZ)
+			;	HideEntity r\obj
+			;EndIf
 		Else
 			ShowEntity r\obj
+			;If Not r\oldFilePath = "" Then
+			;	Local tmp2X% = r\x
+			;	Local tmp2Y% = r\y
+			;	Local tmp2Z% = r\z
+			;	HideEntity r\obj
+			;	r\RoomTemplate\objpath = r\oldFilePath
+			;	r\oldFilePath = ""
+			;	;FreeEntity r\obj
+			;	;LoadRoomMesh(r\RoomTemplate)
+			;	If Instr(r\RoomTemplate\objPath,".rmesh")<>0 Then ;file is roommesh
+			;		r\RoomTemplate\obj = LoadRMesh(r\RoomTemplate\objPath, r\RoomTemplate)
+			;	Else ;file is b3d
+			;		If r\RoomTemplate\objPath <> "" Then r\RoomTemplate\obj = LoadWorld(r\RoomTemplate\objPath, r\RoomTemplate) Else r\RoomTemplate\obj = CreatePivot()
+			;	EndIf
+			;	ScaleEntity(r\obj,RoomScale,RoomScale,RoomScale)
+			;	PositionEntity(r\obj,tmpX,tmpY,tmpZ)
+			;	ShowEntity r\obj
+			;EndIf
 			For i = 0 To MaxRoomLights-1
 				If r\Lights[i] <> 0 Then
 					dist = EntityDistance(Collider,r\Lights[i])
@@ -8072,7 +8106,7 @@ Function CreatePropObj(file$)
 	
 	p.Props = New Props
 	p\file = file
-	p\obj = LoadMesh(file)
+	p\obj = LoadMesh_Strict(file)
 	Return p\obj
 End Function
 
@@ -9901,6 +9935,6 @@ End Function
 
 
 ;~IDEal Editor Parameters:
-;~F#148#150#1F7B
-;~B#1384
+;~F#148#150#1F9D
+;~B#1386
 ;~C#Blitz3D

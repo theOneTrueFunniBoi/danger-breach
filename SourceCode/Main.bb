@@ -6,6 +6,10 @@ If FileSize("discord_game_sdk.dll")=0 Then InitErrorStr=InitErrorStr+ "discord_g
 If FileSize("Blitzcord.dll")=0 Then InitErrorStr=InitErrorStr+ "Blitzcord.dll"+Chr(13)+Chr(10)
 If FileSize("d3dim700.dll")=0 Then InitErrorStr=InitErrorStr+ "d3dim700.dll"+Chr(13)+Chr(10)
 
+If Len(InitErrorStr)>0 Then
+	RuntimeError "The following *REQUIRED* DLLs were not found or are corrupt:"+Chr(13)+Chr(10)+Chr(13)+Chr(10)+InitErrorStr
+EndIf
+
 Global ShowLogoTime%=0
 
 Global ManuallyInitiateError%=False
@@ -24,10 +28,6 @@ Global LoadingWhatAsset$ = "NULL"
 Const IsBeta = True
 
 Global totalRadioTracks% = 0
-
-If Len(InitErrorStr)>0 Then
-	RuntimeError "The following *REQUIRED* DLLs were not found or are corrupt:"+Chr(13)+Chr(10)+Chr(13)+Chr(10)+InitErrorStr
-EndIf
 
 Include "SourceCode\Blitzcord.bb"
 
@@ -156,6 +156,7 @@ Global ConsoleFont%
 Const VersionNumber$ = "2.3.3"
 Const CompatibleNumber$ = "2.3.2" ;DEPRICATED - keep as the oldest compatible version unless save code changed
 Const SavFormatVersionNumber# = 2.0 ;only update when save data format is updated
+Global EngineVersionNumber$ = BlitzVersion() //can't be constant because it's returned at runtime, Not compiled directly in
 
 Global MenuWhite%, MenuGray%, MenuBlack%
 Global ButtonSFX% = LoadSound_Strict("SFX\Interact\Button.ogg")
@@ -10145,7 +10146,7 @@ Function NullGame(playbuttonsfx%=True)
 	
 	TitleHappened = 0
 	
-	LoadingWhatAsset = "Clear Loaded Assets"
+	LoadingWhatAsset = "Freeing Memory - Prepearing to transition to Title Screen"
 	
 	Delay(0001) ;delay to load the thing
 	
@@ -10318,13 +10319,13 @@ Function NullGame(playbuttonsfx%=True)
 	
 	ClosestButton = 0
 	
+	;Free Memory (fuck you memory leaks)
+	
 	DrawLoading(30,True)
 	
 	For d.Doors = Each Doors
 		Delete d
 	Next
-	
-	;ClearWorld
 	
 	For lt.LightTemplates = Each LightTemplates
 		Delete lt
@@ -10343,6 +10344,26 @@ Function NullGame(playbuttonsfx%=True)
 	Next	
 	
 	For r.Rooms = Each Rooms
+		If r\obj <> 0 Then FreeEntity(r\obj)
+		
+		;For i=0 To MaxRoomObjects-1
+		;	If r\Objects[i] <> 0 Then FreeEntity(r\Objects[i])
+		;Next
+		
+		For i=0 To MaxAlarmObjects-1
+		;	If r\SpinningAlarmLight[i] <> 0 Then FreeEntity(r\SpinningAlarmLight[i])
+		;	If r\SpinningAlarmRotor[i] <> 0 Then FreeEntity(r\SpinningAlarmRotor[i])
+			r\SpinningAlarmStatus[i] = 0
+		Next
+		
+		r\SoundCHN = 0
+		
+		For i=0 To MaxRoomEmitters-1
+			r\SoundEmitter[i] = 0
+			r\SoundEmitterCHN[i] = 0
+		;	If r\SoundEmitterObj[i] <> 0 Then FreeEntity(r\SoundEmitterObj[i])
+			r\SoundEmitterRange[i] = 0
+		Next
 		Delete r
 	Next
 	
@@ -10363,8 +10384,10 @@ Function NullGame(playbuttonsfx%=True)
 	Next
 	
 	For n.NPCS = Each NPCs
+		NullNPCs(n)
 		Delete n
 	Next
+	
 	Curr173 = Null
 	Curr106 = Null
 	Curr096 = Null
@@ -10376,8 +10399,18 @@ Function NullGame(playbuttonsfx%=True)
 	
 	Local e.Events
 	For e.Events = Each Events
-		If e\Sound<>0 Then FreeSound_Strict e\Sound
-		If e\Sound2<>0 Then FreeSound_Strict e\Sound2
+		e\SoundCHN = 0
+		e\SoundCHN2 = 0
+		e\SoundCHN3 = 0
+		e\ElevSoundCHN = 0
+		If e\Sound <> 0 Then FreeSound_Strict(e\Sound)
+		If e\Sound2 <> 0 Then FreeSound_Strict(e\Sound2)
+		e\EventState = 0
+		e\EventState2 = 0
+		e\EventState3 = 0
+		e\EventState4 = 0
+		e\EventState5 = 0
+		e\EventStr = ""
 		Delete e
 	Next
 	
@@ -13884,5 +13917,5 @@ End Function
 
 
 ;~IDEal Editor Parameters:
-;~B#128D#1505#1CA8
+;~B#128E#1506#1CA9
 ;~C#Blitz3D
