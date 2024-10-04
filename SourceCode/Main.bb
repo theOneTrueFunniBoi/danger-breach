@@ -14,11 +14,11 @@ Global ShowLogoTime%=0
 
 Global ManuallyInitiateError%=False
 
-Global IsShowingLogo%=False
+;Global IsShowingLogo%=False
 
-Global spriteThing[1]
+;Global spriteThing[1]
 
-Global alphaThing%=1
+;Global alphaThing%=1
 
 Global radioStringGlobal$=""
 
@@ -131,7 +131,7 @@ If FileSize(OptionFile)=0 Then
 EndIf
 
 Include "SourceCode\SubtitlesEngine.bb"
-Include "SourceCode\Swift-Shadow-System-037\Swift Shadow System - 037.bb"
+;Include "SourceCode\Swift-Shadow-System-037\Swift Shadow System - 037.bb"
 
 DebugLog GetEnv("localappdata")+"\DangerBreach\options.ini"
 
@@ -361,18 +361,23 @@ SeedRnd MilliSecs()
 ;[End block]
 
 InitAAFont()
-;For some reason, Blitz3D doesn't load fonts that have filenames that
-;don't match their "internal name" (i.e. their display name in applications
-;like Word and such). As a workaround, I moved the files and renamed them so they
-;can load without FastText.
-;NOTE FROM LE SCP-DB DEV - bro really understood this font glitch and yet put courier new bold in cour instead of courbd :skull:
-Font1% = AALoadFont("GFX\font\cour\Courier New.ttf", Int(19 * (GraphicHeight / 1024.0)), 0,0,0)
-Font2% = AALoadFont("GFX\font\courbd\Courier New Bold.ttf", Int(58 * (GraphicHeight / 1024.0)), 1,0,0)
-Font3% = AALoadFont("GFX\font\DS-DIGI\DS-Digital.ttf", Int(22 * (GraphicHeight / 1024.0)), 0,0,0)
-Font4% = AALoadFont("GFX\font\DS-DIGI\DS-Digital.ttf", Int(60 * (GraphicHeight / 1024.0)), 0,0,0)
-Font5% = AALoadFont("GFX\font\Journal\Journal.ttf", Int(58 * (GraphicHeight / 1024.0)), 0,0,0)
-Font6% = AALoadFont("GFX\font\Futura\FuturaBlackBT-Regular.ttf", Int(60 * (GraphicHeight / 1024.0)), 0,0,0)
-FontChangelog% = AALoadFont("GFX\font\DS-DIGI\DS-Digital.ttf", Int(19 * (GraphicHeight / 1024.0)), 0,0,0)
+If Not MemeMode
+	Font1% = AALoadFont("GFX\font\cour\Courier New.ttf", Int(19 * (GraphicHeight / 1024.0)), 0,0,0)
+	Font2% = AALoadFont("GFX\font\courbd\Courier New Bold.ttf", Int(58 * (GraphicHeight / 1024.0)), 1,0,0)
+	Font3% = AALoadFont("GFX\font\DS-DIGI\DS-Digital.ttf", Int(22 * (GraphicHeight / 1024.0)), 0,0,0)
+	Font4% = AALoadFont("GFX\font\DS-DIGI\DS-Digital.ttf", Int(60 * (GraphicHeight / 1024.0)), 0,0,0)
+	Font5% = AALoadFont("GFX\font\Journal\Journal.ttf", Int(58 * (GraphicHeight / 1024.0)), 0,0,0)
+	Font6% = AALoadFont("GFX\font\Futura\FuturaBlackBT-Regular.ttf", Int(60 * (GraphicHeight / 1024.0)), 0,0,0)
+	FontChangelog% = AALoadFont("GFX\font\DS-DIGI\DS-Digital.ttf", Int(19 * (GraphicHeight / 1024.0)), 0,0,0)
+Else
+	Font1% = AALoadFont("GFX\font\cour\Courier New.ttf", Int(19 * (GraphicHeight / 1024.0)), 0,0,0)
+	Font2% = AALoadFont("GFX\font\sanic\z o n e.ttf", Int(80 * (GraphicHeight / 1024.0)), 0,0,0)
+	Font3% = AALoadFont("GFX\font\DS-DIGI\DS-Digital.ttf", Int(22 * (GraphicHeight / 1024.0)), 0,0,0)
+	Font4% = AALoadFont("GFX\font\DS-DIGI\DS-Digital.ttf", Int(60 * (GraphicHeight / 1024.0)), 0,0,0)
+	Font5% = AALoadFont("GFX\font\Journal\Journal.ttf", Int(58 * (GraphicHeight / 1024.0)), 0,0,0)
+	Font6% = AALoadFont("GFX\font\sanic\z o n e.ttf", Int(80 * (GraphicHeight / 1024.0)), 0,0,0)
+	FontChangelog% = AALoadFont("GFX\font\DS-DIGI\DS-Digital.ttf", Int(19 * (GraphicHeight / 1024.0)), 0,0,0)
+EndIf
 
 Global CreditsFont%,CreditsFont2%
 
@@ -1905,7 +1910,7 @@ Else
 	Music(8) = "Room049"
 	Music(9) = "8601"
 	Music(10) = "106"
-	Music(11) = "..\Radio\scpradio0_src"
+	Music(11) = "meme\dun"
 	Music(12) = "8601Cancer"
 	Music(13) = "meme\tetrsi"
 	Music(14) = "178"
@@ -2999,7 +3004,6 @@ LoadingWhatAsset = "Map System Data"
 UpdateLoading() ;think of better way later
 
 Include "SourceCode\MapSystem.bb"
-;Include "SourceCode\MapSystem_retarded.bb" ;this is utterly fucking retarded
 DrawLoading(80,True)
 
 LoadingWhatAsset = "NPC Data"
@@ -3446,17 +3450,17 @@ Repeat
 	
 	If MenuOpen Or InvOpen Or OtherOpen<>Null Or ConsoleOpen Or SelectedDoor <> Null Or SelectedScreen <> Null Or Using294 Then FPSfactor = 0
 	
-	If IsShowingLogo=True Then
-		ShowLogoTime = ShowLogoTime+1
-		DebugLog("gonna delete the title in: "+(250-ShowLogoTime)+" cycles, current opacity is: "+alphaThing)
-		If (ShowLogoTime > 250) Or (alphaThing = 0) Then
-			BlinkTimer = -10 : LightBlink = 1.0
-			;CameraShake = 3
-			FreeEntity spriteThing[0] : spriteThing[0] = 0
-			ShowLogoTime = 0
-			IsShowingLogo=False
-		End If
-	End If
+	;If IsShowingLogo=True Then
+	;	ShowLogoTime = ShowLogoTime+1
+	;	DebugLog("gonna delete the title in: "+(250-ShowLogoTime)+" cycles, current opacity is: "+alphaThing)
+	;	If (ShowLogoTime > 250) Or (alphaThing = 0) Then
+	;		BlinkTimer = -10 : LightBlink = 1.0
+	;		;CameraShake = 3
+	;		FreeEntity spriteThing[0] : spriteThing[0] = 0
+	;		ShowLogoTime = 0
+	;		IsShowingLogo=False
+	;	End If
+	;End If
 	
 	InfectOverride3312=0
 	
@@ -8862,13 +8866,23 @@ Function DrawMenu()
 							;Next
 						EndIf
 						InitAAFont()
-						Font1% = AALoadFont("GFX\font\cour\Courier New.ttf", Int(18 * (GraphicHeight / 1024.0)), 0,0,0)
-						Font2% = AALoadFont("GFX\font\courbd\Courier New Bold.ttf", Int(58 * (GraphicHeight / 1024.0)), 1,0,0)
-						Font3% = AALoadFont("GFX\font\DS-DIGI\DS-Digital.ttf", Int(22 * (GraphicHeight / 1024.0)), 0,0,0)
-						Font4% = AALoadFont("GFX\font\DS-DIGI\DS-Digital.ttf", Int(60 * (GraphicHeight / 1024.0)), 0,0,0)
-						Font5% = AALoadFont("GFX\font\Journal\Journal.ttf", Int(58 * (GraphicHeight / 1024.0)), 0,0,0)
-						Font6% = AALoadFont("GFX\font\Futura\FuturaBlackBT-Regular.ttf", Int(60 * (GraphicHeight / 1024.0)), 0,0,0)
-						FontChangelog% = AALoadFont("GFX\font\DS-DIGI\DS-Digital.ttf", Int(19 * (GraphicHeight / 1024.0)), 0,0,0)
+						If Not MemeMode
+							Font1% = AALoadFont("GFX\font\cour\Courier New.ttf", Int(19 * (GraphicHeight / 1024.0)), 0,0,0)
+							Font2% = AALoadFont("GFX\font\courbd\Courier New Bold.ttf", Int(58 * (GraphicHeight / 1024.0)), 1,0,0)
+							Font3% = AALoadFont("GFX\font\DS-DIGI\DS-Digital.ttf", Int(22 * (GraphicHeight / 1024.0)), 0,0,0)
+							Font4% = AALoadFont("GFX\font\DS-DIGI\DS-Digital.ttf", Int(60 * (GraphicHeight / 1024.0)), 0,0,0)
+							Font5% = AALoadFont("GFX\font\Journal\Journal.ttf", Int(58 * (GraphicHeight / 1024.0)), 0,0,0)
+							Font6% = AALoadFont("GFX\font\Futura\FuturaBlackBT-Regular.ttf", Int(60 * (GraphicHeight / 1024.0)), 0,0,0)
+							FontChangelog% = AALoadFont("GFX\font\DS-DIGI\DS-Digital.ttf", Int(19 * (GraphicHeight / 1024.0)), 0,0,0)
+						Else
+							Font1% = AALoadFont("GFX\font\cour\Courier New.ttf", Int(19 * (GraphicHeight / 1024.0)), 0,0,0)
+							Font2% = AALoadFont("GFX\font\sanic\z o n e.ttf", Int(80 * (GraphicHeight / 1024.0)), 0,0,0)
+							Font3% = AALoadFont("GFX\font\DS-DIGI\DS-Digital.ttf", Int(22 * (GraphicHeight / 1024.0)), 0,0,0)
+							Font4% = AALoadFont("GFX\font\DS-DIGI\DS-Digital.ttf", Int(60 * (GraphicHeight / 1024.0)), 0,0,0)
+							Font5% = AALoadFont("GFX\font\Journal\Journal.ttf", Int(58 * (GraphicHeight / 1024.0)), 0,0,0)
+							Font6% = AALoadFont("GFX\font\sanic\z o n e.ttf", Int(80 * (GraphicHeight / 1024.0)), 0,0,0)
+							FontChangelog% = AALoadFont("GFX\font\DS-DIGI\DS-Digital.ttf", Int(19 * (GraphicHeight / 1024.0)), 0,0,0)
+						EndIf
 						ConsoleFont% = AALoadFont("Tahoma", Int(22 * (GraphicHeight / 1024.0)), 0,0,0,1)
 						;ReloadAAFont()
 						AATextEnable_Prev% = AATextEnable
@@ -9600,9 +9614,9 @@ Function LoadEntities()
 	CamOBJ = LoadMesh_Strict("GFX\map\CamHead.b3d")
 	HideEntity(CamOBJ)
 	
-	Monitor2 = LoadMesh_Strict("GFX\map\monitor_checkpoint.b3d")
+	Monitor2 = CopyEntity(Monitor)
 	HideEntity Monitor2
-	Monitor3 = LoadMesh_Strict("GFX\map\monitor_checkpoint.b3d")
+	Monitor3 = CopyEntity(Monitor)
 	HideEntity Monitor3
 	MonitorTexture2 = LoadTexture_Strict("GFX\map\LockdownScreen2.jpg")
 	MonitorTexture3 = LoadTexture_Strict("GFX\map\LockdownScreen.jpg")
@@ -10344,7 +10358,10 @@ Function NullGame(playbuttonsfx%=True)
 	Next	
 	
 	For r.Rooms = Each Rooms
-		If r\obj <> 0 Then FreeEntity(r\obj)
+		If r\obj <> 0 Then 
+			FreeEntity(r\obj)
+			r\obj = 0
+		EndIf
 		
 		;For i=0 To MaxRoomObjects-1
 		;	If r\Objects[i] <> 0 Then FreeEntity(r\Objects[i])
@@ -10403,8 +10420,16 @@ Function NullGame(playbuttonsfx%=True)
 		e\SoundCHN2 = 0
 		e\SoundCHN3 = 0
 		e\ElevSoundCHN = 0
-		If e\Sound <> 0 Then FreeSound_Strict(e\Sound)
-		If e\Sound2 <> 0 Then FreeSound_Strict(e\Sound2)
+		If e\Sound <> 0 Then 
+			FreeSound_Strict(e\Sound)
+			e\Sound = 0
+		EndIf
+		
+		If e\Sound2 <> 0 Then 
+			FreeSound_Strict(e\Sound2)
+			e\Sound2 = 0
+		End If
+		
 		e\EventState = 0
 		e\EventState2 = 0
 		e\EventState3 = 0
@@ -13024,7 +13049,7 @@ Function EntityScaleZ#(entity%, globl% = False)
 	If globl Then TFormVector 0, 0, 1, entity, 0 Else TFormVector 0, 0, 1, entity, GetParent(entity)
 	Return Sqr(TFormedX() * TFormedX() + TFormedY() * TFormedY() + TFormedZ() * TFormedZ())
 End Function 
-Include "SourceCode\Swift-Shadow-System-037\Swift Shadow System - 037.bb"
+;Include "SourceCode\Swift-Shadow-System-037\Swift Shadow System - 037.bb"
 
 Function Graphics3DExt%(width%,height%,depth%=32,mode%=2)
 	;If FE_InitExtFlag = 1 Then DeInitExt() ;prevent FastExt from breaking itself
@@ -13917,5 +13942,5 @@ End Function
 
 
 ;~IDEal Editor Parameters:
-;~B#128E#1506#1CA9
+;~B#1292#150A#1CAD
 ;~C#Blitz3D

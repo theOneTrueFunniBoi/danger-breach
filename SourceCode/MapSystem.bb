@@ -710,9 +710,9 @@ Function LoadRMesh(file$,rt.RoomTemplates)
 				If file<>""
 					Local model = CreatePropObj("GFX\Map\Props\"+file);LoadMesh("GFX\Map\Props\"+file)
 					
-					DebugLog "Attempted To Load Model: 'GFX\Map\Props\"+file+"'."
+					DebugLog "Attempted To Init Prob Obj: 'GFX\Map\Props\"+file+"'."
 					
-					If (Not model) Then RuntimeError("Model: 'GFX\Map\Props\"+file+"' faiiled to load RoomMesh that requested the model: '"+FileNameStore+"'.")
+					If (Not model) Then RuntimeError("PropObject: 'GFX\Map\Props\"+file+"' faiiled to load. RoomMesh that requested the model: '"+FileNameStore+"'.")
 					
 					temp1=ReadFloat(f) : temp2=ReadFloat(f) : temp3=ReadFloat(f)
 					PositionEntity model,temp1,temp2,temp3
@@ -997,23 +997,23 @@ Function LoadSirenMesh(file$) ;stripped down rmesh
 		temp1s=ReadString(f)
 		Select temp1s
 			Case "screen"
-				RuntimeError("FATAL ERROR: SirenMeshs cannot contain non-light point entites. SirenMesh in question: "+Chr(34)+file+Chr(34))
+				RuntimeError("FATAL ERROR: SirenMeshes cannot contain non-light point entites. SirenMesh in question: "+Chr(34)+file+Chr(34))
 				
 			Case "waypoint"
-				RuntimeError("FATAL ERROR: SirenMeshs cannot contain non-light point entites. SirenMesh in question: "+Chr(34)+file+Chr(34))
+				RuntimeError("FATAL ERROR: SirenMeshes cannot contain non-light point entites. SirenMesh in question: "+Chr(34)+file+Chr(34))
 				
 			Case "light"
 				
 			Case "spotlight"
 				
 			Case "soundemitter"
-				RuntimeError("FATAL ERROR: SirenMeshs cannot contain non-light point entites. SirenMesh in question: "+Chr(34)+file+Chr(34))
+				RuntimeError("FATAL ERROR: SirenMeshes cannot contain non-light point entites. SirenMesh in question: "+Chr(34)+file+Chr(34))
 				
 			Case "playerstart"
-				RuntimeError("FATAL ERROR: SirenMeshs cannot contain non-light point entites. SirenMesh in question: "+Chr(34)+file+Chr(34))
+				RuntimeError("FATAL ERROR: SirenMeshes cannot contain non-light point entites. SirenMesh in question: "+Chr(34)+file+Chr(34))
 				
 			Case "model"
-				RuntimeError("FATAL ERROR: SirenMeshs cannot contain non-light point entites. SirenMesh in question: "+Chr(34)+file+Chr(34))
+				RuntimeError("FATAL ERROR: SirenMeshes cannot contain non-light point entites. SirenMesh in question: "+Chr(34)+file+Chr(34))
 				
 		End Select
 	Next
@@ -2023,17 +2023,19 @@ End Function
 
 Function LoadRoomMesh(rt.RoomTemplates)
 	
-	If Instr(rt\objPath,".rmesh")<>0 Then ;file is roommesh
-		rt\obj = LoadRMesh(rt\objPath, rt)
-	Else ;file is b3d
-		If rt\objPath <> "" Then rt\obj = LoadWorld(rt\objPath, rt) Else rt\obj = CreatePivot()
-	EndIf
-	
-	If (Not rt\obj) Then RuntimeError "Failed to load map file "+Chr(34)+mapfile+Chr(34)+"."
-	
-	CalculateRoomTemplateExtents(rt)
-	
-	HideEntity(rt\obj)
+	If ((rt\Name = "173") And (IntroEnabled) And (Not isLoadedSave)) Or (Not rt\Name = "173")
+		If Instr(rt\objPath,".rmesh")<>0 Then ;file is roommesh
+			rt\obj = LoadRMesh(rt\objPath, rt)
+		Else ;file is b3d
+			If rt\objPath <> "" Then rt\obj = LoadWorld(rt\objPath, rt) Else rt\obj = CreatePivot()
+		EndIf
+		
+		If (Not rt\obj) Then RuntimeError "Failed to load map file "+Chr(34)+mapfile+Chr(34)+"."
+		
+		CalculateRoomTemplateExtents(rt)
+		
+		HideEntity(rt\obj)
+	End If
 	
 End Function
 
@@ -2048,18 +2050,20 @@ Function LoadRoomMeshes()
 	DrawLoading(58, True)
 	
 	Local i = 0
-	;For rt.RoomTemplates = Each RoomTemplates
-	;	If Instr(rt\objpath,".rmesh")<>0 Then ;file is roommesh
-	;		rt\obj = LoadRMesh(rt\objPath, rt)
-	;	Else ;file is b3d
-	;		If rt\objpath <> "" Then rt\obj = LoadWorld(rt\objPath, rt) Else rt\obj = CreatePivot()
-	;	EndIf
-	;	If (Not rt\obj) Then RuntimeError "Failed to load map file "+Chr(34)+mapfile+Chr(34)+"."
-	;	
-	;	HideEntity(rt\obj)
-	;	DrawLoading(i)
-	;	i=i+1
-	;Next
+	For rt.RoomTemplates = Each RoomTemplates
+		If ((rt\Name = "173") And (IntroEnabled) And (Not isLoadedSave)) Or (Not rt\Name = "173")
+			If Instr(rt\objpath,".rmesh")<>0 Then ;file is roommesh
+				rt\obj = LoadRMesh(rt\objPath, rt)
+			Else ;file is b3d
+				If rt\objpath <> "" Then rt\obj = LoadWorld(rt\objPath, rt) Else rt\obj = CreatePivot()
+			EndIf
+			If (Not rt\obj) Then RuntimeError "Failed to load map file "+Chr(34)+mapfile+Chr(34)+"."
+			
+			HideEntity(rt\obj)
+		End If
+		DrawLoading(i)
+		i=i+1
+	Next
 End Function
 
 
@@ -4687,7 +4691,7 @@ Function FillRoom(r.Rooms)
 			;ScaleEntity r\SpinningAlarmLight[0],RoomScale,RoomScale,RoomScale
 			RotateEntity r\SpinningAlarmLight[0],45,0,0
 			LightConeAngles r\SpinningAlarmLight[0],0,75
-			Cast_Light(r\SpinningAlarmLight[0], 1.5)
+			;Cast_Light(r\SpinningAlarmLight[0], 1.5)
 			
 			
 			r\Objects[7] = CopyEntity(DoorFrameOBJ)
@@ -9935,6 +9939,6 @@ End Function
 
 
 ;~IDEal Editor Parameters:
-;~F#148#150#1F9D
-;~B#1386
+;~F#148#150#1FA1
+;~B#138A
 ;~C#Blitz3D

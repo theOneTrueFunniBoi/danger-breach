@@ -582,12 +582,14 @@ Function UpdateMainMenu()
 											EndIf
 										Else
 											If DrawButton(x + 280 * MenuScale, y + 20 * MenuScale, 100 * MenuScale, 30 * MenuScale, "Load", False) Then
+												isLoadedSave = True
 												LoadEntities()
 												LoadAllSounds()
 												LoadGame(SavePath + SaveGames(i - 1) + "\")
 												CurrSave = SaveGames(i - 1)
 												DeleteMenuGadgets()
 												InitLoadGame()
+												isLoadedSave = False
 												MainMenuOpen = False
 											EndIf
 										EndIf
@@ -1258,13 +1260,23 @@ Function UpdateMainMenu()
 						If (Not IS_3DMENU_ENABLED)
 							InitAAFont()
 						EndIf
-						Font1% = AALoadFont("GFX\font\cour\Courier New.ttf", Int(18 * (RealGraphicHeight / 1024.0)), 0,0,0)
-						Font2% = AALoadFont("GFX\font\courbd\Courier New Bold.ttf", Int(58 * (RealGraphicHeight / 1024.0)), 1,0,0)
-						Font3% = AALoadFont("GFX\font\DS-DIGI\DS-Digital.ttf", Int(22 * (RealGraphicHeight / 1024.0)), 0,0,0)
-						Font4% = AALoadFont("GFX\font\DS-DIGI\DS-Digital.ttf", Int(60 * (RealGraphicHeight / 1024.0)), 0,0,0)
-						Font5% = AALoadFont("GFX\font\Journal\Journal.ttf", Int(58 * (RealGraphicHeight / 1024.0)), 0,0,0)
-						Font6% = AALoadFont("GFX\font\Futura\FuturaBlackBT-Regular.ttf", Int(60 * (GraphicHeight / 1024.0)), 0,0,0)
-						FontChangelog% = AALoadFont("GFX\font\DS-DIGI\DS-Digital.ttf", Int(19 * (RealGraphicHeight / 1024.0)), 0,0,0)
+						If Not MemeMode
+							Font1% = AALoadFont("GFX\font\cour\Courier New.ttf", Int(19 * (GraphicHeight / 1024.0)), 0,0,0)
+							Font2% = AALoadFont("GFX\font\courbd\Courier New Bold.ttf", Int(58 * (GraphicHeight / 1024.0)), 1,0,0)
+							Font3% = AALoadFont("GFX\font\DS-DIGI\DS-Digital.ttf", Int(22 * (GraphicHeight / 1024.0)), 0,0,0)
+							Font4% = AALoadFont("GFX\font\DS-DIGI\DS-Digital.ttf", Int(60 * (GraphicHeight / 1024.0)), 0,0,0)
+							Font5% = AALoadFont("GFX\font\Journal\Journal.ttf", Int(58 * (GraphicHeight / 1024.0)), 0,0,0)
+							Font6% = AALoadFont("GFX\font\Futura\FuturaBlackBT-Regular.ttf", Int(60 * (GraphicHeight / 1024.0)), 0,0,0)
+							FontChangelog% = AALoadFont("GFX\font\DS-DIGI\DS-Digital.ttf", Int(19 * (GraphicHeight / 1024.0)), 0,0,0)
+						Else
+							Font1% = AALoadFont("GFX\font\cour\Courier New.ttf", Int(19 * (GraphicHeight / 1024.0)), 0,0,0)
+							Font2% = AALoadFont("GFX\font\sanic\z o n e.ttf", Int(80 * (GraphicHeight / 1024.0)), 0,0,0)
+							Font3% = AALoadFont("GFX\font\DS-DIGI\DS-Digital.ttf", Int(22 * (GraphicHeight / 1024.0)), 0,0,0)
+							Font4% = AALoadFont("GFX\font\DS-DIGI\DS-Digital.ttf", Int(60 * (GraphicHeight / 1024.0)), 0,0,0)
+							Font5% = AALoadFont("GFX\font\Journal\Journal.ttf", Int(58 * (GraphicHeight / 1024.0)), 0,0,0)
+							Font6% = AALoadFont("GFX\font\sanic\z o n e.ttf", Int(80 * (GraphicHeight / 1024.0)), 0,0,0)
+							FontChangelog% = AALoadFont("GFX\font\DS-DIGI\DS-Digital.ttf", Int(19 * (GraphicHeight / 1024.0)), 0,0,0)
+						EndIf
 						ConsoleFont% = AALoadFont("Tahoma", Int(22 * (RealGraphicHeight / 1024.0)), 0,0,0,1)
 						;ReloadAAFont()
 						AATextEnable_Prev% = AATextEnable

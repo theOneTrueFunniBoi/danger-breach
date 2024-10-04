@@ -1614,22 +1614,22 @@ Function UpdateEvents()
 											EndIf
 										Next
 										
-										Local logoImg% = LoadTexture("GFX\menu\back3d.jpg",3)
+										;Local logoImg% = LoadTexture("GFX\menu\back3d.jpg",3)
 										
 										;DrawTiledImageRect(MenuBlack, yoffset, (y Mod 256), 512, 512, 0, 0, GraphicsWidth(), GraphicsHeight())
 										
-										spriteThing[0] = CreateSprite(Camera)
+										;spriteThing[0] = CreateSprite(Camera)
 										
-										EntityOrder spriteThing[0],-100
-										ScaleSprite spriteThing[0],0.4,0.4/650.0*228.0
-										Local SpriteScale = Min(1.0,Float(GraphicsHeight())/Float(GraphicsWidth()))
-										MoveEntity spriteThing[0],0.0,SpriteScale*0,1.0
+										;EntityOrder spriteThing[0],-100
+										;ScaleSprite spriteThing[0],0.4,0.4/650.0*228.0
+										;Local SpriteScale = Min(1.0,Float(GraphicsHeight())/Float(GraphicsWidth()))
+										;MoveEntity spriteThing[0],0.0,SpriteScale*0,1.0
 										
-										EntityTexture spriteThing[0],logoImg
+										;EntityTexture spriteThing[0],logoImg
 										
-										FreeTexture logoImg
+										;FreeTexture logoImg
 										
-										IsShowingLogo=True
+										;IsShowingLogo=True
 										
 									EndIf
 									

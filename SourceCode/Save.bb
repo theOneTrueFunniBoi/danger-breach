@@ -1,3 +1,4 @@
+Global isLoadedSave = False
 
 Function SaveGame(file$)
 	CatchErrors("Uncaught (SaveGame)")
@@ -485,6 +486,8 @@ Function LoadGame(file$)
 	Local version$ = ""
 	Local savVersion# = 1.0
 	
+	;isLoadedSave = True
+	
 	CatchErrors("Uncaught (LoadGame)")
 	DebugLog "---------------------------------------------------------------------------"
 	
@@ -773,12 +776,15 @@ Function LoadGame(file$)
 		angle=WrapAngle(angle)
 		
 		For rt.roomtemplates = Each RoomTemplates
-			If rt\id = roomtemplateID Then
-				r.Rooms = CreateRoom(level, rt\shape, x, y, z, rt\name)
-				TurnEntity(r\obj, 0, angle, 0)
-				r\angle = angle
-				r\found = found
-				Exit
+			; frees some memory if loading from save or the intro isn't enabled
+			If (Not rt\Name = "173")
+				If rt\id = roomtemplateID Then
+					r.Rooms = CreateRoom(level, rt\shape, x, y, z, rt\name)
+					TurnEntity(r\obj, 0, angle, 0)
+					r\angle = angle
+					r\found = found
+					Exit
+				End If
 			End If
 		Next
 		
@@ -1310,6 +1316,8 @@ Function LoadGame(file$)
 	EndIf
 	
 	UpdateDoorsTimer = 0
+	
+	;isLoadedSave = False
 	
 	CatchErrors("LoadGame")
 End Function
