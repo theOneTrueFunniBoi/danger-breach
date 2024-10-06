@@ -1,3 +1,4 @@
+
 Local InitErrorStr$ = ""
 If FileSize("fmod.dll")=0 Then InitErrorStr=InitErrorStr+ "fmod.dll"+Chr(13)+Chr(10)
 If FileSize("zlibwapi.dll")=0 Then InitErrorStr=InitErrorStr+ "zlibwapi.dll"+Chr(13)+Chr(10)
@@ -13949,5 +13950,5 @@ End Function
 
 
 ;~IDEal Editor Parameters:
-;~B#1293#150B#1CAE
-;~C#Blitz3D SoLoud MAV-Less
+;~B#1294#150C#1CAF
+;~C#Blitz3D
