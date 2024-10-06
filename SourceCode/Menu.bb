@@ -89,9 +89,7 @@ Function UpdateMainMenu()
 	Local x%, y%, width%, height%, temp%
 	
 	TitleHappened = 1
-	
 	BlitzcordGameStatus=1
-		
 	UpdateBlitzcord()
 	
 	;SyncGame()
@@ -105,9 +103,9 @@ Function UpdateMainMenu()
 	EndIf
 	
 	If Not IS_3DMENU_ENABLED Then ;3D Menu is disabled
-	
+		
 		DrawImage(MenuBack, 0, 0)
-	
+		
 		If (MilliSecs2() Mod MenuBlinkTimer(0)) >= Rand(MenuBlinkDuration(0)) Then
 			DrawImage(Menu173, RealGraphicWidth - ImageWidth(Menu173), RealGraphicHeight - ImageHeight(Menu173))
 		EndIf
@@ -191,44 +189,70 @@ Function UpdateMainMenu()
 			Local txt$
 			Select i
 				Case 0
-					txt = "NEW GAME"
+					If (Not MemeMode) Then txt = "NEW GAME"
+					If (MemeMode) Then txt = "CONTINUE SUFFERING"
 					RandomSeed = ""
 					If temp Then 
 						If Rand(15)=1 Then 
-							Select Rand(15)
-								Case 1 
-									RandomSeed = "NIL"
-								Case 2
-									RandomSeed = "NO"
-								Case 3
-									RandomSeed = "d9341"
-								Case 4
-									RandomSeed = "5CP_173"
-								Case 5
-									RandomSeed = "DONTBLINK"
-								Case 6
-									RandomSeed = "CRUNCH"
-								Case 7
-									RandomSeed = "die"
-								Case 8
-									RandomSeed = "HTAED"
-								Case 9
-									RandomSeed = "rustledjim"
-								Case 10
-									RandomSeed = "larry"
-								Case 11
-									RandomSeed = "JORGE"
-								Case 12
-									RandomSeed = "dirtymetal"
-								Case 13
-									RandomSeed = "whatpumpkin"
-								Case 14
-									RandomSeed = "FUNNIMAN_EXE"
-								Case 15
-									RandomSeed = "h3ll"
-							End Select
+							If (Not MemeMode)
+								Select Rand(16)
+									Case 1 
+										RandomSeed = "NIL"
+									Case 2
+										RandomSeed = "NO"
+									Case 3
+										RandomSeed = "d9341"
+									Case 4
+										RandomSeed = "5CP_173"
+									Case 5
+										RandomSeed = "DONTBLINK"
+									Case 6
+										RandomSeed = "CRUNCH"
+									Case 7
+										RandomSeed = "die"
+									Case 8
+										RandomSeed = "HTAED"
+									Case 9
+										RandomSeed = "rustledjim"
+									Case 10
+										RandomSeed = "larry"
+									Case 11
+										RandomSeed = "JORGE"
+									Case 12
+										RandomSeed = "dirtymetal"
+									Case 13
+										RandomSeed = "whatpumpkin"
+									Case 14
+										RandomSeed = "FUNNIMAN_EXE"
+									Case 15
+										RandomSeed = "NULL"
+									Case 16
+										RandomSeed = "SPIRAL"
+								End Select
+							Else
+								Select Rand(9)
+									Case 1 
+										RandomSeed = "what"
+									Case 2
+										RandomSeed = "baller"
+									Case 3
+										RandomSeed = "barrel"
+									Case 4
+										RandomSeed = "baldi"
+									Case 5
+										RandomSeed = "mrbeast"
+									Case 6
+										RandomSeed = "diehard"
+									Case 7
+										RandomSeed = "jorge"
+									Case 8
+										RandomSeed = "peanut"
+									Case 9
+										RandomSeed = "whatspiral"
+								End Select
+							EndIf
 						Else
-							n = Rand(4,8)
+							n = Rand(4,10)
 							For i = 1 To n
 								If Rand(3)=1 Then
 									RandomSeed = RandomSeed + Rand(0,9)
@@ -242,20 +266,23 @@ Function UpdateMainMenu()
 						MainMenuTab = 1
 					EndIf
 				Case 1
-					txt = "LOAD GAME"
+					If (Not MemeMode) Then txt = "LOAD GAME"
+					If (MemeMode) Then txt = "LOAD SHITTY SAVE"
 					If temp Then
 						LoadSaveGames()
 						MainMenuTab = 2
 					EndIf
 				Case 2
-					txt = "OPTIONS"
+					If (Not MemeMode) Then txt = "OPTIONS"
+					If (MemeMode) Then txt = "NOTHING USEFUL"
 					If temp Then MainMenuTab = 3
 				Case 3
 					txt = "CHANGELOG"
 					If temp Then MainMenuTab = 8
 					changelogLoaded = False
 				Case 4
-					txt = "QUIT"
+					If (Not MemeMode) Then txt = "QUIT"
+					If (MemeMode) Then txt = "END SUFFERING"
 					If temp Then
 						;DeInitExt
 						;alDestroy()
@@ -323,7 +350,8 @@ Function UpdateMainMenu()
 				
 				Color(255, 255, 255)
 				AASetFont Font2
-				AAText(x + width / 2, y + height / 2, "NEW GAME", True, True)
+				If (Not MemeMode) Then AAText(x + width / 2, y + height / 2, "NEW GAME", True, True)
+				If (MemeMode) Then AAText(x + width / 2, y + height / 2, "CHOOSE KETER YOU COWARD", True, True)
 				
 				x = 160 * MenuScale
 				y = y + height + 20 * MenuScale
@@ -483,7 +511,8 @@ Function UpdateMainMenu()
 				
 				Color(255, 255, 255)
 				AASetFont Font2
-				AAText(x + width / 2, y + height / 2, "LOAD GAME", True, True)
+				If (Not MemeMode) Then AAText(x + width / 2, y + height / 2, "LOAD GAME", True, True)
+				If (MemeMode) Then AAText(x + width / 2, y + height / 2, "COWARD", True, True)
 				
 				x = 160 * MenuScale
 				y = y + height + 20 * MenuScale
@@ -610,7 +639,7 @@ Function UpdateMainMenu()
 							Else
 								DrawFrame(x + 280 * MenuScale, y + 20 * MenuScale, 100 * MenuScale, 30 * MenuScale)
 								If SaveGameDataVersion(i - 1) > SavFormatVersionNumber Or SaveGameDataVersion(i - 1) < SavFormatVersionNumber Or SaveGameVersion(i - 1) = "2.3.1" Or SaveGameVersion(i - 1) = "2.3.0" Or SaveGameVersion(i - 1) = "2.2.9" Or SaveGameVersion(i - 1) = "2.2.8" Or SaveGameVersion(i - 1) = "2.2.7" Or SaveGameVersion(i - 1) = "2.2.6" Or SaveGameVersion(i - 1) = "2.2.5" Or SaveGameVersion(i - 1) = "2.2.4" Or SaveGameVersion(i - 1) = "2.2.3" Or SaveGameVersion(i - 1) = "2.2.2" Or SaveGameVersion(i - 1) = "2.2.1" Then
-									If SaveGameVersion(i - 1) = "2.3.2" Then
+									If SaveGameVersion(i - 1) = "2.3.2" Or SaveGameDataVersion(i - 1) < SavFormatVersionNumber Then
 										Color(100, 100, 100)
 										AAText(x + 330 * MenuScale, y + 34 * MenuScale, "Upgrade", True, True)
 									Else
@@ -760,7 +789,8 @@ Function UpdateMainMenu()
 				
 				Color(255, 255, 255)
 				AASetFont Font2
-				AAText(x + width / 2, y + height / 2, "OPTIONS", True, True)
+				If (Not MemeMode) Then AAText(x + width / 2, y + height / 2, "OPTIONS", True, True)
+				If (MemeMode) Then AAText(x + width / 2, y + height / 2, "OOPCHEENS", True, True)
 				
 				x = 160 * MenuScale
 				y = y + height + 20 * MenuScale
@@ -782,11 +812,19 @@ Function UpdateMainMenu()
 				EndIf
 				
 				Color 255,255,255
-				If DrawButton(x+20*MenuScale,y+10*MenuScale,width/5,height/2, "GRAPHICS", False) Then MainMenuTab = 3
-				If DrawButton(x+160*MenuScale,y+10*MenuScale,width/5,height/2, "AUDIO", False) Then MainMenuTab = 5
-				If DrawButton(x+300*MenuScale,y+10*MenuScale,width/5,height/2, "CONTROLS", False) Then MainMenuTab = 6
-				If DrawButton(x+440*MenuScale,y+10*MenuScale,width/5,height/2, "ADVANCED", False) Then MainMenuTab = 7
-				If DrawButton(x+20*MenuScale,y+35*MenuScale,width/5,height/2, "MEME MODE", False) Then MainMenuTab = 9
+				If (Not MemeMode)
+					If DrawButton(x+20*MenuScale,y+10*MenuScale,width/5,height/2, "GRAPHICS", False) Then MainMenuTab = 3
+					If DrawButton(x+160*MenuScale,y+10*MenuScale,width/5,height/2, "AUDIO", False) Then MainMenuTab = 5
+					If DrawButton(x+300*MenuScale,y+10*MenuScale,width/5,height/2, "CONTROLS", False) Then MainMenuTab = 6
+					If DrawButton(x+440*MenuScale,y+10*MenuScale,width/5,height/2, "ADVANCED", False) Then MainMenuTab = 7
+					If DrawButton(x+20*MenuScale,y+35*MenuScale,width/5,height/2, "MEME MODE", False) Then MainMenuTab = 9
+				Else
+					If DrawButton(x+20*MenuScale,y+10*MenuScale,width/5,height/2, "GRAPCHICS", False) Then MainMenuTab = 3
+					If DrawButton(x+160*MenuScale,y+10*MenuScale,width/5,height/2, "AULDIO", False) Then MainMenuTab = 5
+					If DrawButton(x+300*MenuScale,y+10*MenuScale,width/5,height/2, "CONTRAILS", False) Then MainMenuTab = 6
+					If DrawButton(x+440*MenuScale,y+10*MenuScale,width/5,height/2, "ASSVANCED", False) Then MainMenuTab = 7
+					If DrawButton(x+20*MenuScale,y+35*MenuScale,width/5,height/2, "DONT TURN OFF", False) Then MainMenuTab = 9
+				EndIf
 				
 				AASetFont Font1
 				y = y + 70 * MenuScale
@@ -1381,7 +1419,8 @@ Function UpdateMainMenu()
 				
 				Color(255, 255, 255)
 				AASetFont Font2
-				AAText(x + width / 2, y + height / 2, "LOAD MAP", True, True)
+				If (Not MemeMode) Then AAText(x + width / 2, y + height / 2, "LOAD MAP", True, True)
+				If (MemeMode) Then AAText(x + width / 2, y + height / 2, "GOOFY AHH", True, True)
 				
 				x = 160 * MenuScale
 				y = y + height + 20 * MenuScale
@@ -1471,7 +1510,8 @@ Function UpdateMainMenu()
 				
 				Color(255, 255, 255)
 				AASetFont Font2
-				AAText(x + width / 2, y + height / 2, "CHANGELOG", True, True)
+				If (Not MemeMode) Then AAText(x + width / 2, y + height / 2, "CHANGELOG", True, True)
+				If (MemeMode) Then AAText(x + width / 2, y + height / 2, "CHANGELOG", True, True)
 				
 				x = 160 * MenuScale
 				y = y + height + 20 * MenuScale
@@ -1480,35 +1520,39 @@ Function UpdateMainMenu()
 				
 				AASetFont FontChangelog	
 				
-				If FileSize("Changelog.txt")=0 Then
-					AAText (x + 20 * MenuScale, y + 20 * MenuScale, "Unable to load ChangeLog - 'changelog.txt' was not found")
-					If changelogLoaded = False Then DebugLog "changelog missing"
-				Else
-					
-					Local filein
-					
-					Local ReadTotal$ = ""
-					
-					filein = ReadFile("Changelog.txt") 
-					
-					Local Check$ = ""
-					
-					Local StartingY% = 20
-					
-					While Not(Check$="------------------------------------------------------------")
-						ReadTotal$ = ReadLine$( filein )
-						Check$ = ReadTotal$
-						AAText (x + 20 * MenuScale, y + StartingY * MenuScale, ReadTotal$)
+				If (Not MemeMode)
+					If FileSize("Changelog.txt")=0 Then
+						AAText (x + 20 * MenuScale, y + 20 * MenuScale, "Unable to load ChangeLog - 'changelog.txt' was not found")
+						If changelogLoaded = False Then DebugLog "changelog missing"
+					Else
 						
-						StartingY = StartingY + 15
+						Local filein
+						
+						Local ReadTotal$ = ""
+						
+						filein = ReadFile("Changelog.txt") 
+						
+						Local Check$ = ""
+						
+						Local StartingY% = 20
+						
+						While Not(Check$="------------------------------------------------------------")
+							ReadTotal$ = ReadLine$( filein )
+							Check$ = ReadTotal$
+							AAText (x + 20 * MenuScale, y + StartingY * MenuScale, ReadTotal$)
 							
-					Wend
+							StartingY = StartingY + 15
+								
+						Wend
+							
+						CloseFile filein
 						
-					CloseFile filein
-					
-					If changelogLoaded = False Then DebugLog "Loaded Changelog!"
-					
-				EndIf
+						If changelogLoaded = False Then DebugLog "Loaded Changelog!"
+						
+					EndIf
+				Else
+					AAText (x + 20 * MenuScale, y + 20 * MenuScale, "fuck you")
+				End If
 					
 				changelogLoaded = True
 				
@@ -1911,6 +1955,7 @@ Type LoadingScreens
 	Field alignx%, aligny%
 	Field disablebackground%
 	Field txt$[5], txtamount%
+	Field isAnim%, animW%, animH%, animOffset%, animCount%, animFrame%, animFramerate%, animFrameTime%
 End Type
 
 Function InitLoadingScreens(file$)
@@ -1954,7 +1999,16 @@ Function InitLoadingScreens(file$)
 					ls\aligny = 0
 				Case "bottom", "down"
 					ls\aligny = 1
-			End Select 			
+			End Select 				
+			ls\isAnim = GetINIInt(file, TemporaryString, "anim")
+			
+			If ls\isAnim
+				ls\animW = GetINIInt(file, TemporaryString, "animWidth")
+				ls\animH = GetINIInt(file, TemporaryString, "animHeight")
+				ls\animOffset = GetINIInt(file, TemporaryString, "animOffset")
+				ls\animCount = GetINIInt(file, TemporaryString, "animFrameCount")
+				ls\animFramerate = GetINIInt(file, TemporaryString, "animMillisecondDelay")
+			EndIf
 			
 		EndIf
 	Wend
@@ -1977,9 +2031,15 @@ Function DrawLoading(percent%, shortloading=False, hideCur=False, autoClose=Fals
 		temp = Rand(1,LoadingScreenAmount)
 		For ls.LoadingScreens = Each LoadingScreens
 			If ls\ID = temp Then
-				If ls\img=0 Then ls\img = LoadImage_Strict("Loadingscreens\"+ls\imgpath)
-				SelectedLoadingScreen = ls 
-				Exit
+				If (Not ls\isAnim)
+					If ls\img=0 Then ls\img = LoadImage_Strict("Loadingscreens\"+ls\imgpath)
+					SelectedLoadingScreen = ls 
+					Exit
+				Else
+					If ls\img=0 Then ls\img = LoadAnimImage_Strict("Loadingscreens\"+ls\imgpath,ls\animW,ls\animH,ls\animOffset,ls\animCount)
+					SelectedLoadingScreen = ls 
+					Exit
+				EndIf
 			EndIf
 		Next
 	EndIf	
@@ -2038,7 +2098,15 @@ Function DrawLoading(percent%, shortloading=False, hideCur=False, autoClose=Fals
 			y = 0
 		EndIf	
 		
-		DrawImage SelectedLoadingScreen\img, x, y
+		If (Not SelectedLoadingScreen\isAnim)
+			DrawImage SelectedLoadingScreen\img, x, y
+		Else
+			If MilliSecs() > SelectedLoadingScreen\animFrameTime + SelectedLoadingScreen\animFramerate Then
+				SelectedLoadingScreen\animFrameTime=MilliSecs() ; 'reset' the timer
+				SelectedLoadingScreen\animFrame=( SelectedLoadingScreen\animFrame + 1 ) Mod 3 ; increment the frame, flip to 0 if we are out
+			End If
+			DrawImage SelectedLoadingScreen\img, x, y, SelectedLoadingScreen\animFrame
+		EndIf
 		
 		Local width% = 300, height% = 20
 		x% = GraphicWidth / 2 - width / 2

@@ -1,5 +1,4 @@
 Local InitErrorStr$ = ""
-;If FileSize("bb_fmod.dll")=0 Then InitErrorStr=InitErrorStr+ "bb_fmod.dll"+Chr(13)+Chr(10)
 If FileSize("fmod.dll")=0 Then InitErrorStr=InitErrorStr+ "fmod.dll"+Chr(13)+Chr(10)
 If FileSize("zlibwapi.dll")=0 Then InitErrorStr=InitErrorStr+ "zlibwapi.dll"+Chr(13)+Chr(10)
 If FileSize("discord_game_sdk.dll")=0 Then InitErrorStr=InitErrorStr+ "discord_game_sdk.dll"+Chr(13)+Chr(10)
@@ -36,6 +35,8 @@ Include "SourceCode\FMod.bb"
 Include "SourceCode\StrictLoads.bb"
 Include "SourceCode\fullscreen_window_fix.bb"
 Include "SourceCode\KeyName.bb"
+
+;Include "SourceCode\FreeImage.bb"
 
 CreateDir(GetEnv("localappdata")+"\DangerBreach\")
 
@@ -152,11 +153,6 @@ ErrorFile = ErrorFile+Str(ErrorFileInd)+".log"
 Global UpdaterFont%
 Global Font1%, Font2%, Font3%, Font4%, Font5%, Font6%, FontChangelog%
 Global ConsoleFont%
-
-Const VersionNumber$ = "2.3.3"
-Const CompatibleNumber$ = "2.3.2" ;DEPRICATED - keep as the oldest compatible version unless save code changed
-Const SavFormatVersionNumber# = 2.0 ;only update when save data format is updated
-Global EngineVersionNumber$ = BlitzVersion() //can't be constant because it's returned at runtime, Not compiled directly in
 
 Global MenuWhite%, MenuGray%, MenuBlack%
 Global ButtonSFX% = LoadSound_Strict("SFX\Interact\Button.ogg")
@@ -992,7 +988,7 @@ Function UpdateConsole()
 					CameraFogNear = 15
 					CameraFogFar = 20
 					;[End Block]
-				Case "pain"
+				Case "pain", "furri", "funni", ":3"
 					;[Block]
 					If (Not furri) Then ;d9341 is obsessed, activate the funni
 						HideEntity Curr173\obj
@@ -1017,9 +1013,9 @@ Function UpdateConsole()
 							EndIf
 						EndIf
 						furri = True
-						CreateConsoleMsg("welp, your funeral. enjoy 173 :3")
+						CreateConsoleMsg("welp, your funeral.")
 					Else
-						CreateConsoleMsg("you can't go back")
+						CreateConsoleMsg("Command not found.",255,0,0)
 					EndIf
 					;[End Block]
 				Case "status"
@@ -4580,8 +4576,13 @@ Function InitCredits()
 	Local file% = OpenFile("Credits.txt")
 	Local l$
 	
-	CreditsFont% = LoadFont_Strict("GFX\font\cour\Courier New.ttf", Int(21 * (GraphicHeight / 1024.0)), 0,0,0)
-	CreditsFont2% = LoadFont_Strict("GFX\font\courbd\Courier New Bold.ttf", Int(35 * (GraphicHeight / 1024.0)), 1,0,0)
+	If (Not MemeMode)
+		CreditsFont% = AALoadFont("GFX\font\cour\Courier New.ttf", Int(21 * (GraphicHeight / 1024.0)), 0,0,0)
+		CreditsFont2% = AALoadFont("GFX\font\courbd\Courier New Bold.ttf", Int(35 * (GraphicHeight / 1024.0)), 1,0,0)
+	Else
+		CreditsFont% = AALoadFont("GFX\font\cour\Courier New.ttf", Int(21 * (GraphicHeight / 1024.0)), 0,0,0)
+		CreditsFont2% = AALoadFont("GFX\font\sanic\z o n e.ttf", Int(80 * (GraphicHeight / 1024.0)), 0,0,0)
+	End If
 	
 	If CreditsScreen = 0
 		CreditsScreen = LoadImage_Strict("GFX\creditsscreen.pt")
@@ -10459,6 +10460,11 @@ Function NullGame(playbuttonsfx%=True)
 		If ChannelPlaying(RadioCHN(i)) Then StopChannel(RadioCHN(i))
 	Next
 	
+	If (Not CreditsFont = 0)
+		FreeFont CreditsFont : CreditsFont = 0
+		FreeFont CreditsFont2 : CreditsFont2 = 0
+	EndIf
+	
 	DrawLoading(80,True)
 	
 	NTF_1499PrevX# = 0.0
@@ -13531,7 +13537,8 @@ Function CatchErrors(location$)
 			errF = WriteFile(ErrorFile)
 			WriteLine errF,"--------------------------------------------------------------"
 			WriteLine errF,"An error occured in SCP - DB /-/-/ Version: "+VersionNumber+"!"
-			WriteLine errF,"Save compatible version: "+CompatibleNumber
+			WriteLine errF,"Save Format: "+SavFormatVersionNumber
+			WriteLine errF,"Blitz3D SoLoud MAV-Less version: "+EngineVersionNumber
 			WriteLine errF,"Date and time: "+CurrentDate()+" at "+CurrentTime()
 			WriteLine errF,"Total video memory (MB): "+TotalVidMem()/1024/1024
 			WriteLine errF,"Available video memory (MB): "+AvailVidMem()/1024/1024
@@ -13942,5 +13949,5 @@ End Function
 
 
 ;~IDEal Editor Parameters:
-;~B#1292#150A#1CAD
-;~C#Blitz3D
+;~B#1293#150B#1CAE
+;~C#Blitz3D SoLoud MAV-Less

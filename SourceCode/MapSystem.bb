@@ -345,7 +345,7 @@ End Function
 DrawLoading(45, True)
 
 Function LoadRMesh(file$,rt.RoomTemplates)
-
+	
 	LoadingWhatAsset = file$
 	
 	UpdateLoading() ;think of better way later
@@ -708,7 +708,7 @@ Function LoadRMesh(file$,rt.RoomTemplates)
 			Case "model"
 				file = ReadString(f)
 				If file<>""
-					Local model = CreatePropObj("GFX\Map\Props\"+file);LoadMesh("GFX\Map\Props\"+file)
+					Local model = CreatePropObj("GFX\Map\Props\"+file,FileNameStore);LoadMesh("GFX\Map\Props\"+file)
 					
 					DebugLog "Attempted To Init Prob Obj: 'GFX\Map\Props\"+file+"'."
 					
@@ -2099,6 +2099,7 @@ Type Rooms
 	Field RoomTemplate.RoomTemplates
 	
 	Field oldFilePath$
+	Field filePath$
 	
 	Field dist#
 	
@@ -2377,6 +2378,7 @@ Function CreateRoom.Rooms(zone%, roomshape%, x#, y#, z#, name$ = "")
 				If rt\obj=0 Then LoadRoomMesh(rt)
 				
 				r\obj = CopyEntity(rt\obj)
+				r\filePath = rt\objPath
 				ScaleEntity(r\obj, RoomScale, RoomScale, RoomScale)
 				EntityType(r\obj, HIT_MAP)
 				EntityPickMode(r\obj, 2)
@@ -2417,6 +2419,7 @@ Function CreateRoom.Rooms(zone%, roomshape%, x#, y#, z#, name$ = "")
 					If rt\obj=0 Then LoadRoomMesh(rt)
 					
 					r\obj = CopyEntity(rt\obj)
+					r\filePath = rt\objPath
 					ScaleEntity(r\obj, RoomScale, RoomScale, RoomScale)
 					EntityType(r\obj, HIT_MAP)
 					EntityPickMode(r\obj, 2)
@@ -6631,8 +6634,16 @@ Function UpdateRooms()
 			Next
 		EndIf
 		
+		Local p.Props
+		
 		If hide Then
 			HideEntity r\obj
+			;For p.Props = Each Props
+			;	If (p\RMeshFile = r\filePath) And (Not p\obj = 0)
+			;		HideEntity p\obj
+			;		CreateConsoleMsg("hide: "+p\RMeshFile+" | "+r\filePath+" | "+p\file)
+			;	EndIf
+			;Next
 			;If r\oldFilePath = "" Then
 			;	Local tmpX% = r\x
 			;	Local tmpY% = r\y
@@ -6649,6 +6660,12 @@ Function UpdateRooms()
 			;EndIf
 		Else
 			ShowEntity r\obj
+			;For p.Props = Each Props
+			;	If (p\RMeshFile = r\filePath) And (Not p\obj = 0)
+			;		ShowEntity p\obj
+			;		CreateConsoleMsg("show: "+p\RMeshFile+" | "+r\filePath+" | "+p\file)
+			;	EndIf
+			;Next
 			;If Not r\oldFilePath = "" Then
 			;	Local tmp2X% = r\x
 			;	Local tmp2Y% = r\y
@@ -8098,19 +8115,26 @@ End Function
 Type Props
 	Field file$
 	Field obj
+	Field RMeshFile$
 End Type
 
-Function CreatePropObj(file$)
+Function CreatePropObj(file$,hostRMesh$)
 	Local p.Props
+	Local meshTmp$ = ""
 	For p.Props = Each Props
 		If p\file = file Then
-			Return CopyEntity(p\obj)
+			meshTmp = CopyEntity(p\obj)
 		EndIf
 	Next
 	
 	p.Props = New Props
 	p\file = file
-	p\obj = LoadMesh_Strict(file)
+	If (Not meshTmp = "")
+		p\obj = meshTmp
+	Else
+		p\obj = LoadMesh_Strict(file)
+	EndIf
+	p\RMeshFile = hostRMesh
 	Return p\obj
 End Function
 
@@ -9939,6 +9963,6 @@ End Function
 
 
 ;~IDEal Editor Parameters:
-;~F#148#150#1FA1
-;~B#138A
+;~F#148#150
+;~B#138D
 ;~C#Blitz3D

@@ -15,13 +15,30 @@
 ;added zero checks since blitz load functions return zero sometimes even if the filetype exists
 Function LoadImage_Strict(file$)
 	;LoadingWhatAsset = file
-	If FileType(file$)<>1 Then RuntimeError "Image " + Chr(34) + file$ + Chr(34) + " missing. "
+	;If FileType(file$)<>1 Then RuntimeError "Image " + Chr(34) + file$ + Chr(34) + " missing. "
 	tmp = LoadImage(file$)
-	Return tmp
-	;attempt to load the image again
-	If tmp = 0 Then tmp2 = LoadImage(file)
-	DebugLog "Attempting to load again: "+file
-	Return tmp2
+	If tmp = 0 Then
+		;attempt to load again
+		DebugLog "Attempting to load again: "+file
+		tmp2 = LoadImage(file)
+		Return tmp2
+	Else
+		Return tmp
+	EndIf
+End Function
+
+Function LoadAnimImage_Strict(file$,fCellwidth,fCellheight,fFirst,fCount)
+	;LoadingWhatAsset = file
+	;If FileType(file$)<>1 Then RuntimeError "Image " + Chr(34) + file$ + Chr(34) + " missing. "
+	tmp = LoadAnimImage(file$,fCellwidth,fCellheight,fFirst,fCount)
+	If tmp = 0 Then
+		;attempt to load again
+		DebugLog "Attempting to load again: "+file
+		tmp2 = LoadAnimImage(file$,fCellwidth,fCellheight,fFirst,fCount)
+		Return tmp2
+	Else
+		Return tmp
+	EndIf
 End Function
 
 
@@ -304,47 +321,82 @@ End Function
 Function LoadMesh_Strict(File$,parent=0)
 	LoadingWhatAsset = File$
 	UpdateLoading() ;think of better way later
-	If FileType(File$) <> 1 Then RuntimeError "3D Mesh " + File$ + " not found."
+	;If FileType(File$) <> 1 Then RuntimeError "3D Mesh " + File$ + " not found."
 	tmp = LoadMesh(File$, parent)
-	If tmp = 0 Then RuntimeError "Failed to load 3D Mesh: " + File$ 
-	Return tmp  
+	;If tmp = 0 Then RuntimeError "Failed to load 3D Mesh: " + File$
+	If tmp = 0 Then
+		;attempt to load again
+		DebugLog "Attempting to load again: "+File
+		tmp2 = LoadMesh(File$,parent)
+		Return tmp2
+	Else
+		Return tmp
+	EndIf
 End Function   
 
 Function LoadAnimMesh_Strict(File$,parent=0)
 	DebugLog File
 	LoadingWhatAsset = File$
 	UpdateLoading() ;think of better way later
-	If FileType(File$) <> 1 Then RuntimeError "3D Animated Mesh " + File$ + " not found."
+	;If FileType(File$) <> 1 Then RuntimeError "3D Animated Mesh " + File$ + " not found."
 	tmp = LoadAnimMesh(File$, parent)
-	If tmp = 0 Then RuntimeError "Failed to load 3D Animated Mesh: " + File$ 
-	Return tmp
+	;If tmp = 0 Then RuntimeError "Failed to load 3D Animated Mesh: " + File$ 
+	If tmp = 0 Then
+		;attempt to load again
+		DebugLog "Attempting to load again: "+File
+		tmp2 = LoadAnimMesh(File$,parent)
+		Return tmp2
+	Else
+		Return tmp
+	EndIf
 End Function   
 
 ;don't use in LoadRMesh, as Reg does this manually there. If you wanna fuck around with the logic in that function, be my guest 
 Function LoadTexture_Strict(File$,flags=1)
 	;LoadingWhatAsset = File$
-	If FileType(File$) <> 1 Then RuntimeError "Texture " + File$ + " not found."
+	;If FileType(File$) <> 1 Then RuntimeError "Texture " + File$ + " not found."
 	tmp = LoadTexture(File$, flags+(256*(EnableVRam=True)))
-	If tmp = 0 Then RuntimeError "Failed to load Texture: " + File$ 
-	Return tmp 
+	;If tmp = 0 Then RuntimeError "Failed to load Texture: " + File$ 
+	If tmp = 0 Then
+		;attempt to load again
+		DebugLog "Attempting to load again: "+File
+		tmp2 = LoadTexture(File$, flags+(256*(EnableVRam=True)))
+		Return tmp2
+	Else
+		Return tmp
+	EndIf 
 End Function   
 
 Function LoadBrush_Strict(file$,flags,u#=1.0,v#=1.0)
 	LoadingWhatAsset = file$
 	UpdateLoading() ;think of better way later
-	If FileType(file$)<>1 Then RuntimeError "Brush Texture " + file$ + "not found."
+	;If FileType(file$)<>1 Then RuntimeError "Brush Texture " + file$ + "not found."
 	tmp = LoadBrush(file$, flags, u, v)
-	If tmp = 0 Then RuntimeError "Failed to load Brush: " + file$ 
-	Return tmp 
+	;If tmp = 0 Then RuntimeError "Failed to load Brush: " + file$ 
+	If tmp = 0 Then
+		;attempt to load again
+		DebugLog "Attempting to load again: "+file
+		tmp2 = LoadBrush(file$, flags, u, v)
+		Return tmp2
+	Else
+		Return tmp
+	EndIf 
 End Function 
 
 Function LoadFont_Strict(file$="Tahoma", height=13, bold=0, italic=0, underline=0)
 	LoadingWhatAsset = file$
 	UpdateLoading() ;think of better way later
-	If FileType(file$)<>1 Then RuntimeError "Font " + file$ + " not found."
+	;If FileType(file$)<>1 Then RuntimeError "Font " + file$ + " not found."
 	tmp = LoadFont(file, height, bold, italic, underline)  
-	If tmp = 0 Then RuntimeError "Failed to load Font: " + file$ 
-	Return tmp
+	;If tmp = 0 Then RuntimeError "Failed to load Font: " + file$ 
+	If tmp = 0 Then
+		;attempt to load again
+		DebugLog "Attempting to load again: "+file
+		tmp2 = LoadFont(file, height, bold, italic, underline)  
+		Return tmp2
+	Else
+		Return tmp
+	EndIf 
 End Function
 
 

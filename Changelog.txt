@@ -1,10 +1,11 @@
 Danger Breach v2.3.3
 Save Files From DB 2.3.2 are compatible with DB 2.3.3
--Updated to Blitz3D SoLoud: MAVLess Edition (built upon Blitz3D v1.117)
+-Updated to Blitz3D SoLoud: MAVLess Edition
 -Highly improved save file generation and handling
 (Now allows for upgrading save files from a previous format)
 -Guards now have Cell Phones
 -Intro sequence tweaks
+-Loading screens now support animated graphics
 -SCP-173 document and intro SCP-173 document are now separate
 -Subtitles can now have up to 8 different languages
 -Updated Radio Functionality

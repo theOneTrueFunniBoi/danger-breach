@@ -10,6 +10,10 @@
 ;
 ;	 Compile with debug disabled For a smaller, Faster, And more efficent game executable.
 
+Const VersionNumber$ = "2.3.3"
+Const SavFormatVersionNumber# = 2.0 ;only update when save data format is updated
+Global EngineVersionNumber$ = BlitzVersion() //can't be constant because it's returned at runtime, Not compiled directly in
+
 Include "SourceCode\Main.bb"
 ;~IDEal Editor Parameters:
 ;~C#Blitz3D
