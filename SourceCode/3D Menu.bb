@@ -76,9 +76,9 @@ Function Init3dMenuQuick()
 	
 	MenuSprite[0] = CreateSprite(MenuCam)
 	EntityOrder MenuSprite[0],-100
-	ScaleSprite MenuSprite[0],0.45,0.45/650.0*228.0
+	ScaleSprite MenuSprite[0],0.45/350.0*228.0,0.45/350.0*228.0
 	Menu3DScale = Min(1.0,Float(GraphicHeight)/Float(GraphicWidth))
-	MoveEntity MenuSprite[0],Menu3DScale*1.03,Menu3DScale*0.75,1.0
+	MoveEntity MenuSprite[0],Menu3DScale*1.2,Menu3DScale*0.75,1.0
 	Local temptex% = LoadTexture("GFX\menu\back3d.jpg",3)
 	DebugLog(Menu3DScale)
 	;MenuScale = Menu3DScale
