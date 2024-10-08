@@ -1720,7 +1720,7 @@ Function UpdateLauncher()
 	BlinkMeterIMG% = LoadImage_Strict("GFX\blinkmeter.jpg")
 	CheckForUpdates()
 	
-	AppTitle "SCP - Danger Breach /-/-/ v"+VersionNumber+" - Launcher"
+	AppTitle GameIdent+GameIdentStrSeperator+"v"+VersionNumber+" - Launcher"
 	
 	;BlitzcordSetActivityState("In Launcher")
 
@@ -2215,7 +2215,7 @@ Function DrawLoading(percent%, shortloading=False, hideCur=False, autoClose=Fals
 		AAText(GraphicWidth / 2, GraphicHeight / 2 - 100, "LOADING - " + percent + " %", True, True)
 		
 		If firstloop Then
-			AppTitle "SCP - Danger Breach /-/-/ v"+VersionNumber+" - Loading..."
+			AppTitle GameIdent+GameIdentStrSeperator+"v"+VersionNumber+" - Loading..."
 			BlitzcordGameStatus=3
 		EndIf
 		
@@ -2230,7 +2230,7 @@ Function DrawLoading(percent%, shortloading=False, hideCur=False, autoClose=Fals
 				;	Else
 				;		AAText(GraphicWidth / 2, GraphicHeight - (30 * MenuScale), "TITLE SCREEN LOADED", True, True)
 				;	EndIf
-					AppTitle "SCP - Danger Breach /-/-/ v"+VersionNumber+" - Title Screen"
+					AppTitle GameIdent+GameIdentStrSeperator+"v"+VersionNumber+" - Title Screen"
 					BlitzcordGameStatus=1
 					If autoClose
 						AAText(GraphicWidth / 2, RealGraphicHeight - 30, "PLEASE WAIT, THE GAME WILL PROCEED TO THE TITLE-SCREEN AUTOMATICALLY", True, True)
@@ -2243,7 +2243,7 @@ Function DrawLoading(percent%, shortloading=False, hideCur=False, autoClose=Fals
 				;	Else
 				;		AAText(GraphicWidth / 2, GraphicHeight - 30, "LEVEL LOADED", True, True)
 				;	EndIf
-					AppTitle "SCP - Danger Breach /-/-/ v"+VersionNumber+" - Main Game"
+					AppTitle GameIdent+GameIdentStrSeperator+"v"+VersionNumber+" - Main Game"
 					BlitzcordGameStatus=2
 					If autoClose
 						AAText(GraphicWidth / 2, RealGraphicHeight - 30, "PLEASE WAIT, THE GAME WILL PROCEED AUTOMATICALLY", True, True)

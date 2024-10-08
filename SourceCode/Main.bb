@@ -1,4 +1,8 @@
 
+AppTitle "Initializing - please wait..."
+
+DebugLog "Checking if valid dlls are present"
+
 Local InitErrorStr$ = ""
 If FileSize("fmod.dll")=0 Then InitErrorStr=InitErrorStr+ "fmod.dll"+Chr(13)+Chr(10)
 If FileSize("zlibwapi.dll")=0 Then InitErrorStr=InitErrorStr+ "zlibwapi.dll"+Chr(13)+Chr(10)
@@ -9,6 +13,14 @@ If FileSize("d3dim700.dll")=0 Then InitErrorStr=InitErrorStr+ "d3dim700.dll"+Chr
 If Len(InitErrorStr)>0 Then
 	RuntimeError "The following *REQUIRED* DLLs were not found or are corrupt:"+Chr(13)+Chr(10)+Chr(13)+Chr(10)+InitErrorStr
 EndIf
+
+DebugLog "Dlls indexed"
+
+SetBuffer BackBuffer()
+Cls
+Color 255,255,255
+Text 5,5,"Initializing..."
+Flip
 
 Global ShowLogoTime%=0
 
@@ -35,7 +47,10 @@ Include "SourceCode\FMod.bb"
 
 Include "SourceCode\StrictLoads.bb"
 Include "SourceCode\fullscreen_window_fix.bb"
-Include "SourceCode\KeyName.bb"
+Include "SourceCode\KeyName.bb"
+DebugLog "Block 1 Imported"
+Text 5,25,"Imported code block 1"
+Flip
 
 ;Include "SourceCode\FreeImage.bb"
 
@@ -43,7 +58,12 @@ CreateDir(GetEnv("localappdata")+"\DangerBreach\")
 
 Global OptionFile$ = GetEnv("localappdata")+"\DangerBreach\options.ini"
 
+DebugLog "Indexed Options.ini path"
+
 Const StartupVideosFile$ = "Data\introVideos.ini"
+
+Text 5,45,"Create options path"
+Flip
 
 If FileSize(OptionFile)=0 Then
 	If FileSize("options.ini")=0
@@ -126,6 +146,7 @@ If FileSize(OptionFile)=0 Then
 		WriteLine(f, "[mememode]")
 		WriteLine(f, "enabled = 0"); heh funni meme mode
 		WriteLine(f, "use intros = 0"); futurama moment
+		WriteLine(f, "use loading = 0"); barrel loading screen
 		CloseFile(f)
 	Else
 		CopyFile("options.ini",OptionFile)
@@ -133,16 +154,22 @@ If FileSize(OptionFile)=0 Then
 EndIf
 
 Include "SourceCode\SubtitlesEngine.bb"
-;Include "SourceCode\Swift-Shadow-System-037\Swift Shadow System - 037.bb"
 
-DebugLog GetEnv("localappdata")+"\DangerBreach\options.ini"
+Text 5,65,"Subtitles engine"
 
 Include "SourceCode\Blitz_Basic_Bank.bb"
+Text 5,85,"BB-Bank"
 Include "SourceCode\Blitz_File_FileName.bb"
+Text 5,105,"BF-FileName"
 Include "SourceCode\Blitz_File_ZipApi.bb"
+Text 5,125,"BF-ZipApi"
 Include "SourceCode\Update.bb"
+Text 5,145,"Updater"
 
-Include "SourceCode\DevilParticleSystem.bb"
+Include "SourceCode\DevilParticleSystem.bb"
+DebugLog "Block 2 Included"
+Text 5,165,"Imported code block 2"
+Flip
 
 Global ErrorFile$ = "error_log_"
 Local ErrorFileInd% = 1
@@ -150,6 +177,25 @@ While FileType(ErrorFile+Str(ErrorFileInd)+".log")<>0
 	ErrorFileInd = ErrorFileInd+1
 Wend
 ErrorFile = ErrorFile+Str(ErrorFileInd)+".log"
+
+DebugLog "ErrorFile is ready"
+
+Graphics3DExt 640, 480, 0, 2
+Text 5,5,"Initializing..."
+Text 5,25,"Imported code block 1"
+Text 5,45,"Create options path"
+Text 5,65,"Subtitles engine"
+Text 5,85,"BB-Bank"
+Text 5,105,"BF-FileName"
+Text 5,125,"BF-ZipApi"
+Text 5,145,"Updater"
+Text 5,165,"Imported code block 2"
+Text 5,185,"Initializing game settings..."
+Flip
+
+;[Block]
+
+DebugLog "Init settings"
 
 Global UpdaterFont%
 Global Font1%, Font2%, Font3%, Font4%, Font5%, Font6%, FontChangelog%
@@ -160,38 +206,29 @@ Global ButtonSFX% = LoadSound_Strict("SFX\Interact\Button.ogg")
 
 Global EnableSFXRelease% = GetINIInt(OptionFile, "audio", "sfx release")
 Global EnableSFXRelease_Prev% = EnableSFXRelease%
-
-Global CanOpenConsole% = GetINIInt(OptionFile, "console", "enabled")
-Global MemeMode% = GetINIInt(OptionFile, "mememode", "enabled")
-
-Global MemeMode_Intros% = GetINIInt(OptionFile, "mememode", "use intros")
-
-Global MemeMode_Loading% = GetINIInt(OptionFile, "mememode", "use loading")
-
-Global ShowWarnings% = GetINIInt(OptionFile, "options", "show warnings")
+DebugLog "sfx release"
 
 Dim ArrowIMG(4)
 
 Global Looking#
 
-;[Block]
-
 Global LauncherWidth%= Min(GetINIInt(OptionFile, "launcher", "launcher width"), 1024)
 Global LauncherHeight% = Min(GetINIInt(OptionFile, "launcher", "launcher height"), 768)
 Global LauncherEnabled% = GetINIInt(OptionFile, "launcher", "launcher enabled")
 Global LauncherIMG%
+DebugLog "launcher width & height"
 
 Global GraphicWidth% = GetINIInt(OptionFile, "options", "width")
 Global GraphicHeight% = GetINIInt(OptionFile, "options", "height")
 Global Depth% = 0, Fullscreen% = GetINIInt(OptionFile, "options", "fullscreen")
+DebugLog "graphicwidth & height & fullscreen"
 
 Global SelectedGFXMode%
 Global SelectedGFXDriver% = Max(GetINIInt(OptionFile, "options", "gfx driver"), 1)
+DebugLog "gfx driver"
 
 Global fresize_image%, fresize_texture%, fresize_texture2%
 Global fresize_cam%
-
-Global ShowFPS = GetINIInt(OptionFile, "options", "show FPS")
 
 Global WireframeState
 Global HalloweenTex
@@ -200,41 +237,15 @@ Global TotalGFXModes% = CountGfxModes3D(), GFXModes%
 Dim GfxModeWidths%(TotalGFXModes), GfxModeHeights%(TotalGFXModes)
 
 Global BorderlessWindowed% = GetINIInt(OptionFile, "options", "borderless windowed")
-
-Global furri% = GetINIInt(OptionFile, "options", "furri")
-
-;Borderless windowed mode is really fucking broken, so we disable it until i can actually fix it lol
-;To revert: remove the line below
-
-;Hey past oscar, guess what? I FIXED BORDERLESS WINDOWED MODE!!!
-
-;If BorderlessWindowed = True Then BorderlessWindowed = False
+DebugLog "borderless window"
 
 Global RealGraphicWidth%,RealGraphicHeight%
 Global AspectRatioRatio#
 
-Global EnableRoomLights% = GetINIInt(OptionFile, "options", "room lights enabled")
-
-Global TextureDetails% = GetINIInt(OptionFile, "options", "texture details")
-Global TextureFloat#
-Select TextureDetails%
-	Case 0
-		TextureFloat# = 0.8
-	Case 1
-		TextureFloat# = 0.4
-	Case 2
-		TextureFloat# = 0.0
-	Case 3
-		TextureFloat# = -0.4
-	Case 4
-		TextureFloat# = -0.8
-End Select
-Global ConsoleOpening% = GetINIInt(OptionFile, "console", "auto opening")
-Global SFXVolume# = GetINIFloat(OptionFile, "audio", "sound volume")
-
 Global Bit16Mode = GetINIInt(OptionFile, "options", "16bit")
 
 Include "SourceCode\AAText.bb"
+DebugLog "16bit & aatext"
 
 Local abc = True
 
@@ -242,9 +253,9 @@ Global memaccess = 0
 
 Global tempAngle
 
-If Instr(CommandLine$(), "-nolauncher") > 0 Then LauncherEnabled = False
+DebugLog "INIT LAUNCHER"
 
-If LauncherEnabled Then
+If LauncherEnabled And (Not Instr(CommandLine$(), "-nolauncher") > 0) Then
 	
 	AspectRatioRatio = 1.0
 	UpdateLauncher()
@@ -331,8 +342,6 @@ Else
 	
 EndIf
 
-If Instr(CommandLine$(), "-nolauncher") > 0 Then LauncherEnabled = True
-
 Global MenuScale# = (GraphicHeight / 1024.0)
 
 SetBuffer(BackBuffer())
@@ -350,6 +359,48 @@ Global CurrFrameLimit# = (Framelimit%-19)/100.0
 Global ScreenGamma# = GetINIFloat(OptionFile, "options", "screengamma")
 
 Global OverrideGamma% = False
+
+Global CanOpenConsole% = GetINIInt(OptionFile, "console", "enabled")
+DebugLog "canopenconsole"
+Global MemeMode% = GetINIInt(OptionFile, "mememode", "enabled")
+DebugLog "mememode"
+
+Global MemeMode_Intros% = GetINIInt(OptionFile, "mememode", "use intros")
+DebugLog "memeintros"
+
+Global MemeMode_Loading% = GetINIInt(OptionFile, "mememode", "use loading")
+DebugLog "memeloading"
+
+Global ShowWarnings% = GetINIInt(OptionFile, "options", "show warnings")
+DebugLog "showwarn"
+
+Global showfps = GetINIInt(OptionFile, "options", "show FPS")
+DebugLog "show fps"
+
+Global furri% = GetINIInt(OptionFile, "options", "furri")
+
+Global EnableRoomLights% = GetINIInt(OptionFile, "options", "room lights enabled")
+
+Global TextureDetails% = GetINIInt(OptionFile, "options", "texture details")
+Global TextureFloat#
+Select TextureDetails%
+	Case 0
+		TextureFloat# = 0.8
+	Case 1
+		TextureFloat# = 0.4
+	Case 2
+		TextureFloat# = 0.0
+	Case 3
+		TextureFloat# = -0.4
+	Case 4
+		TextureFloat# = -0.8
+End Select
+DebugLog "texture detail & room lights"
+
+Global ConsoleOpening% = GetINIInt(OptionFile, "console", "auto opening")
+Global SFXVolume# = GetINIFloat(OptionFile, "audio", "sound volume")
+DebugLog "console opening & sfx volume"
+
 ;If Fullscreen Then UpdateScreenGamma()
 
 Const HIT_MAP% = 1, HIT_PLAYER% = 2, HIT_ITEM% = 3, HIT_APACHE% = 4, HIT_178% = 5, HIT_DEAD% = 6
@@ -383,7 +434,7 @@ ConsoleFont% = AALoadFont("Tahoma", Int(20 * (GraphicHeight / 1024.0)), 0,0,0,1)
 AASetFont Font2
 ;[Block]
 If ShowWarnings=1 Then
-	AppTitle "SCP - Danger Breach /-/-/ v"+VersionNumber+" - Warnings"
+	AppTitle GameIdent+GameIdentStrSeperator+"v"+VersionNumber+" - Warnings"
 	UpdateWarnings()
 EndIf
 ;[End Block]
@@ -392,7 +443,7 @@ Global GameSaved%
 
 Global CanSave% = True
 
-AppTitle "SCP - Danger Breach /-/-/ v"+VersionNumber+" - Logos"
+AppTitle GameIdent+GameIdentStrSeperator+"v"+VersionNumber+" - Logos"
 
 ;BlitzcordSetActivityState("In Game")
 
@@ -406,7 +457,8 @@ AppTitle "SCP - Danger Breach /-/-/ v"+VersionNumber+" - Logos"
 
 BlitzcordGameStatus=5
 
-UpdateBlitzcord()
+UpdateBlitzcord()
+;Kaboom() ;use this function to crash the game to test the updated handler
 
 PlayStartupVideos()
 
@@ -1376,8 +1428,8 @@ Function UpdateConsole()
 					;[End Block]
 				Case "showfps"
 					;[Block]
-					ShowFPS = Not ShowFPS
-					CreateConsoleMsg("ShowFPS: "+Str(ShowFPS))
+					showfps = Not showfps
+					CreateConsoleMsg("ShowFPS: "+Str(showfps))
 					;[End Block]
 				Case "096state"
 					;[Block]
@@ -12945,7 +12997,7 @@ Function SaveOptionsINI()
 	PutINIValue(OptionFile, "options", "screengamma", ScreenGamma)
 	PutINIValue(OptionFile, "options", "antialias", Opt_AntiAlias)
 	PutINIValue(OptionFile, "options", "vsync", Vsync)
-	PutINIValue(OptionFile, "options", "show FPS", ShowFPS)
+	PutINIValue(OptionFile, "options", "show FPS", showfps)
 	PutINIValue(OptionFile, "options", "framelimit", Framelimit%)
 	PutINIValue(OptionFile, "options", "achievement popup enabled", AchvMSGenabled%)
 	PutINIValue(OptionFile, "options", "room lights enabled", EnableRoomLights%)
@@ -13537,9 +13589,9 @@ Function CatchErrors(location$)
 		If FileType(ErrorFile)=0 Then
 			errF = WriteFile(ErrorFile)
 			WriteLine errF,"--------------------------------------------------------------"
-			WriteLine errF,"An error occured in SCP - DB /-/-/ Version: "+VersionNumber+"!"
+			WriteLine errF,"An error occured in "+GameIdent+GameIdentStrSeperator+"Version: "+VersionNumber+"!"
 			WriteLine errF,"Save Format: "+SavFormatVersionNumber
-			WriteLine errF,"Blitz3D SoLoud MAV-Less version: "+EngineVersionNumber
+			WriteLine errF,"Blitz Version: "+EngineVersionNumber
 			WriteLine errF,"Date and time: "+CurrentDate()+" at "+CurrentTime()
 			WriteLine errF,"Total video memory (MB): "+TotalVidMem()/1024/1024
 			WriteLine errF,"Available video memory (MB): "+AvailVidMem()/1024/1024
@@ -13547,7 +13599,19 @@ Function CatchErrors(location$)
 			WriteLine errF,"Global memory status: "+(m\dwAvailPhys%/1024/1024)+" MB/"+(m\dwTotalPhys%/1024/1024)+" MB ("+(m\dwAvailPhys%/1024)+" KB/"+(m\dwTotalPhys%/1024)+" KB)"
 			WriteLine errF,"Triangles rendered: "+CurrTrisAmount
 			WriteLine errF,"Active textures: "+ActiveTextures()
-			WriteLine errF,""
+			WriteLine errF,"--------------------------------------------------------------"
+			WriteLine errF,"Screenshot the following, and send to either"
+			WriteLine errF,"    'funniman.exe' on discord"
+			WriteLine errF,"        or"
+			WriteLine errF,"    'oscarthunt@gmail.com'"
+			WriteLine errF,"--------------------------------------------------------------"
+			WriteLine errF,"Stack Information:"
+			WriteLine errF,"    Stack line trace:"
+			WriteLine errF,"        "+GetLineTrace()
+			WriteLine errF,"    "
+			WriteLine errF,"    Stack address backtrace:"
+			WriteLine errF,"        "+GetAddressTrace()
+			WriteLine errF,"--------------------------------------------------------------"
 			WriteLine errF,"Error(s):"
 		Else
 			Local canwriteError% = True
@@ -13809,7 +13873,7 @@ Function UpdateWarnings()
 			AASetFont Font6
 			AAText(GraphicWidth/2,GraphicHeight/4,"ATTENTION",True,True)
 			AASetFont Font2
-			RowText("SCP - DANGER BREACH IS A HIGHLY UNFINISHED MOD FOR SCP: CONTAINMENT BREACH. PLEASE EXCUSE AND REPORT ANY BUGS OR ISSUES YOU MAY ENCOUNTER.", GraphicWidth / 8, GraphicHeight / 2.3,GraphicWidth / 1.3333333333,GraphicHeight / 2,True)
+			RowText(GameIdentAllCaps+" IS A HIGHLY UNFINISHED MOD FOR SCP: CONTAINMENT BREACH. PLEASE EXCUSE AND REPORT ANY BUGS OR ISSUES YOU MAY ENCOUNTER.", GraphicWidth / 8, GraphicHeight / 2.3,GraphicWidth / 1.3333333333,GraphicHeight / 2,True)
 			AASetFont Font1
 			AAText(GraphicWidth / 2, RealGraphicHeight - 30, "PRESS ANY KEY TO CONTINUE", True, True)
 			Flip()
@@ -13821,7 +13885,7 @@ Function UpdateWarnings()
 			AASetFont Font6
 			AAText(GraphicWidth/2,GraphicHeight/4,"AH SHIT A DISCLAIMER",True,True)
 			AASetFont Font2
-			RowText("SCP - DANGER BREACH MEME MODE CONTAINS EARRAPE, ANNOYANCES, STROBE LIGHTS, UNFUNNY OR SHITTY JOKES, AND FURRIES. IM NOT SAYING IM SORRY, YOU ASKED FOR THIS.", GraphicWidth / 8, GraphicHeight / 2.3,GraphicWidth / 1.3333333333,GraphicHeight / 2,True)
+			RowText(GameIdentAllCaps+" MEME MODE CONTAINS EARRAPE, ANNOYANCES, STROBE LIGHTS, UNFUNNY OR SHITTY JOKES, AND FURRIES. IM NOT SAYING IM SORRY, YOU ASKED FOR THIS.", GraphicWidth / 8, GraphicHeight / 2.3,GraphicWidth / 1.3333333333,GraphicHeight / 2,True)
 			AASetFont Font1
 			AAText(GraphicWidth / 2, RealGraphicHeight - 30, "PRESS ANY KEY OR SMTH I DONT FUCKING KNOW", True, True)
 			Flip()
@@ -13832,7 +13896,7 @@ Function UpdateWarnings()
 			AASetFont Font6
 			AAText(GraphicWidth/2,GraphicHeight/4,"WARNING",True,True)
 			AASetFont Font2
-			RowText("SCP - DANGER BREACH CONTAINS LOUD SOUNDS, FLASHING LIGHTS, AND JUMPSCARES THAT MAY BE HAZARDOUS TO SOME PLAYERS. PLEASE TAKE DISCRESION TO DECIDE WHETHER YOU SHOULD PLAY THIS GAME.", GraphicWidth / 8, GraphicHeight / 2.3,GraphicWidth / 1.3333333333,GraphicHeight / 2,True)
+			RowText(GameIdentAllCaps+" CONTAINS LOUD SOUNDS, FLASHING LIGHTS, AND JUMPSCARES THAT MAY BE HAZARDOUS TO SOME PLAYERS. PLEASE TAKE DISCRESION TO DECIDE WHETHER YOU SHOULD PLAY THIS GAME.", GraphicWidth / 8, GraphicHeight / 2.3,GraphicWidth / 1.3333333333,GraphicHeight / 2,True)
 			AASetFont Font1
 			AAText(GraphicWidth / 2, RealGraphicHeight - 30, "PRESS ANY KEY TO CONTINUE", True, True)
 			Flip()
@@ -13950,5 +14014,5 @@ End Function
 
 
 ;~IDEal Editor Parameters:
-;~B#1294#150C#1CAF
+;~B#12CD#1545#1CE8
 ;~C#Blitz3D

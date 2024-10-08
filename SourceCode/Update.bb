@@ -568,7 +568,7 @@ Function CheckForUpdates()
 	
 	;If GetINIInt(OptionFile,"box_of_horrors","check for updates")=False Then Return
 	
-	AppTitle "SCP - Danger Breach /-/-/ Auto Updater"
+	AppTitle GameIdent+GameIdentStrSeperator+"Auto Updater"
 	
 	Local delExe$
 	delExe=StripPath(GetINIString(OptionFile,"updater","old_exe"))

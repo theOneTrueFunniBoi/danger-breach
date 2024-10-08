@@ -13,6 +13,9 @@
 Const VersionNumber$ = "2.3.3"
 Const SavFormatVersionNumber# = 2.0 ;only update when save data format is updated
 Global EngineVersionNumber$ = BlitzVersion() //can't be constant because it's returned at runtime, Not compiled directly in
+Const GameIdent$ = "SCP - Danger Breach"
+Const GameIdentAllCaps$ = "SCP - DANGER BREACH"
+Const GameIdentStrSeperator$ = " /-/-/ "
 
 Include "SourceCode\Main.bb"
 ;~IDEal Editor Parameters:
