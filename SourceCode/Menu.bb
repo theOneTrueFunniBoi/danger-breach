@@ -1572,13 +1572,13 @@ Function UpdateMainMenu()
 	Color 255,255,255
 	AASetFont ConsoleFont
 	If Not MemeMode
-		versionTextTemp = "SCP - Danger Breach v"+VersionNumber
+		versionTextTemp = GameIdent+GameIdentStrSeperator+"v"+VersionNumber
 		AAText 20,RealGraphicHeight-90,versionTextTemp
-		versionTextTemp = "Developed by Action Games"
+		versionTextTemp = "Created by funniman.exe"
 		AAText 20,RealGraphicHeight-70,versionTextTemp
-		versionTextTemp = "Built upon SCP - Containment Breach v1.3.11"
+		versionTextTemp = "Built upon "+BaseGameIdent+" v"+BaseGameVersion
 		AAText 20,RealGraphicHeight-50,versionTextTemp
-		versionTextTemp = "Made using Blitz3D SoLoud: MAV-Less v"+EngineVersionNumber
+		versionTextTemp = "Compiled using "+EngineIdent+" v"+EngineVersionNumber
 	Else
 		versionTextTemp = "Sponsered by RedBull"
 	EndIf
@@ -1999,7 +1999,8 @@ Function InitLoadingScreens(file$)
 					ls\aligny = 0
 				Case "bottom", "down"
 					ls\aligny = 1
-			End Select 				
+			End Select 	
+			
 			ls\isAnim = GetINIInt(file, TemporaryString, "anim")
 			
 			If ls\isAnim

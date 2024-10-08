@@ -1,4 +1,4 @@
-Note: If this build of the game has not been 4gb patched you are fucked!
+Note: If this build of the game has not been 4gb patched you are fucked.
 
 ***********************************************************************************
 
@@ -6,12 +6,9 @@ Note: If this build of the game has not been 4gb patched you are fucked!
 
 ***********************************************************************************
 
-				 www.scpcbgame.com
-
 		                ---SCP - DB Stuff---
 
-There are a couple new rooms, and some minor source code tweaks.
-Most changes are rooms, sfx, or gfx
+There are a couple new rooms, code tweaks, a new engine, subtitles, and lots of new sfx and gfx.
 
 Play the intro sequence for an achievement.
 
@@ -19,11 +16,11 @@ Don't Spam the elevator buttons or something funny happens.
 
 The 3D Menu doesn't play nice with Anti-aliased text so AA gets disabled if you're using the 3D Menu and vise versa.
 
-Borderless windowed mode is fucked so i disabled it.
-
 The game saves options and save data to C:\Users\USERNAME\AppData\Local\DangerBreach.
 
-                                ---SCP - CB Stuff---
+Please send all errors to "funniman.exe" on discord, or the game's GitHub.
+
+                                    ---LEGAL---
 							
 The game is based on the works of the SCP Foundation community (http://www.scp-wiki.net/).
 See "Credits.txt" for further details.
@@ -36,12 +33,14 @@ http://creativecommons.org/licenses/by-sa/3.0/
 
 The source code of the game is available on GitHub: https://github.com/theOneTrueFunniBoi/danger-breach
 
-**** HOW TO RUN IT **************************************
+                              ---RUNTIME INFORMATION---
 
-	Run SCP - Containment Breach.exe in the game folder. 
+                                -HOW TO RUN THE GAME-
+
+	Run SCP - Danger Breach.exe in the game folder. 
 	Select which resolution you want to use and click the LAUNCH-button.
 
-	SCP-CB uses an engine called Blitz3D, and since it's a fairly outdated one,
+	SCP-DB uses an engine called Blitz3D, and since it's a fairly outdated one,
 	you might run into problems when trying to run it on newer systems.
 
 	If you're getting an error such as "Memory Access Violation" or
@@ -53,7 +52,7 @@ The source code of the game is available on GitHub: https://github.com/theOneTru
 	- Try running the game in different compatibility modes 
 
 
-**** DEFAULT CONTROLS ***********************************
+                                 -DEFAULT CONTROLS-
 
 	WASD				-	Move.
 	Space				-	Manual blink.

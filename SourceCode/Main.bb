@@ -47,8 +47,8 @@ Include "SourceCode\FMod.bb"
 
 Include "SourceCode\StrictLoads.bb"
 Include "SourceCode\fullscreen_window_fix.bb"
-Include "SourceCode\KeyName.bb"
-DebugLog "Block 1 Imported"
+Include "SourceCode\KeyName.bb"
+DebugLog "Block 1 Imported"
 Text 5,25,"Imported code block 1"
 Flip
 
@@ -166,7 +166,7 @@ Text 5,125,"BF-ZipApi"
 Include "SourceCode\Update.bb"
 Text 5,145,"Updater"
 
-Include "SourceCode\DevilParticleSystem.bb"
+Include "SourceCode\DevilParticleSystem.bb"
 DebugLog "Block 2 Included"
 Text 5,165,"Imported code block 2"
 Flip
@@ -180,7 +180,7 @@ ErrorFile = ErrorFile+Str(ErrorFileInd)+".log"
 
 DebugLog "ErrorFile is ready"
 
-Graphics3DExt 640, 480, 0, 2
+Graphics3DExt 640, 480, 0, 2
 Text 5,5,"Initializing..."
 Text 5,25,"Imported code block 1"
 Text 5,45,"Create options path"
@@ -457,7 +457,7 @@ AppTitle GameIdent+GameIdentStrSeperator+"v"+VersionNumber+" - Logos"
 
 BlitzcordGameStatus=5
 
-UpdateBlitzcord()
+UpdateBlitzcord()
 ;Kaboom() ;use this function to crash the game to test the updated handler
 
 PlayStartupVideos()
@@ -13590,8 +13590,9 @@ Function CatchErrors(location$)
 			errF = WriteFile(ErrorFile)
 			WriteLine errF,"--------------------------------------------------------------"
 			WriteLine errF,"An error occured in "+GameIdent+GameIdentStrSeperator+"Version: "+VersionNumber+"!"
-			WriteLine errF,"Save Format: "+SavFormatVersionNumber
-			WriteLine errF,"Blitz Version: "+EngineVersionNumber
+			WriteLine errF,"Save Format: "+SavFormatVersionNumber			
+			WriteLine errF,"Blitz Engine Ident: "+EngineIdent+" ("+EngineIdentShortest+")"
+			WriteLine errF,"Blitz Engine Version: "+EngineVersionNumber
 			WriteLine errF,"Date and time: "+CurrentDate()+" at "+CurrentTime()
 			WriteLine errF,"Total video memory (MB): "+TotalVidMem()/1024/1024
 			WriteLine errF,"Available video memory (MB): "+AvailVidMem()/1024/1024
@@ -13603,7 +13604,7 @@ Function CatchErrors(location$)
 			WriteLine errF,"Screenshot the following, and send to either"
 			WriteLine errF,"    'funniman.exe' on discord"
 			WriteLine errF,"        or"
-			WriteLine errF,"    'oscarthunt@gmail.com'"
+			WriteLine errF,"    'https://github.com/theOneTrueFunniBoi/danger-breach'"
 			WriteLine errF,"--------------------------------------------------------------"
 			WriteLine errF,"Stack Information:"
 			WriteLine errF,"    Stack line trace:"
