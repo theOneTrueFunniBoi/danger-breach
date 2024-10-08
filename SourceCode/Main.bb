@@ -4,14 +4,15 @@ AppTitle "Initializing - please wait..."
 DebugLog "Checking if valid dlls are present"
 
 Local InitErrorStr$ = ""
-If FileSize("fmod.dll")=0 Then InitErrorStr=InitErrorStr+ "fmod.dll"+Chr(13)+Chr(10)
-If FileSize("zlibwapi.dll")=0 Then InitErrorStr=InitErrorStr+ "zlibwapi.dll"+Chr(13)+Chr(10)
+If FileSize("fmod.dll")=0 Then InitErrorStr=InitErrorStr+ " -   fmod.dll"+Chr(13)+Chr(10)
+If FileSize("zlibwapi.dll")=0 Then InitErrorStr=InitErrorStr+ " -   zlibwapi.dll"+Chr(13)+Chr(10)
 If FileSize("discord_game_sdk.dll")=0 Then InitErrorStr=InitErrorStr+ "discord_game_sdk.dll"+Chr(13)+Chr(10)
-If FileSize("Blitzcord.dll")=0 Then InitErrorStr=InitErrorStr+ "Blitzcord.dll"+Chr(13)+Chr(10)
-If FileSize("d3dim700.dll")=0 Then InitErrorStr=InitErrorStr+ "d3dim700.dll"+Chr(13)+Chr(10)
+If FileSize("Blitzcord.dll")=0 Then InitErrorStr=InitErrorStr+ " -   Blitzcord.dll"+Chr(13)+Chr(10)
+If FileSize("FreeImage.dll")=0 Then InitErrorStr=InitErrorStr+ " -   FreeImage.dll"+Chr(13)+Chr(10)
+If FileSize("d3dim700.dll")=0 Then InitErrorStr=InitErrorStr+ " -   d3dim700.dll"+Chr(13)+Chr(10)
 
 If Len(InitErrorStr)>0 Then
-	RuntimeError "The following *REQUIRED* DLLs were not found or are corrupt:"+Chr(13)+Chr(10)+Chr(13)+Chr(10)+InitErrorStr
+	RuntimeError "The following *REQUIRED* DLLs were not found or are corrupt:"+Chr(13)+Chr(10)+InitErrorStr
 EndIf
 
 DebugLog "Dlls indexed"
@@ -13580,70 +13581,79 @@ Function ScaledMouseY%()
 	Return Float(MouseY())*Float(GraphicHeight)/Float(RealGraphicHeight)
 End Function
 
-Function CatchErrors(location$)
+Function CatchErrors(location$,fatal%=False)
 	Local errStr$ = ErrorLog()
 	;Local errStr$ = ""
 	Local errF%
-	;If DisableErrors=0 Then
-	If Len(errStr)>0 Or ManuallyInitiateError > 0 Then
-		If FileType(ErrorFile)=0 Then
-			errF = WriteFile(ErrorFile)
-			WriteLine errF,"--------------------------------------------------------------"
-			WriteLine errF,"An error occured in "+GameIdent+GameIdentStrSeperator+"Version: "+VersionNumber+"!"
-			WriteLine errF,"Save Format: "+SavFormatVersionNumber			
-			WriteLine errF,"Blitz Engine Ident: "+EngineIdent+" ("+EngineIdentShortest+")"
-			WriteLine errF,"Blitz Engine Version: "+EngineVersionNumber
-			WriteLine errF,"Date and time: "+CurrentDate()+" at "+CurrentTime()
-			WriteLine errF,"Total video memory (MB): "+TotalVidMem()/1024/1024
-			WriteLine errF,"Available video memory (MB): "+AvailVidMem()/1024/1024
-			GlobalMemoryStatus m.MEMORYSTATUS
-			WriteLine errF,"Global memory status: "+(m\dwAvailPhys%/1024/1024)+" MB/"+(m\dwTotalPhys%/1024/1024)+" MB ("+(m\dwAvailPhys%/1024)+" KB/"+(m\dwTotalPhys%/1024)+" KB)"
-			WriteLine errF,"Triangles rendered: "+CurrTrisAmount
-			WriteLine errF,"Active textures: "+ActiveTextures()
-			WriteLine errF,"--------------------------------------------------------------"
-			WriteLine errF,"Screenshot the following, and send to either"
-			WriteLine errF,"    'funniman.exe' on discord"
-			WriteLine errF,"        or"
-			WriteLine errF,"    'https://github.com/theOneTrueFunniBoi/danger-breach'"
-			WriteLine errF,"--------------------------------------------------------------"
-			WriteLine errF,"Stack Information:"
-			WriteLine errF,"    Stack line trace:"
-			WriteLine errF,"        "+GetLineTrace()
-			WriteLine errF,"    "
-			WriteLine errF,"    Stack address backtrace:"
-			WriteLine errF,"        "+GetAddressTrace()
-			WriteLine errF,"--------------------------------------------------------------"
-			WriteLine errF,"Error(s):"
-		Else
-			Local canwriteError% = True
-			errF = OpenFile(ErrorFile)
-			While (Not Eof(errF))
-				Local l$ = ReadLine(errF)
-				If Left(l,Len(location))=location
-					canwriteError = False
-					Exit
+	;If DisableErrors=0 Then	
+	If fatal
+		errStr=errStr+" << "+location+Chr(13)+Chr(10)+"Save Format: "+SavFormatVersionNumber+Chr(13)+Chr(10)+"Blitz Engine Info: "		
+		errStr=errStr+EngineIdent+" ("+EngineIdentShortest+") v"+EngineVersionNumber+Chr(13)+Chr(10)+"Date and time: "+CurrentDate()+" at "+CurrentTime()		
+		errStr=errStr+Chr(13)+Chr(10)+"Total video memory (MB): "+TotalVidMem()/1024/1024+Chr(13)+Chr(10)+"Available video memory (MB): "+AvailVidMem()/1024/1024		
+		errStr=errStr+Chr(13)+Chr(10)+"Global memory status: "+(m\dwAvailPhys%/1024/1024)+" MB/"+(m\dwTotalPhys%/1024/1024)+" MB ("+(m\dwAvailPhys%/1024)+" KB/"+(m\dwTotalPhys%/1024)+" KB)"		
+		;errStr=errStr+Chr(13)+Chr(10)+"Stack line trace:"+GetLineTrace()+Chr(13)+Chr(10)+"Stack address backtrace:"+GetAddressTrace()		
+		
+		RuntimeErrorPrevTrace errStr
+	Else
+		If Len(errStr)>0 Or ManuallyInitiateError > 0 Then
+			If FileType(ErrorFile)=0 Then
+				errF = WriteFile(ErrorFile)
+				WriteLine errF,"--------------------------------------------------------------"
+				WriteLine errF,"An error occured in "+GameIdent+GameIdentStrSeperator+"Version: "+VersionNumber+"!"
+				WriteLine errF,"Save Format: "+SavFormatVersionNumber			
+				WriteLine errF,"Blitz Engine Ident: "+EngineIdent+" ("+EngineIdentShortest+")"
+				WriteLine errF,"Blitz Engine Version: "+EngineVersionNumber
+				WriteLine errF,"Date and time: "+CurrentDate()+" at "+CurrentTime()
+				WriteLine errF,"Total video memory (MB): "+TotalVidMem()/1024/1024
+				WriteLine errF,"Available video memory (MB): "+AvailVidMem()/1024/1024
+				GlobalMemoryStatus m.MEMORYSTATUS
+				WriteLine errF,"Global memory status: "+(m\dwAvailPhys%/1024/1024)+" MB/"+(m\dwTotalPhys%/1024/1024)+" MB ("+(m\dwAvailPhys%/1024)+" KB/"+(m\dwTotalPhys%/1024)+" KB)"
+				WriteLine errF,"Triangles rendered: "+CurrTrisAmount
+				WriteLine errF,"Active textures: "+ActiveTextures()
+				WriteLine errF,"--------------------------------------------------------------"
+				WriteLine errF,"Screenshot the following, and send to either"
+				WriteLine errF,"    'funniman.exe' on discord"
+				WriteLine errF,"        or"
+				WriteLine errF,"    'https://github.com/theOneTrueFunniBoi/danger-breach'"
+				WriteLine errF,"--------------------------------------------------------------"
+				WriteLine errF,"Stack Information:"
+				WriteLine errF,"    Stack line trace:"
+				WriteLine errF,"        "+GetLineTrace()
+				WriteLine errF,"    "
+				WriteLine errF,"    Stack address backtrace:"
+				WriteLine errF,"        "+GetAddressTrace()
+				WriteLine errF,"--------------------------------------------------------------"
+				WriteLine errF,"Error(s):"
+			Else
+				Local canwriteError% = True
+				errF = OpenFile(ErrorFile)
+				While (Not Eof(errF))
+					Local l$ = ReadLine(errF)
+					If Left(l,Len(location))=location
+						canwriteError = False
+						Exit
+					EndIf
+				Wend
+				If canwriteError
+					SeekFile errF,FileSize(ErrorFile)
 				EndIf
-			Wend
-			If canwriteError
-				SeekFile errF,FileSize(ErrorFile)
 			EndIf
+			If canwriteError
+				WriteLine errF,location+" ***************"
+				While Len(errStr)>0
+					WriteLine errF,errStr
+					DebugLog errStr
+					errStr = ErrorLog()
+					;errStr$ = ""
+				Wend
+			EndIf
+			Msg = "The mod dev has fucked up and did something to cause a Blitz3D Error! Details in "+Chr(34)+ErrorFile+Chr(34)
+			MsgTimer = 20*70
+			WriteLine errF,"--------------------------------------------------------------"
+			CloseFile errF
+			ManuallyInitiateError = False
 		EndIf
-		If canwriteError
-			WriteLine errF,location+" ***************"
-			While Len(errStr)>0
-				WriteLine errF,errStr
-				DebugLog errStr
-				errStr = ErrorLog()
-				;errStr$ = ""
-			Wend
-		EndIf
-		Msg = "The mod dev has fucked up and did something to cause a Blitz3D Error! Details in "+Chr(34)+ErrorFile+Chr(34)
-		MsgTimer = 20*70
-		WriteLine errF,"--------------------------------------------------------------"
-		CloseFile errF
-		ManuallyInitiateError = False
 	EndIf
-	;EndIf
 End Function
 
 Function Create3DIcon(width%,height%,modelpath$,modelX#=0,modelY#=0,modelZ#=0,modelPitch#=0,modelYaw#=0,modelRoll#=0,modelscaleX#=1,modelscaleY#=1,modelscaleZ#=1,withfog%=False)
