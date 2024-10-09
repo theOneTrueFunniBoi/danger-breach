@@ -12,7 +12,7 @@ If FileSize("FreeImage.dll")=0 Then InitErrorStr=InitErrorStr+ " -   FreeImage.d
 If FileSize("d3dim700.dll")=0 Then InitErrorStr=InitErrorStr+ " -   d3dim700.dll"+Chr(13)+Chr(10)
 
 If Len(InitErrorStr)>0 Then
-	RuntimeError "The following *REQUIRED* DLLs were not found or are corrupt:"+Chr(13)+Chr(10)+InitErrorStr
+	RuntimeErrorNoTrace "The following *REQUIRED* DLLs were not found or are corrupt:"+Chr(13)+Chr(10)+InitErrorStr
 EndIf
 
 DebugLog "Dlls indexed"
