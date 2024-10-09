@@ -21,3 +21,5 @@ Thumbs.db
 *.bat
 *.mp4
 *.log
+tmpapplication.environ
+tmpapplication.exe
