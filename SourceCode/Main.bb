@@ -4020,7 +4020,7 @@ Repeat
 		End If
 		
 		Color 255, 255, 255
-		If ShowFPS Then AASetFont ConsoleFont : AAText 20, 20, "FPS: " + FPS : AASetFont Font1
+		If showfps Then AASetFont ConsoleFont : AAText 20, 20, "FPS: " + FPS : AASetFont Font1
 		
 		DrawQuickLoading()
 		
@@ -4631,11 +4631,11 @@ Function InitCredits()
 	Local l$
 	
 	If (Not MemeMode)
-		CreditsFont% = AALoadFont("GFX\font\cour\Courier New.ttf", Int(21 * (GraphicHeight / 1024.0)), 0,0,0)
-		CreditsFont2% = AALoadFont("GFX\font\courbd\Courier New Bold.ttf", Int(35 * (GraphicHeight / 1024.0)), 1,0,0)
+		CreditsFont% = LoadFont_Strict("GFX\font\cour\Courier New.ttf", Int(21 * (GraphicHeight / 1024.0)), 0,0,0)
+		CreditsFont2% = LoadFont_Strict("GFX\font\courbd\Courier New Bold.ttf", Int(35 * (GraphicHeight / 1024.0)), 1,0,0)
 	Else
-		CreditsFont% = AALoadFont("GFX\font\cour\Courier New.ttf", Int(21 * (GraphicHeight / 1024.0)), 0,0,0)
-		CreditsFont2% = AALoadFont("GFX\font\sanic\z o n e.ttf", Int(80 * (GraphicHeight / 1024.0)), 0,0,0)
+		CreditsFont% = LoadFont_Strict("GFX\font\cour\Courier New.ttf", Int(21 * (GraphicHeight / 1024.0)), 0,0,0)
+		CreditsFont2% = LoadFont_Strict("GFX\font\sanic\z o n e.ttf", Int(80 * (GraphicHeight / 1024.0)), 0,0,0)
 	End If
 	
 	If CreditsScreen = 0

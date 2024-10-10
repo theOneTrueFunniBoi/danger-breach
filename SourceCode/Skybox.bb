@@ -69,5 +69,5 @@ Data +1,-1,-1,1,1
 Data +1,-1,+1,0,1
 Data -1,-1,+1,0,0
 ;~IDEal Editor Parameters:
-;~F#1#1B#1F
+;~F#1#1B
 ;~C#Blitz3D

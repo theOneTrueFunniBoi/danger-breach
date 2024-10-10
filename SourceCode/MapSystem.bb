@@ -712,7 +712,7 @@ Function LoadRMesh(file$,rt.RoomTemplates)
 					
 					DebugLog "Attempted To Init Prob Obj: 'GFX\Map\Props\"+file+"'."
 					
-					If (Not model) Then RuntimeError("PropObject: 'GFX\Map\Props\"+file+"' faiiled to load. RoomMesh that requested the model: '"+FileNameStore+"'.")
+					If (Not model) Then RuntimeErrorNoTrace("PropObject: 'GFX\Map\Props\"+file+"' faiiled to load. RoomMesh that requested the model: '"+FileNameStore+"'.")
 					
 					temp1=ReadFloat(f) : temp2=ReadFloat(f) : temp3=ReadFloat(f)
 					PositionEntity model,temp1,temp2,temp3

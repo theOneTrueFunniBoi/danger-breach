@@ -10204,7 +10204,8 @@ Function UpdateEndings()
 						
 						angle = Max(Sin(EntityYaw(Collider)),0.0)
 						;250,230,200
-						CameraFogColor (Camera,200+(angle*50),200+(angle*30),200)
+						;CameraFogColor (Camera,200+(angle*50),200+(angle*30),200)
+						CameraFogColor (Camera,19,33,46)
 						CameraClsColor (Camera,200+(angle*50),200+(angle*30),200)					
 						CameraRange(Camera, 0.05, 60)
 						
@@ -10247,7 +10248,7 @@ Function UpdateEndings()
 					
 					If e\EventState = 0 Then
 						DrawLoading(0)
-						e\room\Objects[0] = LoadMesh_Strict("GFX\MAP\gateatunnel.b3d")
+						e\room\Objects[0] = LoadMesh_Strict("GFX\map\gateatunnel.b3d")
 						PositionEntity e\room\Objects[0], EntityX(e\room\obj,True),EntityY(e\room\obj,True),EntityZ(e\room\obj,True)
 						ScaleEntity (e\room\Objects[0],RoomScale,RoomScale,RoomScale)
 						EntityType e\room\Objects[0], HIT_MAP
@@ -10365,7 +10366,8 @@ Function UpdateEndings()
 						
 						angle = Max(Sin(EntityYaw(Collider)+90),0.0)
 						;240,220,200
-						CameraFogColor (Camera,200+(angle*40),200+(angle*20),200)
+						;CameraFogColor (Camera,200+(angle*40),200+(angle*20),200)
+						CameraFogColor (Camera,19,33,46)
 						CameraClsColor (Camera,200+(angle*40),200+(angle*20),200)		
 						CameraRange(Camera, 0.05, 60)
 						

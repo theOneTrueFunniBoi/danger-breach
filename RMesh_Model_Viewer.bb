@@ -1,5 +1,7 @@
 Graphics3D 640,480,32,2
 
+Global texA%[2]
+
 AppTitle "---INIT---"
 
 Cls
@@ -9,22 +11,6 @@ Print "---INIT---"
 Delay 800
 Graphics3D 640,480,32,2
 AppTitle "RMesh Room Viewer is Starting, Please Wait"
-Print "#######################"
-Delay 150
-Print "########################################"
-Delay 150
-Print "####################################"
-Delay 150
-Print ""
-Delay 250
-Print "################################"
-Delay 150
-Print "#########################"
-Delay 150
-Print ""
-Delay 250
-Print "##############"
-Delay 500
 
 Global XE_XF,XE_MAXtextures
 
@@ -184,7 +170,7 @@ DebugLog CountChildren(h)
 			EndIf 
 	
 			;do the cleaning
-			FreeTexture Tex
+			FreeTexture tex
 			FreeBrush brush
 		Next 
 	EndIf 
@@ -603,7 +589,7 @@ Function LoadRMesh(file$)
 	
 	count = ReadInt(f)
 	Local childMesh%
-	Local surf%,tex%[2],brush%
+	Local surf%,brush%
 	
 	Local isAlpha%
 	
@@ -616,44 +602,44 @@ Function LoadRMesh(file$)
 		
 		brush=CreateBrush()
 		
-		tex[0]=0 : tex[1]=0
+		texA[0]=0 : texA[1]=0
 		
 		isAlpha=0
 		For j=0 To 1
 			temp1i=ReadByte(f)
 			If temp1i<>0 Then
 				temp1s=ReadString(f)
-				tex[j]=GetTextureFromCache(temp1s)
-				If tex[j]=0 Then ;texture is not in cache
+				texA[j]=GetTextureFromCache(temp1s)
+				If texA[j]=0 Then ;texture is not in cache
 					Select True
 						Case temp1i<3
-							tex[j]=LoadTexture(file+temp1s,1)
+							texA[j]=LoadTexture(file+temp1s,1)
 						Default
-							tex[j]=LoadTexture(file+temp1s,3)
+							texA[j]=LoadTexture(file+temp1s,3)
 					End Select
 					
-					If tex[j]<>0 Then
-						If temp1i=1 Then TextureBlend tex[j],5
+					If texA[j]<>0 Then
+						If temp1i=1 Then TextureBlend texA[j],5
 						;If Instr(Lower(temp1s),"_lm")<>0 Then
 						;	TextureBlend tex[j],3
 						;EndIf
-						AddTextureToCache(tex[j])
+						AddTextureToCache(texA[j])
 					EndIf
 					
 				EndIf
-				If tex[j]<>0 Then
+				If texA[j]<>0 Then
 					isAlpha=2
 					If temp1i=3 Then isAlpha=1
 					
-					TextureCoords tex[j],1-j
+					TextureCoords texA[j],1-j
 				EndIf
 			EndIf
 		Next
 		
 		If isAlpha=1 Then
-			If tex[1]<>0 Then
-				TextureBlend tex[1],2
-				BrushTexture brush,tex[1],0,0
+			If texA[1]<>0 Then
+				TextureBlend texA[1],2
+				BrushTexture brush,texA[1],0,0
 			Else
 				BrushTexture brush,blankTexture,0,0
 			EndIf
@@ -661,8 +647,8 @@ Function LoadRMesh(file$)
 			
 
 			For j=0 To 1
-				If tex[j]<>0 Then
-					BrushTexture brush,tex[j],0,j+1
+				If texA[j]<>0 Then
+					BrushTexture brush,texA[j],0,j+1
 				Else
 					BrushTexture brush,blankTexture,0,j+1
 				EndIf
@@ -722,6 +708,161 @@ Function LoadRMesh(file$)
 		
 	Next
 	
+	Local hiddenMesh%
+	hiddenMesh=CreateMesh()
+	
+	count=ReadInt(f) ;invisible collision mesh
+	For i%=1 To count
+		;surf=CreateSurface(hiddenMesh)
+		count2=ReadInt(f) ;vertices
+		For j%=1 To count2
+			;world coords
+			x=ReadFloat(f) : y=ReadFloat(f) : z=ReadFloat(f)
+			;vertex=AddVertex(surf,x,y,z)
+		Next
+		
+		count2=ReadInt(f) ;polys
+		For j%=1 To count2
+			temp1i = ReadInt(f) : temp2i = ReadInt(f) : temp3i = ReadInt(f)
+			;AddTriangle(surf,temp1i,temp2i,temp3i)
+			;AddTriangle(surf,temp1i,temp3i,temp2i)
+		Next
+	Next
+	
+	;trigger boxes
+	If hasTriggerBox
+		DebugLog "TriggerBoxEnable"
+		Local tmp% = ReadInt(f)
+		Local tmp2%
+		For tmp2% = 0 To tmp%-1
+			DebugLog "0 "+tmp2
+			;rt\TempTriggerbox[tb] = CreateMesh(rt\obj)
+			count = ReadInt(f)
+			For i%=1 To count
+				DebugLog "1 "+i
+				;surf=CreateSurface(rt\TempTriggerbox[tb])
+				count2=ReadInt(f)
+				For j%=1 To count2
+					DebugLog "2 "+j
+					x=ReadFloat(f) : y=ReadFloat(f) : z=ReadFloat(f)
+					;vertex=AddVertex(surf,x,y,z)
+				Next
+				count2=ReadInt(f)
+				For j%=1 To count2
+					DebugLog "3 "+j
+					temp1i = ReadInt(f) : temp2i = ReadInt(f) : temp3i = ReadInt(f)
+					;AddTriangle(surf,temp1i,temp2i,temp3i)
+					;AddTriangle(surf,temp1i,temp3i,temp2i)
+				Next
+			Next
+			;rt\TempTriggerboxName[tb] = ReadString(f)
+			DebugLog "4"
+			;Local tmpS$ = ReadString(f)
+			ReadString(f)
+		Next
+	EndIf	
+	Local rRoomScale# = 8.0 / 2048.0
+	
+	count=ReadInt(f) ;point entities
+	For i%=1 To count
+		temp1s=ReadString(f)
+		Select temp1s
+			Case "screen"
+				
+				temp1=ReadFloat(f)
+				temp2=ReadFloat(f)
+				temp3=ReadFloat(f)
+				
+				temp2s$ =ReadString(f)
+				
+			Case "waypoint"
+				
+				temp1=ReadFloat(f)
+				temp2=ReadFloat(f)
+				temp3=ReadFloat(f)
+				
+			Case "light"
+				
+				temp1=ReadFloat(f)
+				temp2=ReadFloat(f)
+				temp3=ReadFloat(f)
+				
+				ReadFloat(f) : ReadString(f) : ReadFloat(f)
+				
+			Case "spotlight"
+				
+				temp1=ReadFloat(f)
+				temp2=ReadFloat(f)
+				temp3=ReadFloat(f)
+				
+				ReadFloat(f) : ReadString(f) : ReadFloat(f) : ReadString(f) : ReadInt(f) : ReadInt(f)
+				
+			Case "soundemitter"
+				
+				temp1i=0
+				
+				/*For j = 0 To MaxRoomEmitters-1
+					If rt\TempSoundEmitter[j]=0 Then
+						rt\TempSoundEmitterX[j]=ReadFloat(f)
+						rt\TempSoundEmitterY[j]=ReadFloat(f)
+						rt\TempSoundEmitterZ[j]=ReadFloat(f)
+						rt\TempSoundEmitter[j]=ReadInt(f)
+						
+						rt\TempSoundEmitterRange[j]=ReadFloat(f)
+						temp1i=1
+						Exit
+					EndIf
+				Next*/
+				
+				;If temp1i=0 Then
+					ReadFloat(f)
+					ReadFloat(f)
+					ReadFloat(f)
+					ReadInt(f)
+					ReadFloat(f)
+				;EndIf
+				
+			Case "playerstart"
+				
+				temp1=ReadFloat(f) : temp2=ReadFloat(f) : temp3=ReadFloat(f)
+				
+				ReadString(f)
+			Case "model"
+				DebugLog ("model")
+				file = ReadString(f)
+				If file<>""
+					Local model = CreatePropObjA("GFX\Map\Props\"+file)
+					
+					;try again
+					If (Not model) Then model = LoadMesh("GFX\Map\Props\"+file)
+					
+					DebugLog "Attempted To Init Prob Obj: 'GFX\Map\Props\"+file+"'."
+					
+					If (Not model) Then RuntimeErrorNoTrace("PropObject: 'GFX\Map\Props\"+file+"' faiiled to load.")
+					
+					temp1=ReadFloat(f) : temp2=ReadFloat(f) : temp3=ReadFloat(f)
+					PositionEntity model,temp1/10,temp2/10,temp3/10
+					
+					temp1=ReadFloat(f) : temp2=ReadFloat(f) : temp3=ReadFloat(f)
+					RotateEntity model,temp1,temp2,temp3
+					
+					temp1=ReadFloat(f) : temp2=ReadFloat(f) : temp3=ReadFloat(f)
+					;ScaleEntity model,temp1*rRoomScale,temp2*rRoomScale,temp3*rRoomScale
+					ScaleEntity model,temp1/10,temp2/10,temp3/10
+					
+					;EntityParent model,Opaque
+					;EntityType model,HIT_MAP
+					;EntityPickMode model,2
+				Else
+					DebugLog "file = 0"
+					temp1=ReadFloat(f) : temp2=ReadFloat(f) : temp3=ReadFloat(f)
+					DebugLog temp1+", "+temp2+", "+temp3
+					
+					;Stop
+				EndIf
+		End Select
+	Next
+	
 	Local obj%
 	
 	temp1i=CopyMesh(Alpha)
@@ -745,6 +886,30 @@ Function LoadRMesh(file$)
 	Return Opaque
 End Function
 
+Type Props
+	Field file$
+	Field obj
+	Field RMeshFile$
+End Type
+Function CreatePropObjA(file$)
+	Local p.Props
+	Local meshTmp$ = ""
+	For p.Props = Each Props
+		If p\file = file Then
+			meshTmp = CopyEntity(p\obj)
+		EndIf
+	Next
+	
+	p.Props = New Props
+	p\file = file
+	If (Not meshTmp = "")
+		p\obj = meshTmp
+	Else
+		p\obj = LoadMesh(file)
+	EndIf
+	Return p\obj
+End Function
+
 Function stoopid()
 Delay 500
 AppTitle "RMesh Room Viewer - ERROR"
@@ -756,9 +921,6 @@ AppTitle "##### #### ######"
 Print "#######################"
 Print "########################################"
 Print "####################################"
-Print ""
-Print "################################"
-Print "#########################"
 Print ""
 Print "##############"
 Delay 500
@@ -777,9 +939,6 @@ Print "#######################"
 Print "########################################"
 Print "####################################"
 Print ""
-Print "################################"
-Print "#########################"
-Print ""
 Print "##############"
 Delay 500
 Init()
@@ -795,10 +954,7 @@ AppTitle "RMesh Room Viewer"
 
 Print "Welcome to RMesh Viewer"
 Print "Enter RMesh path and name with extension"
-Print "Example: GFX/map/173bright_opt.rmesh"
-Print ""
-Print "Note: RMesh Viewer does not show"
-Print "models/objects in the map"
+Print "Example: GFX/map/room1start.rmesh"
 Print ""
 Local fname$ = Input("RMesh To load: ")
 
@@ -924,8 +1080,16 @@ While Not KeyHit(1)
 	;TextureBumpEnvOffset bump,0.5
 	
 	Flip
-Wend
+Wend
+Local tmpA%
+
+For tmpA = 0 To 1
+	If (Not texA[tmpA]) Then FreeTexture texA[tmpA]
+Next
+
 End Function
 Repeat
 Init()
 Forever
+;~IDEal Editor Parameters:
+;~C#Blitz3D
