@@ -12,7 +12,7 @@ If FileSize("FreeImage.dll")=0 Then InitErrorStr=InitErrorStr+ " -   FreeImage.d
 If FileSize("d3dim700.dll")=0 Then InitErrorStr=InitErrorStr+ " -   d3dim700.dll"+Chr(13)+Chr(10)
 
 If Len(InitErrorStr)>0 Then
-	RuntimeErrorNoTrace "The following *REQUIRED* DLLs were not found or are corrupt:"+Chr(13)+Chr(10)+InitErrorStr
+	RuntimeError("The following *REQUIRED* DLLs were not found or are corrupt:"+Chr(13)+Chr(10)+InitErrorStr,2)
 EndIf
 
 DebugLog "Dlls indexed"
@@ -2994,7 +2994,7 @@ Function UseDoor(d.Doors, showmsg%=True, playsfx%=True)
 									MsgTimer = 70 * 3
 									memaccess = memaccess+1
 								ElseIf memaccess = 44
-									RuntimeError "Memory Access Violation"
+									RuntimeError("Memory Access Violation",3)
 								EndIf
 								DebugLog "Memory Access Violation Chance is: "+memaccess
 						EndIf
@@ -8860,7 +8860,7 @@ Function DrawMenu()
 					
 					Color 255,255,255
 					AAText(x, y, "Show FPS:")
-					ShowFPS% = DrawTick(x + 270 * MenuScale, y, ShowFPS%)
+					showfps% = DrawTick(x + 270 * MenuScale, y, showfps%)
 					If MouseOn(x+270*MenuScale,y+MenuScale,20*MenuScale,20*MenuScale)
 						DrawOptionsTooltip(tx,ty,tw,th,"showfps")
 					EndIf
@@ -10208,10 +10208,11 @@ Function InitLoadGame()
 End Function
 
 Function NullGame(playbuttonsfx%=True)
-	CatchErrors("Uncaught (NullGame)")
-	Local i%, x%, y%, lvl
+	CatchErrors("Uncaught (NullGame)",True)
+	Local h%, i%, j%, k%, x%, y%, lvl
 	Local itt.ItemTemplates, s.Screens, lt.LightTemplates, d.Doors, m.Materials
-	Local wp.WayPoints, twp.TempWayPoints, r.Rooms, it.Items
+	Local wp.WayPoints, twp.TempWayPoints, r.Rooms, it.Items, pr.Props, de.Decals, n.NPCs
+	Local sc.SecurityCams, em.Emitters, p.Particles, rt.RoomTemplates
 	
 	TitleHappened = 0
 	
@@ -10410,31 +10411,46 @@ Function NullGame(playbuttonsfx%=True)
 	
 	For twp.TempWayPoints = Each TempWayPoints
 		Delete twp
-	Next	
+	Next
+	
+	DrawLoading(55,True)
 	
 	For r.Rooms = Each Rooms
 		If r\obj <> 0 Then 
-			FreeEntity(r\obj)
-			r\obj = 0
+			FreeEntity(r\obj) : r\obj = 0
 		EndIf
 		
-		;For i=0 To MaxRoomObjects-1
-		;	If r\Objects[i] <> 0 Then FreeEntity(r\Objects[i])
-		;Next
+		For h=0 To MaxRoomObjects
+			If r\Objects[h] <> 0 Then 
+			;	FreeEntity(r\Objects[h]) : r\Objects[h] = 0
+			EndIf
+		Next
 		
-		For i=0 To MaxAlarmObjects-1
-		;	If r\SpinningAlarmLight[i] <> 0 Then FreeEntity(r\SpinningAlarmLight[i])
-		;	If r\SpinningAlarmRotor[i] <> 0 Then FreeEntity(r\SpinningAlarmRotor[i])
-			r\SpinningAlarmStatus[i] = 0
+		For h=0 To MaxRoomObjects
+			If r\Levers[h] <> 0
+			;	FreeEntity(r\Levers[h]) : r\Levers[h] = 0
+			EndIf
+		Next
+		
+		For j=0 To MaxAlarmObjects
+			If r\SpinningAlarmLight[j] <> 0 Then
+			;	FreeEntity(r\SpinningAlarmLight[j]) : r\SpinningAlarmLight[j]=0
+			EndIf
+			If r\SpinningAlarmRotor[j] <> 0 Then
+			;	FreeEntity(r\SpinningAlarmRotor[j]) : r\SpinningAlarmLight[j]=0
+			EndIf
+			r\SpinningAlarmStatus[j] = 0
 		Next
 		
 		r\SoundCHN = 0
 		
-		For i=0 To MaxRoomEmitters-1
-			r\SoundEmitter[i] = 0
-			r\SoundEmitterCHN[i] = 0
-		;	If r\SoundEmitterObj[i] <> 0 Then FreeEntity(r\SoundEmitterObj[i])
-			r\SoundEmitterRange[i] = 0
+		For k=0 To MaxRoomEmitters
+			r\SoundEmitter[k] = 0
+			r\SoundEmitterCHN[k] = 0
+			If r\SoundEmitterObj[k] <> 0 Then
+				;FreeEntity(r\SoundEmitterObj[k]) : r\SoundEmitterObj[k]=0
+			EndIf
+			r\SoundEmitterRange[k] = 0
 		Next
 		Delete r
 	Next
@@ -10447,15 +10463,22 @@ Function NullGame(playbuttonsfx%=True)
 		Delete it
 	Next
 	
+	DrawLoading(60,True)
+	
 	For pr.Props = Each Props
+		If pr\obj <> 0
+		;	FreeEntity(pr\obj) : pr\obj = 0
+		EndIf
+		pr\file = 0
+		pr\RMeshFile = 0
 		Delete pr
 	Next
 	
-	For de.decals = Each Decals
+	For de.Decals = Each Decals
 		Delete de
 	Next
 	
-	For n.NPCS = Each NPCs
+	For n.NPCs = Each NPCs
 		NullNPCs(n)
 		Delete n
 	Next
@@ -10468,6 +10491,8 @@ Function NullGame(playbuttonsfx%=True)
 	Next
 	ForestNPC = 0
 	ForestNPCTex = 0
+	
+	DrawLoading(65,True)
 	
 	Local e.Events
 	For e.Events = Each Events
@@ -10494,15 +10519,15 @@ Function NullGame(playbuttonsfx%=True)
 		Delete e
 	Next
 	
-	For sc.securitycams = Each SecurityCams
+	For sc.SecurityCams = Each SecurityCams
 		Delete sc
 	Next
 	
-	For em.emitters = Each Emitters
+	For em.Emitters = Each Emitters
 		Delete em
 	Next	
 	
-	For p.particles = Each Particles
+	For p.Particles = Each Particles
 		Delete p
 	Next
 	
@@ -10574,7 +10599,7 @@ Function NullGame(playbuttonsfx%=True)
 		Init3dMenuQuick()
 		
 	EndIf
-	CatchErrors("NullGame")
+	CatchErrors("NullGame",True)
 End Function
 
 Include "SourceCode\save.bb"
@@ -13587,13 +13612,13 @@ Function CatchErrors(location$,fatal%=False)
 	Local errF%
 	;If DisableErrors=0 Then	
 	If fatal
-		errStr=errStr+" << "+location+Chr(13)+Chr(10)+"Save Format: "+SavFormatVersionNumber+Chr(13)+Chr(10)+"Blitz Engine Info: "		
-		errStr=errStr+EngineIdent+" ("+EngineIdentShortest+") v"+EngineVersionNumber+Chr(13)+Chr(10)+"Date and time: "+CurrentDate()+" at "+CurrentTime()		
-		errStr=errStr+Chr(13)+Chr(10)+"Total video memory (MB): "+TotalVidMem()/1024/1024+Chr(13)+Chr(10)+"Available video memory (MB): "+AvailVidMem()/1024/1024		
-		errStr=errStr+Chr(13)+Chr(10)+"Global memory status: "+(m\dwAvailPhys%/1024/1024)+" MB/"+(m\dwTotalPhys%/1024/1024)+" MB ("+(m\dwAvailPhys%/1024)+" KB/"+(m\dwTotalPhys%/1024)+" KB)"		
-		;errStr=errStr+Chr(13)+Chr(10)+"Stack line trace:"+GetLineTrace()+Chr(13)+Chr(10)+"Stack address backtrace:"+GetAddressTrace()		
-		
-		RuntimeErrorPrevTrace errStr
+		If Len(errStr)>0 Or ManuallyInitiateError > 0 Then
+			errStr=errStr+" << "+location+Chr(13)+Chr(10)+"Save Format: "+SavFormatVersionNumber+Chr(13)+Chr(10)+"Blitz Info: "		
+			errStr=errStr+EngineIdentShort+" ("+EngineIdentShortest+") v"+EngineVersionNumber+Chr(13)+Chr(10)+"Date and time: "+CurrentDate()+" at "+CurrentTime()
+			errStr=errStr+Chr(13)+Chr(10);+"Stack line trace:"+Chr(13)+Chr(10)+Chr(13)+Chr(10)+GetFullLineTrace()
+			
+			RuntimeError(errStr,1)
+		EndIf
 	Else
 		If Len(errStr)>0 Or ManuallyInitiateError > 0 Then
 			If FileType(ErrorFile)=0 Then
@@ -13618,10 +13643,12 @@ Function CatchErrors(location$,fatal%=False)
 				WriteLine errF,"--------------------------------------------------------------"
 				WriteLine errF,"Stack Information:"
 				WriteLine errF,"    Stack line trace:"
-				WriteLine errF,"        "+GetLineTrace()
 				WriteLine errF,"    "
+				WriteLine errF,GetFullLineTrace()
+				;WriteLine errF,"    "
 				WriteLine errF,"    Stack address backtrace:"
-				WriteLine errF,"        "+GetAddressTrace()
+				WriteLine errF,"    "
+				WriteLine errF,GetFullAddressTrace()
 				WriteLine errF,"--------------------------------------------------------------"
 				WriteLine errF,"Error(s):"
 			Else
@@ -13647,7 +13674,7 @@ Function CatchErrors(location$,fatal%=False)
 					;errStr$ = ""
 				Wend
 			EndIf
-			Msg = "The mod dev has fucked up and did something to cause a Blitz3D Error! Details in "+Chr(34)+ErrorFile+Chr(34)
+			Msg = "One or more Blitz3D Errors were caught! Details in "+Chr(34)+ErrorFile+Chr(34)
 			MsgTimer = 20*70
 			WriteLine errF,"--------------------------------------------------------------"
 			CloseFile errF
@@ -13815,7 +13842,7 @@ Function PlayStartupVideos()
 	
 	Local MovieFile$,i%
 	Local StartupPath$ = GetINIString(StartupVideosFile,"main","startuppath")
-	If StartupPath = "" Then RuntimeError "ERROR: "+StartupVideosFile+"\[main] must include a 'startuppath' entry."
+	If StartupPath = "" Then RuntimeError StartupVideosFile+"\[main] must Include a 'StartupPath' entry.",2
 	
 	Repeat
 		MovieFile=StartupPath+GetINIString(StartupVideosFile,"main","video"+Str c)
@@ -13852,12 +13879,12 @@ Function PlayStartupVideos()
 		
 		If (Not Movie) Then
 			PutINIValue(OptionFile,"options","play startup video", 0)
-			RuntimeError("Startup Video: "+Chr(34)+MovieFile+Chr(34)+"was not found or encountered an error being loaded. Startup Videos will not be played upon the next launch of this game.")
+			RuntimeError("Startup Video: "+Chr(34)+MovieFile+Chr(34)+"was not found or encountered an error being loaded. Startup Videos will not be played upon the next launch of this game.",2)
 		EndIf
 		Local SplashScreenAudio% = StreamSound_Strict(MovieFile+".ogg",SFXVolume,0)
 		If (Not SplashScreenAudio)
 			PutINIValue(OptionFile,"options","play startup video", 0)
-			RuntimeError("The accompanying audio for: "+Chr(34)+MovieFile+Chr(34)+" was not found or encountered an error being loaded. Startup Videos will not be played upon the next launch of this game.")
+			RuntimeError("The accompanying audio for: "+Chr(34)+MovieFile+Chr(34)+" was not found or encountered an error being loaded. Startup Videos will not be played upon the next launch of this game.",2)
 		EndIf
 		Repeat
 			Cls()

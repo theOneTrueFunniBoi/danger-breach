@@ -44,7 +44,7 @@ Global G_viewport_height = G_desktop_screen_height
 ; -- Get the OS handle of the app window.
 Global G_app_handle = SystemProperty( "AppHWND" )
 
-If Not Windowed3D() Then RuntimeError "FATAL ERROR: Your computer does not support the rendering of 3D graphics within a window."
+If Not Windowed3D() Then RuntimeError "FATAL ERROR: Your computer does not support the rendering of 3D graphics within a window.",3
 
 ;Graphics3D G_viewport_width, G_viewport_height, 0, 2
 

@@ -2018,7 +2018,7 @@ Function InitLoadingScreens(file$)
 End Function
 
 Function DrawLoading(percent%, shortloading=False, hideCur=False, autoClose=False)
-	CatchErrors("Uncaught (DrawLoading)")
+	CatchErrors("Uncaught (DrawLoading)",True)
 	
 	Local x%, y%
 	
@@ -2313,7 +2313,7 @@ Function DrawLoading(percent%, shortloading=False, hideCur=False, autoClose=Fals
 		If (percent <> 100 Or autoClose=True) Then Exit
 		
 	Until (GetKey()<>0 Or MouseHit(1))
-	CatchErrors("DrawLoading")
+	CatchErrors("DrawLoading",True)
 End Function
 
 Function UpdateLoading()

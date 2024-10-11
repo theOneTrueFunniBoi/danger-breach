@@ -135,13 +135,13 @@ Function LoadSubtitles(name$);aquire subtitles
 	Local subtitlesSearchPath$ = "Data\lang\"+SelectedLanguage	
 	If FileType(subtitlesSearchPath)=0 Then
 		PutINIValue(OptionFile,"audio","subtitlesLanguage","English")
-		RuntimeError("FATAL ERROR: SUBTITLES LANGUAGE DOES NOT EXIST: '"+subtitlesSearchPath+"'. ENTRY WILL BE RESET UPON NEXT STARTUP.")
+		RuntimeError("SUBTITLES LANGUAGE DOES NOT EXIST: '"+subtitlesSearchPath+"'. ENTRY WILL BE RESET UPON NEXT STARTUP.")
 	EndIf
 	
 	subtitlesSearchPath=subtitlesSearchPath+"\subtitles.ini"
 	
 	If FileType(subtitlesSearchPath)=0 Then
-		RuntimeError("FATAL ERROR: ILLEGAL SUBTITLES LANGUAGE: '"+subtitlesSearchPath+"'. LANGUAGE MUST INCLUDE 'subtitles.ini'.")
+		RuntimeError("ILLEGAL SUBTITLES LANGUAGE: '"+subtitlesSearchPath+"'. LANGUAGE MUST INCLUDE 'subtitles.ini'.")
 	EndIf
 	
 	DebugLog name

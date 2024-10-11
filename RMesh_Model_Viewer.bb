@@ -838,7 +838,7 @@ Function LoadRMesh(file$)
 					
 					DebugLog "Attempted To Init Prob Obj: 'GFX\Map\Props\"+file+"'."
 					
-					If (Not model) Then RuntimeErrorNoTrace("PropObject: 'GFX\Map\Props\"+file+"' faiiled to load.")
+					If (Not model) Then RuntimeError("PropObject: 'GFX\Map\Props\"+file+"' faiiled to load.")
 					
 					temp1=ReadFloat(f) : temp2=ReadFloat(f) : temp3=ReadFloat(f)
 					PositionEntity model,temp1/10,temp2/10,temp3/10

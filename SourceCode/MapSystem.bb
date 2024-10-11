@@ -712,7 +712,7 @@ Function LoadRMesh(file$,rt.RoomTemplates)
 					
 					DebugLog "Attempted To Init Prob Obj: 'GFX\Map\Props\"+file+"'."
 					
-					If (Not model) Then RuntimeErrorNoTrace("PropObject: 'GFX\Map\Props\"+file+"' faiiled to load. RoomMesh that requested the model: '"+FileNameStore+"'.")
+					If (Not model) Then RuntimeError("PropObject: 'GFX\Map\Props\"+file+"' faiiled to load. RoomMesh that requested the model: '"+FileNameStore+"'.")
 					
 					temp1=ReadFloat(f) : temp2=ReadFloat(f) : temp3=ReadFloat(f)
 					PositionEntity model,temp1,temp2,temp3
@@ -974,7 +974,7 @@ Function LoadSirenMesh(file$) ;stripped down rmesh
 	;hiddenMesh=CreateMesh()
 	
 	count=ReadInt(f) ;invisible collision mesh
-	If count > 0 Then RuntimeError("FATAL ERROR: SirenMeshs cannot contain invisible collision. SirenMesh in question: "+Chr(34)+file+Chr(34))
+	If count > 0 Then RuntimeError("FATAL ERROR: SirenMeshs cannot contain invisible collision. SirenMesh in question: "+Chr(34)+file+Chr(34),2)
 	;For i%=1 To count
 	;	surf=CreateSurface(hiddenMesh)
 	;	count2=ReadInt(f) ;vertices
@@ -997,23 +997,23 @@ Function LoadSirenMesh(file$) ;stripped down rmesh
 		temp1s=ReadString(f)
 		Select temp1s
 			Case "screen"
-				RuntimeError("FATAL ERROR: SirenMeshes cannot contain non-light point entites. SirenMesh in question: "+Chr(34)+file+Chr(34))
+				RuntimeError("FATAL ERROR: SirenMeshes cannot contain non-light point entites. SirenMesh in question: "+Chr(34)+file+Chr(34),2)
 				
 			Case "waypoint"
-				RuntimeError("FATAL ERROR: SirenMeshes cannot contain non-light point entites. SirenMesh in question: "+Chr(34)+file+Chr(34))
+				RuntimeError("FATAL ERROR: SirenMeshes cannot contain non-light point entites. SirenMesh in question: "+Chr(34)+file+Chr(34),2)
 				
 			Case "light"
 				
 			Case "spotlight"
 				
 			Case "soundemitter"
-				RuntimeError("FATAL ERROR: SirenMeshes cannot contain non-light point entites. SirenMesh in question: "+Chr(34)+file+Chr(34))
+				RuntimeError("FATAL ERROR: SirenMeshes cannot contain non-light point entites. SirenMesh in question: "+Chr(34)+file+Chr(34),2)
 				
 			Case "playerstart"
-				RuntimeError("FATAL ERROR: SirenMeshes cannot contain non-light point entites. SirenMesh in question: "+Chr(34)+file+Chr(34))
+				RuntimeError("FATAL ERROR: SirenMeshes cannot contain non-light point entites. SirenMesh in question: "+Chr(34)+file+Chr(34),2)
 				
 			Case "model"
-				RuntimeError("FATAL ERROR: SirenMeshes cannot contain non-light point entites. SirenMesh in question: "+Chr(34)+file+Chr(34))
+				RuntimeError("FATAL ERROR: SirenMeshes cannot contain non-light point entites. SirenMesh in question: "+Chr(34)+file+Chr(34),2)
 				
 		End Select
 	Next
