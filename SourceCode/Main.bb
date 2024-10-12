@@ -10426,11 +10426,11 @@ Function NullGame(playbuttonsfx%=True)
 			EndIf
 		Next
 		
-		For h=0 To MaxRoomObjects
-			If r\Levers[h] <> 0
-			;	FreeEntity(r\Levers[h]) : r\Levers[h] = 0
-			EndIf
-		Next
+		;For h=0 To MaxRoomObjects
+		;	If r\Levers[h] <> 0
+		;	;	FreeEntity(r\Levers[h]) : r\Levers[h] = 0
+		;	EndIf
+		;Next
 		
 		For j=0 To MaxAlarmObjects
 			If r\SpinningAlarmLight[j] <> 0 Then

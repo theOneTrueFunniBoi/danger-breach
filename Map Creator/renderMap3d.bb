@@ -3,7 +3,7 @@ Const C_WS_POPUP = $80000000
 Const C_HWND_TOP = 0
 Const C_SWP_SHOWWINDOW = $0040
 
-Global versionnumber$ = "2.2"
+Global VersionNumber$ = "2.2"
 
 Const ClrR = 50, ClrG = 50, ClrB = 50
 
@@ -37,7 +37,7 @@ Global CursorColorR% = GetINIInt("options.INI","3d scene","cursor color R")
 Global CursorColorG% = GetINIInt("options.INI","3d scene","cursor color G")
 Global CursorColorB% = GetINIInt("options.INI","3d scene","cursor color B")
 CameraClsColor Camera,CamColorR,CamColorG,CamColorB
-Global CamRange# = GetINIFloat("options.INI","3d scene","camera range")
+Global CamRange# = GetINIInt("options.INI","3d scene","camera range")
 CameraRange Camera,0.05,CamRange
 PositionEntity Camera,0,1,0
 
@@ -77,7 +77,7 @@ Global MenuOpen% = True
 
 Const ROOM1% = 1, ROOM2% = 2, ROOM2C% = 3, ROOM3% = 4, ROOM4% = 5
 
-Global Font1 = LoadFont("..\GFX\cour.ttf", 16)
+Global Font1 = LoadFont("..\GFX\Fonts\cour\Courier New.ttf", 16)
 
 Global RoomTempID%
 
@@ -133,9 +133,9 @@ FreeTextureCache
 
 ChangeDir "Map Creator"
 
-Global ShowFPS% = GetINIInt("options.ini", "3d scene", "show fps")
+Global showfps% = GetINIInt("options.ini", "3d scene", "show fps")
 Global CheckFPS%, ElapsedLoops%, FPS%
-Global VSync% = GetINIInt("options.ini", "3d scene", "vsync")
+Global Vsync% = GetINIInt("options.ini", "3d scene", "vsync")
 Global AdjDoorPlace% = GetINIInt("options.ini", "3d scene", "adjdoors_place")
 
 Global MXS#=0.0,MYS#=0.0
@@ -159,7 +159,7 @@ Global ElapsedTime#
 
 Repeat
 	Cls
-	If ShowFPS
+	If showfps
 		If CheckFPS < MilliSecs2() Then
 			FPS = ElapsedLoops
 			ElapsedLoops = 0
@@ -183,8 +183,8 @@ Repeat
 		CursorColorG = ReadInt(f)
 		CursorColorB = ReadInt(f)
 		CamRange = ReadInt(f)
-		VSync = ReadByte(f)
-		ShowFPS = ReadByte(f)
+		Vsync = ReadByte(f)
+		showfps = ReadByte(f)
 		AdjDoorPlace = ReadByte(f)
 		
 		CamRange = Max(CamRange,20)
@@ -549,7 +549,7 @@ Repeat
 	
 	If (Not IsRemote)
 		SetFont Font1
-		If ShowFPS
+		If showfps
 			Color 0,0,0
 			Rect 2,2,StringWidth("FPS: "+FPS),StringHeight("FPS: "+FPS)
 			
@@ -604,13 +604,14 @@ Repeat
 		Rect (ResWidth/2)-2.5,(ResHeight/2)+5,5,20,True
 	EndIf
 	
-	If VSync
+	If Vsync
 		Flip True
 	Else
 		Flip False
 	EndIf
-Until api_FindWindow( "BlitzMax_Window_Class" , "SCP-DB Map Builder "+versionnumber) = 0
-End
+	
+	If (api_FindWindow( "BlitzMax_Window_Class" , "SCP-DB Map Builder "+VersionNumber) = 0) Then End
+Forever
 
 
 
@@ -2148,7 +2149,5 @@ End Function
 
 
 ;~IDEal Editor Parameters:
-;~F#258#263#26E#2A7#306#322#349#368#36C#371#37F#39C#3D9#406#414#423#42B#453#45A#461
-;~F#468#481#489#491#5DE#5EE#5FF#615#62A#638#63C#68C#69A#6A2#6A9#6AD#6B1#6DF#6F6#709
-;~F#715#71B#726#72C#768#7DF
+;~F#63D#71C
 ;~C#Blitz3D
