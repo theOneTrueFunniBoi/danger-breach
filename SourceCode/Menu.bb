@@ -1239,7 +1239,7 @@ Function UpdateMainMenu()
 					
 					Color 255,255,255
 					AAText(x + 20 * MenuScale, y, "Show FPS:")
-					ShowFPS% = DrawTick(x + 310 * MenuScale, y + MenuScale, ShowFPS%)
+					showfps% = DrawTick(x + 310 * MenuScale, y + MenuScale, showfps%)
 					If MouseOn(x+310*MenuScale,y+MenuScale,20*MenuScale,20*MenuScale)
 						DrawOptionsTooltip(tx,ty,tw,th,"showfps")
 					EndIf

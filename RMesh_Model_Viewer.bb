@@ -812,7 +812,8 @@ Function LoadRMesh(file$)
 						temp1i=1
 						Exit
 					EndIf
-				Next*/
+				Next
+				*/
 				
 				;If temp1i=0 Then
 					ReadFloat(f)

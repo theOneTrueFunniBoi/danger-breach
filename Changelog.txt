@@ -1,6 +1,7 @@
 Danger Breach v2.3.3
 Save Files From DB 2.3.2 are compatible with DB 2.3.3
 -Updated to Blitz3D SoLoud: MAVLess Edition
+-DgVoodoo2 is now in place to make the game run less shit
 -Highly improved save file generation and handling
 (Now allows for upgrading save files from a previous format)
 -Guards now have Cell Phones

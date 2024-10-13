@@ -13146,10 +13146,10 @@ Function Graphics3DExt%(width%,height%,depth%=32,mode%=2)
 End Function
 
 Function ResizeImage2(image%,width%,height%)
-    img% = CreateImage(width,height)
+    Local img% = CreateImage(width,height)
 	
-	oldWidth% = ImageWidth(image)
-	oldHeight% = ImageHeight(image)
+	Local oldWidth% = ImageWidth(image)
+	Local oldHeight% = ImageHeight(image)
 	CopyRect 0,0,oldWidth,oldHeight,1024-oldWidth/2,1024-oldHeight/2,ImageBuffer(image),TextureBuffer(fresize_texture)
 	SetBuffer BackBuffer()
 	ScaleRender(0,0,2048.0 / Float(RealGraphicWidth) * Float(width) / Float(oldWidth), 2048.0 / Float(RealGraphicWidth) * Float(height) / Float(oldHeight))
@@ -13157,7 +13157,8 @@ Function ResizeImage2(image%,width%,height%)
 	;everyone uses landscape so it's probably a non-issue
 	CopyRect RealGraphicWidth/2-width/2,RealGraphicHeight/2-height/2,width,height,0,0,BackBuffer(),ImageBuffer(img)
 	
-    FreeImage image
+    FreeImage image	oldWidth = 0
+	oldHeight = 0
     Return img
 End Function
 
