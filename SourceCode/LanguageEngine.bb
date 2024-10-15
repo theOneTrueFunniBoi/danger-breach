@@ -1,4 +1,11 @@
-;shittiest subtitles engine ever
+;------------------------------------------------
+;      FUNNIMAN'S DYNAMIC LANGUAGE ENGINE
+;  "this is really shit" - FUNNIMAN.EXE, 2024
+;
+;            (c) 2024 funniman.exe
+;           (c) 2024 Action Software
+;            (c) 2024 Action Games
+;------------------------------------------------
 
 Global SubTimer#, SubText$, SubText2$, SubText3$, SubText4$, SubText5$, SubY#, SubLine#, SubDelay#;, NumActiveSubtitles% ; for when you decide to allow multiple subtitles at once oscar
 
@@ -59,7 +66,8 @@ Function UpdateSubMSG();update subtitles
 					SubTimer = 0.0
 					SubY = 0.0
 					SubLine = 0.0
-					SubDelay = 0.0					
+					SubDelay = 0.0
+					
 					;NumActiveSubtitles = NumActiveSubtitles -1
 					
 					DebugLog "Sub(s) reset"
@@ -121,6 +129,28 @@ Function DrawSubMSG();draw subtitles to screen
 	
 End Function
 
+Function LoadLanguageString$(file$,name$,param$="text")
+	Local searchPath$ = "Data\lang\"+SelectedLanguage	
+	Local tmp$
+	
+	If FileType(searchPath)=0 Then
+		PutINIValue(OptionFile,"audio","subtitlesLanguage","English")
+		RuntimeError("LANGUAGE DOES NOT EXIST: '"+searchPath+"'. ENTRY WILL BE RESET UPON NEXT STARTUP.")
+	EndIf
+	
+	searchPath=searchPath+"\"+file
+	
+	If FileType(searchPath)=0 Then RuntimeError("ILLEGAL LANGUAGE: '"+searchPath+"'. LANGUAGE MUST INCLUDE '"+file+"'.")
+	
+	DebugLog name
+
+	tmp$ = GetINIString(searchPath, name, param)
+	If tmp$ = "" Then tmp = name
+	
+	Return tmp
+
+End Function
+
 Function LoadSubtitles(name$);aquire subtitles
 	
 	Local TempFloat# = 0
@@ -132,17 +162,16 @@ Function LoadSubtitles(name$);aquire subtitles
 	Local TempStr6$ = ""
 	Local TempStr7$ = ""
 	
-	Local subtitlesSearchPath$ = "Data\lang\"+SelectedLanguage	
+	Local subtitlesSearchPath$ = "Data\lang\"+SelectedLanguage
+	
 	If FileType(subtitlesSearchPath)=0 Then
 		PutINIValue(OptionFile,"audio","subtitlesLanguage","English")
-		RuntimeError("SUBTITLES LANGUAGE DOES NOT EXIST: '"+subtitlesSearchPath+"'. ENTRY WILL BE RESET UPON NEXT STARTUP.")
+		RuntimeError("LANGUAGE DOES NOT EXIST: '"+subtitlesSearchPath+"'. ENTRY WILL BE RESET UPON NEXT STARTUP.")
 	EndIf
 	
-	subtitlesSearchPath=subtitlesSearchPath+"\subtitles.ini"
+	subtitlesSearchPath=subtitlesSearchPath+"\"+langSubtitlesF
 	
-	If FileType(subtitlesSearchPath)=0 Then
-		RuntimeError("ILLEGAL SUBTITLES LANGUAGE: '"+subtitlesSearchPath+"'. LANGUAGE MUST INCLUDE 'subtitles.ini'.")
-	EndIf
+	If FileType(subtitlesSearchPath)=0 Then RuntimeError("ILLEGAL LANGUAGE: '"+subtitlesSearchPath+"'. LANGUAGE MUST INCLUDE '"+langSubtitlesF+"'.")
 	
 	DebugLog name
 	

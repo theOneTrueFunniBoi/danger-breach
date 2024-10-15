@@ -23,6 +23,8 @@ Color 255,255,255
 Text 5,5,"Initializing..."
 Flip
 
+Const langMenuF$="menu.ini", langLauncherF$="launcher.ini", langSubtitlesF$="subtitles.ini"
+
 Global ShowLogoTime%=0
 
 Global ManuallyInitiateError%=False
@@ -154,7 +156,7 @@ If FileSize(OptionFile)=0 Then
 	EndIf
 EndIf
 
-Include "SourceCode\SubtitlesEngine.bb"
+Include "SourceCode\LanguageEngine.bb"
 
 Text 5,65,"Subtitles engine"
 
@@ -13157,7 +13159,8 @@ Function ResizeImage2(image%,width%,height%)
 	;everyone uses landscape so it's probably a non-issue
 	CopyRect RealGraphicWidth/2-width/2,RealGraphicHeight/2-height/2,width,height,0,0,BackBuffer(),ImageBuffer(img)
 	
-    FreeImage image	oldWidth = 0
+    FreeImage image
+	oldWidth = 0
 	oldHeight = 0
     Return img
 End Function

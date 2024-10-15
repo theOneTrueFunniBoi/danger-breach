@@ -1748,7 +1748,7 @@ Function UpdateLauncher()
 		Color 255, 255, 255
 		DrawImage(LauncherIMG, 0, 0)
 		
-		Text(20, 240 - 67.5, "Resolution: ")
+		Text(20, 240 - 67.5, LoadLanguageString(langLauncherF,"str_resolution"))
 		
 		Local x% = 40
 		Local y% = 270 - 65
@@ -1773,7 +1773,7 @@ Function UpdateLauncher()
 		y = 489
 		DrawTiledImageRect(MenuWhite, (x Mod 256), (y Mod 256), 512, 512, x - 10, y, 340, 95)
 		;Rect(x - 10, y, 340, 95)
-		Text(x - 10, y - 30, "Graphics:")
+		Text(x - 10, y - 30, LoadLanguageString(langLauncherF,"str_graphics"))
 		
 		y=y+10
 		For i = 1 To CountGfxDrivers()
@@ -1785,7 +1785,7 @@ Function UpdateLauncher()
 			If SelectedGFXDriver = i Then Rect(x - 1, y - 1, 290, 20, False)
 			;text(x, y, bbGfxDriverName(i))
 			If i = 1
-				LimitText("Primary Graphics Card", x, y, 290, False)
+				LimitText(LoadLanguageString(langLauncherF,"str_gfx_primary"), x, y, 290, False)
 			Else
 				LimitText(GfxDriverName(i), x, y, 290, False)
 			EndIf
@@ -1799,7 +1799,7 @@ Function UpdateLauncher()
 		Next
 		
 		Fullscreen = DrawTick(40 + 430 - 15, 260 - 55 + 5 - 8, Fullscreen, BorderlessWindowed)
-		BorderlessWindowed = DrawTick(40 + 430 - 15, 260 - 55 + 35, BorderlessWindowed)
+		BorderlessWindowed = DrawTick(40 + 430 - 15, 260 - 55 + 35, BorderlessWindowed, Fullscreen)
 		lock% = False
 		
 		If BorderlessWindowed Or (Not Fullscreen) Then lock% = True
@@ -1813,77 +1813,89 @@ Function UpdateLauncher()
 			Color 255, 255, 255
 		EndIf
 		
-		Text(40 + 430 + 15, 262 - 55 + 5 - 8, "Fullscreen")
-		Color 255, 255, 255
-		Text(40 + 430 + 15, 262 - 55 + 35 - 8, "Borderless",False,False)
-		Text(40 + 430 + 15, 262 - 55 + 35 + 12, "windowed mode",False,False)
+		Text(40 + 430 + 15, 262 - 55 + 5 - 8, LoadLanguageString(langLauncherF,"str_fullscreen"))
+		If FullScreen
+			Color 255, 0, 0
+			BorderlessWindowed = False
+		Else
+			Color 255, 255, 255
+		EndIf
+		Text(40 + 430 + 15, 262 - 55 + 35 - 8, LoadLanguageString(langLauncherF,"str_fake_fullscreen"),False,False)
+		Text(40 + 430 + 15, 262 - 55 + 35 + 12, LoadLanguageString(langLauncherF,"str_fake_fullscreen","text2"),False,False)
 		
-		If BorderlessWindowed Or (Not Fullscreen)
+		If Not Fullscreen
 			Color 255, 0, 0
 			Bit16Mode = False
 		Else
 		    Color 255, 255, 255
 		EndIf
 		
-		Text(40 + 430 + 15, 262 - 55 + 65 + 8, "16 Bit")
+		Text(40 + 430 + 15, 262 - 55 + 65 + 8, LoadLanguageString(langLauncherF,"str_16bit"))
 		Color 255, 255, 255
-		Text(40 + 430 + 15, 262 - 55 + 95 + 8, "Use launcher")
+		Text(40 + 430 + 15, 262 - 55 + 95 + 8, LoadLanguageString(langLauncherF,"str_enable_launcher"))
 		
 		If (Not BorderlessWindowed)
 			If Fullscreen
-			Text(40+ 260 + 15, 489 - 30, "Current Resolution: "+(GfxModeWidths(SelectedGFXMode) + "x" + GfxModeHeights(SelectedGFXMode) + "," + (16+(16*(Not Bit16Mode)))))
+			Text(40+ 260 + 15, 489 - 30, LoadLanguageString(langLauncherF,"str_cur_res")+(GfxModeWidths(SelectedGFXMode) + "x" + GfxModeHeights(SelectedGFXMode) + "," + (16+(16*(Not Bit16Mode)))))
 			Else
-			Text(40+ 260 + 15, 489 - 30, "Current Resolution: "+(GfxModeWidths(SelectedGFXMode) + "x" + GfxModeHeights(SelectedGFXMode) + ",32"))
+			Text(40+ 260 + 15, 489 - 30, LoadLanguageString(langLauncherF,"str_cur_res")+(GfxModeWidths(SelectedGFXMode) + "x" + GfxModeHeights(SelectedGFXMode) + ",32"))
 			EndIf
 		Else
-		Text(40+ 260 + 15, 489 - 30, "Current Resolution: "+GfxModeWidths(SelectedGFXMode) + "x" + GfxModeHeights(SelectedGFXMode) + ",32")
+		Text(40+ 260 + 15, 489 - 30, LoadLanguageString(langLauncherF,"str_cur_res")+GfxModeWidths(SelectedGFXMode) + "x" + GfxModeHeights(SelectedGFXMode) + ",32")
 			If GfxModeWidths(SelectedGFXMode)<G_viewport_width Then
-			Text(40+ 260 + 65, 489 - 10, "(upscaled to")
+			Text(40+ 260 + 65, 489 - 10, LoadLanguageString(langLauncherF,"str_upscaled"))
 			Text(40+ 260 + 77.5, 489 + 10, G_viewport_width + "x" + G_viewport_height + ",32)")
 			ElseIf GfxModeWidths(SelectedGFXMode)>G_viewport_width Then
-			Text(40+ 260 + 65, 489 - 10, "(downscaled to")
+			Text(40+ 260 + 65, 489 - 10, LoadLanguageString(langLauncherF,"str_downscaled"))
 			Text(40+ 260 + 77.5, 489 + 10, G_viewport_width + "x" + G_viewport_height + ",32)")
 			EndIf
 		EndIf
 		
 		UpdateCheckEnabled = DrawTick(LauncherWidth - 275, LauncherHeight - 50, UpdateCheckEnabled)
 		Color 255,255,255
-		Text LauncherWidth-250,LauncherHeight-70,"Check for"
-		Text LauncherWidth-250,LauncherHeight-50,"updates on"
-		Text LauncherWidth-250,LauncherHeight-30,"launch"
+		Text LauncherWidth-250,LauncherHeight-70,LoadLanguageString(langLauncherF,"str_check_updates")
+		Text LauncherWidth-250,LauncherHeight-50,LoadLanguageString(langLauncherF,"str_check_updates","text2")
+		Text LauncherWidth-250,LauncherHeight-30,LoadLanguageString(langLauncherF,"str_check_updates","text3")
 		
-		If DrawButton(LauncherWidth - 30 - 120, LauncherHeight - 50 - 220, 140, 30, "LAUNCH GAME", False, False, False) Then
-		GraphicWidth = GfxModeWidths(SelectedGFXMode)
-		GraphicHeight = GfxModeHeights(SelectedGFXMode)
-		RealGraphicWidth = GraphicWidth
-		RealGraphicHeight = GraphicHeight
-		DebugLog "GFX Driver is "+SelectedGFXDriver
-		SetGfxDriver(SelectedGFXDriver)
-		Font1 = LoadFont_Strict("GFX\font\cour\Courier New.ttf", 18, 0,0,0)
-		Exit
+		If DrawButton(LauncherWidth - 30 - 120, LauncherHeight - 40 - 200, 140, 30, LoadLanguageString(langLauncherF,"btn_launch"), False, False, False) Then
+			GraphicWidth = GfxModeWidths(SelectedGFXMode)
+			GraphicHeight = GfxModeHeights(SelectedGFXMode)
+			RealGraphicWidth = GraphicWidth
+			RealGraphicHeight = GraphicHeight
+			DebugLog "GFX Driver is "+SelectedGFXDriver
+			SetGfxDriver(SelectedGFXDriver)
+			Font1 = LoadFont_Strict("GFX\font\cour\Courier New.ttf", 18, 0,0,0)
+			Exit
+		EndIf		
+		
+		If DrawButton(LauncherWidth - 30 - 120, LauncherHeight - 40 - 160, 140, 30, LoadLanguageString(langLauncherF,"btn_dgvoodoo_config"), False, False, False) Then
+			If FileSize("dgVoodooCpl.exe")=0 Then RuntimeError("ILLEGAL APPLICATION '../dgVoodooCpl.exe', file size is zero or file simply does not exist.")
+			ExecFile("dgVoodooCpl.exe")
+			WillExit=True
+			Exit
 		EndIf
 		
-		If DrawButton(LauncherWidth - 30 - 120, LauncherHeight - 50 - 165, 140, 30, "MAP BUILDER", False, False, False) Then
+		If DrawButton(LauncherWidth - 30 - 120, LauncherHeight - 40 - 120, 140, 30, LoadLanguageString(langLauncherF,"btn_map_builder"), False, False, False) Then
 			ChangeDir "Map Creator"
-			If FileSize("MapBuilder.exe")=0 Then RuntimeError("Could not open '../Map Creator/MapBuilder.exe', file is invalid or simply does not exist.")
+			If FileSize("MapBuilder.exe")=0 Then RuntimeError("ILLEGAL APPLICATION '../Map Creator/MapBuilder.exe', file size is zero or file simply does not exist.")
 			ExecFile("MapBuilder.exe")
 			WillExit=True
 			Exit
 		EndIf
 		
-		If DrawButton(LauncherWidth - 30 - 115, LauncherHeight - 50 - 110, 130, 30, "RMESH VIEW", False, False, False) Then
-			If FileSize("RMesh_Model_Viewer.exe")=0 Then RuntimeError("Could not open '../RMesh_Model_Viewer.exe', file is invalid or simply does not exist.")
+		If DrawButton(LauncherWidth - 30 - 110, LauncherHeight - 40 - 80, 130, 30, LoadLanguageString(langLauncherF,"btn_rmesh_viewer"), False, False, False) Then
+			If FileSize("RMesh_Model_Viewer.exe")=0 Then RuntimeError("ILLEGAL APPLICATION '../RMesh_Model_Viewer.exe', file size is zero or file simply does not exist.")
 			ExecFile("RMesh_Model_Viewer.exe")
 			WillExit=True
 			Exit
 		EndIf
 		
-		If DrawButton(LauncherWidth - 30 - 110, LauncherHeight - 50 - 55, 120, 30, "CHANGELOG", False, False, False) Then
-			If FileSize("Changelog.txt")=0 Then RuntimeError("Could not open '../Changelog.txt', file is invalid or simply does not exist.")
+		If DrawButton(LauncherWidth - 30 - 100, LauncherHeight - 40 - 40, 120, 30, LoadLanguageString(langLauncherF,"btn_changelog"), False, False, False) Then
+			If FileSize("Changelog.txt")=0 Then RuntimeError("ILLEGAL APPLICATION '../Changelog.txt', file size is zero or file simply does not exist.")
 			ExecFile("Changelog.txt")
 		End If
 		
-		If DrawButton(LauncherWidth - 30 - 100, LauncherHeight - 50, 100, 30, "EXIT", False, False, False) Then
+		If DrawButton(LauncherWidth - 30 - 80, LauncherHeight - 40, 100, 30, LoadLanguageString(langLauncherF,"btn_exit"), False, False, False) Then
 			WillExit=True
 			Exit
 		EndIf
