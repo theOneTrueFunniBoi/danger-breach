@@ -42,6 +42,14 @@ Function LoadAnimImage_Strict(file$,fCellwidth,fCellheight,fFirst,fCount)
 End Function
 
 
+Function ExecFile_Strict(file$,newDir$="")
+	If (Not newDir = "") Then ChangeDir(newDir)	
+	If (FileType(file) = 0) Then RuntimeError("ILLEGAL APPLICATION '"+file+"', file does not exist.")
+	If (FileSize(file) = 0) Then RuntimeError("ILLEGAL APPLICATION '"+file+"', file size is zero.")
+	ExecFile(file)
+End Function
+
+
 Type Sound
 	Field internalHandle%
 	Field name$

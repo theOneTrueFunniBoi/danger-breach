@@ -1718,7 +1718,9 @@ Function UpdateLauncher()
 	Next
 	
 	BlinkMeterIMG% = LoadImage_Strict("GFX\blinkmeter.jpg")
-	CheckForUpdates()
+	CheckForUpdates()	
+	
+	Local inRmeshTools = False
 	
 	AppTitle GameIdent+GameIdentStrSeperator+"v"+VersionNumber+" - Launcher"
 	
@@ -1762,7 +1764,7 @@ Function UpdateLauncher()
 		Color 255, 255, 255
 		x = 30
 		y = 489
-		DrawTiledImageRect(MenuWhite, (x Mod 256), (y Mod 256), 512, 512, x - 10, y, 340, 95)
+		DrawTiledImageRect(MenuWhite, (x Mod 256), (y Mod 256), 512, 512, x - 10, y, 431, 95)
 		;Rect(x - 10, y, 340, 95)
 		Text(x - 10, y - 30, LoadLanguageString(langLauncherF,"str_graphics"))
 		
@@ -1773,16 +1775,16 @@ Function UpdateLauncher()
 			If GfxDriverName(SelectedGFXDriver) = ""
 				SelectedGFXDriver = 1
 			EndIf
-			If SelectedGFXDriver = i Then Rect(x - 1, y - 1, 290, 20, False)
+			If SelectedGFXDriver = i Then Rect(x - 1, y - 1, 411, 20, False)
 			;text(x, y, bbGfxDriverName(i))
 			If i = 1
-				LimitText(LoadLanguageString(langLauncherF,"str_gfx_primary"), x, y, 290, False)
+				LimitText(LoadLanguageString(langLauncherF,"str_gfx_primary"), x, y, 411, False)
 			Else
-				LimitText(GfxDriverName(i), x, y, 290, False)
+				LimitText(GfxDriverName(i), x, y, 411, False)
 			EndIf
-			If MouseOn(x - 1, y - 1, 290, 20) Then
+			If MouseOn(x - 1, y - 1, 411, 20) Then
 				Color 100, 100, 100
-				Rect(x - 1, y - 1, 290, 20, False)
+				Rect(x - 1, y - 1, 411, 20, False)
 				If MouseHit1 Then SelectedGFXDriver = i
 			EndIf
 			
@@ -1832,13 +1834,13 @@ Function UpdateLauncher()
 			Text(40+ 260 + 15, 489 - 30, LoadLanguageString(langLauncherF,"str_cur_res")+(GfxModeWidths(SelectedGFXMode) + "x" + GfxModeHeights(SelectedGFXMode) + ",32"))
 			EndIf
 		Else
-		Text(40+ 260 + 15, 489 - 30, LoadLanguageString(langLauncherF,"str_cur_res")+GfxModeWidths(SelectedGFXMode) + "x" + GfxModeHeights(SelectedGFXMode) + ",32")
+			Text(40+ 260 + 15, 489 - 30, LoadLanguageString(langLauncherF,"str_cur_res")+GfxModeWidths(SelectedGFXMode) + "x" + GfxModeHeights(SelectedGFXMode) + ",32")
 			If GfxModeWidths(SelectedGFXMode)<G_viewport_width Then
-			Text(40+ 260 + 65, 489 - 10, LoadLanguageString(langLauncherF,"str_upscaled"))
-			Text(40+ 260 + 77.5, 489 + 10, G_viewport_width + "x" + G_viewport_height + ",32)")
+				Text(40+ 360 + 65, 489 - 10, LoadLanguageString(langLauncherF,"str_upscaled"))
+				Text(40+ 360 + 77.5, 489 + 10, G_viewport_width + "x" + G_viewport_height + ",32)")
 			ElseIf GfxModeWidths(SelectedGFXMode)>G_viewport_width Then
-			Text(40+ 260 + 65, 489 - 10, LoadLanguageString(langLauncherF,"str_downscaled"))
-			Text(40+ 260 + 77.5, 489 + 10, G_viewport_width + "x" + G_viewport_height + ",32)")
+				Text(40+ 360 + 65, 489 - 10, LoadLanguageString(langLauncherF,"str_downscaled"))
+				Text(40+ 360 + 77.5, 489 + 10, G_viewport_width + "x" + G_viewport_height + ",32)")
 			EndIf
 		EndIf
 		
@@ -1847,49 +1849,66 @@ Function UpdateLauncher()
 		Text LauncherWidth-250,LauncherHeight-70,LoadLanguageString(langLauncherF,"str_check_updates")
 		Text LauncherWidth-250,LauncherHeight-50,LoadLanguageString(langLauncherF,"str_check_updates","text2")
 		Text LauncherWidth-250,LauncherHeight-30,LoadLanguageString(langLauncherF,"str_check_updates","text3")
+								
+		If Not inRmeshTools Then
+			If DrawButton(LauncherWidth - 30 - 120, LauncherHeight - 40 - 200, 140, 30, LoadLanguageString(langLauncherF,"btn_launch"), False, False, False) Then
+				GraphicWidth = GfxModeWidths(SelectedGFXMode)
+				GraphicHeight = GfxModeHeights(SelectedGFXMode)
+				RealGraphicWidth = GraphicWidth
+				RealGraphicHeight = GraphicHeight
+				DebugLog "GFX Driver is "+SelectedGFXDriver
+				SetGfxDriver(SelectedGFXDriver)
+				Font1 = LoadFont_Strict("GFX\font\cour\Courier New.ttf", 18, 0,0,0)
+				Exit
+			EndIf		
+			
+			If DrawButton(LauncherWidth - 30 - 120, LauncherHeight - 40 - 160, 140, 30, LoadLanguageString(langLauncherF,"btn_dgvoodoo_config"), False, False, False) Then
+				ExecFile_Strict("dgVoodooCpl.exe")
+				WillExit=True
+				Exit
+			EndIf
+			
+			If DrawButton(LauncherWidth - 30 - 120, LauncherHeight - 40 - 120, 140, 30, LoadLanguageString(langLauncherF,"btn_map_builder"), False, False, False) Then
+				ExecFile_Strict("MapBuilder.exe","Map Creator")
+				WillExit=True
+				Exit
+			EndIf
+			
+			If DrawButton(LauncherWidth - 30 - 110, LauncherHeight - 40 - 80, 130, 30, LoadLanguageString(langLauncherF,"btn_rmesh_tools"), False, False, False) Then
+				inRmeshTools = True
+			EndIf
+			
+			If DrawButton(LauncherWidth - 30 - 100, LauncherHeight - 40 - 40, 120, 30, LoadLanguageString(langLauncherF,"btn_changelog"), False, False, False) Then
+				ExecFile_Strict("Changelog.txt")				
+			EndIf
 		
-		If DrawButton(LauncherWidth - 30 - 120, LauncherHeight - 40 - 200, 140, 30, LoadLanguageString(langLauncherF,"btn_launch"), False, False, False) Then
-			GraphicWidth = GfxModeWidths(SelectedGFXMode)
-			GraphicHeight = GfxModeHeights(SelectedGFXMode)
-			RealGraphicWidth = GraphicWidth
-			RealGraphicHeight = GraphicHeight
-			DebugLog "GFX Driver is "+SelectedGFXDriver
-			SetGfxDriver(SelectedGFXDriver)
-			Font1 = LoadFont_Strict("GFX\font\cour\Courier New.ttf", 18, 0,0,0)
-			Exit
+			If DrawButton(LauncherWidth - 30 - 80, LauncherHeight - 40, 100, 30, LoadLanguageString(langLauncherF,"btn_exit"), False, False, False) Then
+				WillExit=True
+				Exit
+			EndIf	
+		Else
+			If DrawButton(LauncherWidth - 30 - 120, LauncherHeight - 40 - 120, 140, 30, LoadLanguageString(langLauncherF,"btn_rmesh_viewer"), False, False, False) Then
+				ExecFile_Strict("RoomMeshViewer.exe","Tools")
+				WillExit=True
+				Exit
+			EndIf
+			
+			If DrawButton(LauncherWidth - 30 - 110, LauncherHeight - 40 - 80, 130, 30, LoadLanguageString(langLauncherF,"btn_rmesh_convert"), False, False, False) Then
+				ExecFile_Strict("blitz2rmesh.exe","Tools")
+				WillExit=True
+				Exit
+			EndIf
+			
+			If DrawButton(LauncherWidth - 30 - 100, LauncherHeight - 40 - 40, 120, 30, LoadLanguageString(langLauncherF,"btn_rmesh_lightmap"), False, False, False) Then
+				ExecFile_Strict("LightMapOptimizer.exe","Tools")
+				WillExit=True
+				Exit
+			EndIf
+			
+			If DrawButton(LauncherWidth - 30 - 80, LauncherHeight - 40, 100, 30, LoadLanguageString(langLauncherF,"btn_back"), False, False, False) Then
+				inRmeshTools = False				
+			EndIf
 		EndIf		
-		
-		If DrawButton(LauncherWidth - 30 - 120, LauncherHeight - 40 - 160, 140, 30, LoadLanguageString(langLauncherF,"btn_dgvoodoo_config"), False, False, False) Then
-			If FileSize("dgVoodooCpl.exe")=0 Then RuntimeError("ILLEGAL APPLICATION '../dgVoodooCpl.exe', file size is zero or file simply does not exist.")
-			ExecFile("dgVoodooCpl.exe")
-			WillExit=True
-			Exit
-		EndIf
-		
-		If DrawButton(LauncherWidth - 30 - 120, LauncherHeight - 40 - 120, 140, 30, LoadLanguageString(langLauncherF,"btn_map_builder"), False, False, False) Then
-			ChangeDir "Map Creator"
-			If FileSize("MapBuilder.exe")=0 Then RuntimeError("ILLEGAL APPLICATION '../Map Creator/MapBuilder.exe', file size is zero or file simply does not exist.")
-			ExecFile("MapBuilder.exe")
-			WillExit=True
-			Exit
-		EndIf
-		
-		If DrawButton(LauncherWidth - 30 - 110, LauncherHeight - 40 - 80, 130, 30, LoadLanguageString(langLauncherF,"btn_rmesh_viewer"), False, False, False) Then
-			If FileSize("RMesh_Model_Viewer.exe")=0 Then RuntimeError("ILLEGAL APPLICATION '../RMesh_Model_Viewer.exe', file size is zero or file simply does not exist.")
-			ExecFile("RMesh_Model_Viewer.exe")
-			WillExit=True
-			Exit
-		EndIf
-		
-		If DrawButton(LauncherWidth - 30 - 100, LauncherHeight - 40 - 40, 120, 30, LoadLanguageString(langLauncherF,"btn_changelog"), False, False, False) Then
-			If FileSize("Changelog.txt")=0 Then RuntimeError("ILLEGAL APPLICATION '../Changelog.txt', file size is zero or file simply does not exist.")
-			ExecFile("Changelog.txt")
-		End If
-		
-		If DrawButton(LauncherWidth - 30 - 80, LauncherHeight - 40, 100, 30, LoadLanguageString(langLauncherF,"btn_exit"), False, False, False) Then
-			WillExit=True
-			Exit
-		EndIf
 		Flip
 	Forever
 	

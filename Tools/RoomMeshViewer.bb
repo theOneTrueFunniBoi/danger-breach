@@ -3,6 +3,8 @@ Graphics3D 640,480,32,2
 Global texA%[2]
 
 AppTitle "---INIT---"
+;Global MainFNT% = LoadFont("..\GFX\font\Futura\FuturaBlackBT-Regular.ttf")
+;SetFont(MainFNT)
 
 Cls
 
@@ -11,6 +13,7 @@ Print "---INIT---"
 Delay 800
 Graphics3D 640,480,32,2
 AppTitle "RMesh Room Viewer is Starting, Please Wait"
+;SetFont(MainFNT)
 
 Global XE_XF,XE_MAXtextures
 
@@ -760,7 +763,8 @@ Function LoadRMesh(file$)
 			;Local tmpS$ = ReadString(f)
 			ReadString(f)
 		Next
-	EndIf	
+	EndIf
+	
 	Local rRoomScale# = 8.0 / 2048.0
 	
 	count=ReadInt(f) ;point entities
@@ -891,7 +895,7 @@ Type Props
 	Field file$
 	Field obj
 	Field RMeshFile$
-End Type
+End Type
 Function CreatePropObjA(file$)
 	Local p.Props
 	Local meshTmp$ = ""
@@ -915,9 +919,11 @@ Function stoopid()
 Delay 500
 AppTitle "RMesh Room Viewer - ERROR"
 Graphics3D 640,480,32,2
+;SetFont(MainFNT)
 Print "You must specify a file"
 Delay 1500
-Graphics3D 640,480,32,2
+Cls
+;SetFont(MainFNT)
 AppTitle "##### #### ######"
 Print "#######################"
 Print "########################################"
@@ -932,9 +938,11 @@ Function stoopid2()
 Delay 500
 AppTitle "RMesh Room Viewer - ERROR"
 Graphics3D 640,480,32,2
+;SetFont(MainFNT)
 Print "The specified RMesh is invalid or corrupt"
 Delay 1500
-Graphics3D 640,480,32,2
+Cls
+;SetFont(MainFNT)
 AppTitle "##### #### ######"
 Print "#######################"
 Print "########################################"
@@ -950,6 +958,8 @@ Function Init()
 Graphics3D 640,480,32,2
 
 Cls
+
+;SetFont(MainFNT)
 
 AppTitle "RMesh Room Viewer"
 
@@ -976,11 +986,14 @@ If fname="" Then
 stoopid()
 End If
 
+;fname="../"+fname
+;Print fname
+
 If FileSize(fname)=0 Then
 stoopid2()
 End If
 
-mesh% = LoadRMesh(fname)
+Local mesh% = LoadRMesh(fname)
 
 AppTitle "RMesh Room Viewer - "+fname
 
@@ -1081,7 +1094,7 @@ While Not KeyHit(1)
 	;TextureBumpEnvOffset bump,0.5
 	
 	Flip
-Wend
+Wend
 Local tmpA%
 
 For tmpA = 0 To 1
@@ -1089,6 +1102,9 @@ For tmpA = 0 To 1
 Next
 
 End Function
+
+ChangeDir("..")
+
 Repeat
 Init()
 Forever
