@@ -1,6 +1,6 @@
 Global BlitzcordGameStatus=0
 
-Global TimestampStart=0
+Global TimestampStart=MilliSecs()*1000
 
 BlitzcordCreateCore("1141189053409132585")
 
@@ -13,141 +13,153 @@ Function UpdateBlitzcord(gameStatusOverride=0)
 		gameStatus=BlitzcordGameStatus
 	EndIf
 	
-	If (gameStatus=0) Then
-		
-		BlitzcordSetLargeImage( "temp_icn" )
-		
-		BlitzcordSetSmallImage( "" )
-		
-		BlitzcordSetActivityDetails( "test" )
-		
-		BlitzcordSetActivityState( "test" )
-		;If (Not TimestampStart)
-			;BlitzcordSetTimestampStart( MilliSecs() )
-		;EndIf
-		
-		TimestampStart=1
-		
-	ElseIf (gameStatus=1)
-		
-		BlitzcordSetLargeImage( "icon" )
-		
-		BlitzcordSetSmallImage( "" )
-		
-		BlitzcordSetActivityDetails( "" )
-		
-		BlitzcordSetActivityState( "Main Menu" )
-		
-		;If (Not TimestampStart)
-			;BlitzcordSetTimestampStart( MilliSecs() )
-		;EndIf
-		
-		TimestampStart=1
-		
-	ElseIf (gameStatus=2)
-		
-		BlitzcordSetLargeImage( "icon" )
-		
-		BlitzcordSetSmallImage( "" )
-		
-		If SelectedMap = "" Then
+	If (Not MemeMode)
+		If (gameStatus=0) Then
+			
+			BlitzcordSetLargeImage( "temp_icn" )
+			BlitzcordSetSmallImage( "" )
+			BlitzcordSetActivityDetails( "ass" )
+			BlitzcordSetActivityState( "balls" )
+			;BlitzcordSetTimestampStart( TimestampStart )
+			
+		ElseIf (gameStatus=1)
+			
+			BlitzcordSetLargeImage( "icon" )
+			BlitzcordSetSmallImage( "" )
+			BlitzcordSetActivityDetails( "" )
+			BlitzcordSetActivityState( "Main Menu" )
+			;BlitzcordSetTimestampStart( TimestampStart )
+			
+		ElseIf (gameStatus=2)
+			
+			BlitzcordSetLargeImage( "icon" )
+			BlitzcordSetSmallImage( "" )
+			
+			If SelectedMap = "" Then
 				BlitzcordSetActivityDetails( "Seed: "+RandomSeed)
-		Else
-			BlitzcordSetActivityDetails( "Map:"+SelectedMap)
+			Else
+				BlitzcordSetActivityDetails( "Map:"+SelectedMap)
+			EndIf
+			
+			BlitzcordSetActivityState( "In Game" )
+			;BlitzcordSetTimestampStart( TimestampStart )
+			
+		ElseIf (gameStatus=3)
+			
+			BlitzcordSetLargeImage( "load_icn" )
+			BlitzcordSetSmallImage( "" )
+			BlitzcordSetActivityDetails( "Loading..." )
+			BlitzcordSetActivityState( "" )
+			;BlitzcordSetTimestampStart( TimestampStart )
+			
+		ElseIf (gameStatus=4)
+			
+			BlitzcordSetLargeImage( "icon" )
+			BlitzcordSetSmallImage( "" )
+			BlitzcordSetActivityDetails( "Launcher" )
+			BlitzcordSetActivityState( "" )
+			;BlitzcordSetTimestampStart( TimestampStart )
+			
+		ElseIf (gameStatus=5)
+			
+			BlitzcordSetLargeImage( "icon" )
+			BlitzcordSetSmallImage( "" )
+			BlitzcordSetActivityDetails( "Logos" )
+			BlitzcordSetActivityState( "" )
+			;BlitzcordSetTimestampStart( TimestampStart )
+			
+		ElseIf (gameStatus=6)
+			
+			BlitzcordSetLargeImage( "icon" )
+			BlitzcordSetSmallImage( "" )
+			BlitzcordSetActivityDetails( "Gate-A" )
+			BlitzcordSetActivityState( "In Game" )
+			;BlitzcordSetTimestampStart( TimestampStart )
+			
+		ElseIf (gameStatus=7)
+			
+			BlitzcordSetLargeImage( "icon" )
+			BlitzcordSetSmallImage( "" )
+			BlitzcordSetActivityDetails( "Gate-B" )
+			BlitzcordSetActivityState( "In Game" )
+			;BlitzcordSetTimestampStart( TimestampStart )
+			
 		EndIf
-		
-		BlitzcordSetActivityState( "In Game" )
-		
-		;If (Not TimestampStart)
-			;BlitzcordSetTimestampStart( MilliSecs() )
-		;EndIf
-		
-		TimestampStart=1
-		
-	ElseIf (gameStatus=3)
-		
-		BlitzcordSetLargeImage( "icon" )
-		
-		BlitzcordSetSmallImage( "" )
-		
-		BlitzcordSetActivityDetails( "Loading..." )
-		
-		BlitzcordSetActivityState( "" )
-		
-		;If (Not TimestampStart)
-			;BlitzcordSetTimestampStart( MilliSecs() )
-		;EndIf
-		
-		TimestampStart=1
-		
-	ElseIf (gameStatus=4)
-		
-		BlitzcordSetLargeImage( "icon" )
-		
-		BlitzcordSetSmallImage( "" )
-		
-		BlitzcordSetActivityDetails( "Launcher" )
-		
-		BlitzcordSetActivityState( "In Game" )
-		
-		;If (Not TimestampStart)
-			;BlitzcordSetTimestampStart( MilliSecs() )
-		;EndIf
-		
-		TimestampStart=1
-		
-	ElseIf (gameStatus=5)
-		
-		BlitzcordSetLargeImage( "icon" )
-		
-		BlitzcordSetSmallImage( "" )
-		
-		BlitzcordSetActivityDetails( "Logos" )
-		
-		BlitzcordSetActivityState( "In Game" )
-		
-		;If (Not TimestampStart)
-			;BlitzcordSetTimestampStart( MilliSecs() )
-		;EndIf
-		
-		TimestampStart=1
-		
-	ElseIf (gameStatus=6)
-		
-		BlitzcordSetLargeImage( "icon" )
-		
-		BlitzcordSetSmallImage( "" )
-		
-		BlitzcordSetActivityDetails( "Gate-A" )
-		
-		BlitzcordSetActivityState( "In Game" )
-		
-		;If (Not TimestampStart)
-			;BlitzcordSetTimestampStart( MilliSecs() )
-		;EndIf
-		
-		TimestampStart=1
-		
-	ElseIf (gameStatus=7)
-		
-		BlitzcordSetLargeImage( "icon" )
-		
-		BlitzcordSetSmallImage( "" )
-		
-		BlitzcordSetActivityDetails( "Gate-B" )
-		
-		BlitzcordSetActivityState( "In Game" )
-		
-		;If (Not TimestampStart)
-			;BlitzcordSetTimestampStart( MilliSecs() )
-		;EndIf
-		
-		TimestampStart=1
-		
+	Else
+		If (gameStatus=0) Then
+			
+			BlitzcordSetLargeImage( "temp_icn" )
+			BlitzcordSetSmallImage( "" )
+			BlitzcordSetActivityDetails( "meme" )
+			BlitzcordSetActivityState( "mode" )
+			;BlitzcordSetTimestampStart( TimestampStart )
+			
+		ElseIf (gameStatus=1)
+			
+			BlitzcordSetLargeImage( "meme_icn" )
+			BlitzcordSetSmallImage( "" )
+			BlitzcordSetActivityDetails( "" )
+			BlitzcordSetActivityState( "menu that is main" )
+			;BlitzcordSetTimestampStart( TimestampStart )
+			
+		ElseIf (gameStatus=2)
+			
+			BlitzcordSetLargeImage( "meme_icn" )
+			BlitzcordSetSmallImage( "" )
+			
+			If SelectedMap = "" Then
+				BlitzcordSetActivityDetails( "(maybe) rando seed: "+RandomSeed)
+			Else
+				BlitzcordSetActivityDetails( "eww custom map:"+SelectedMap)
+			EndIf
+			
+			BlitzcordSetActivityState( "playin" )
+			;BlitzcordSetTimestampStart( TimestampStart )
+			
+		ElseIf (gameStatus=3)
+			
+			BlitzcordSetLargeImage( "meme_icn" )
+			BlitzcordSetSmallImage( "" )
+			BlitzcordSetActivityDetails( "loadin crap" )
+			BlitzcordSetActivityState( "" )
+			;BlitzcordSetTimestampStart( TimestampStart )
+			
+		ElseIf (gameStatus=4)
+			
+			BlitzcordSetLargeImage( "meme_icn" )
+			BlitzcordSetSmallImage( "" )
+			BlitzcordSetActivityDetails( "lauauauncher" )
+			BlitzcordSetActivityState( "" )
+			;BlitzcordSetTimestampStart( TimestampStart )
+			
+		ElseIf (gameStatus=5)
+			
+			BlitzcordSetLargeImage( "meme_icn" )
+			BlitzcordSetSmallImage( "" )
+			BlitzcordSetActivityDetails( "loogoes" )
+			BlitzcordSetActivityState( "" )
+			;BlitzcordSetTimestampStart( TimestampStart )
+			
+		ElseIf (gameStatus=6)
+			
+			BlitzcordSetLargeImage( "meme_icn" )
+			BlitzcordSetSmallImage( "" )
+			BlitzcordSetActivityDetails( "the 'good' ending" )
+			BlitzcordSetActivityState( "playin" )
+			;BlitzcordSetTimestampStart( TimestampStart )
+			
+		ElseIf (gameStatus=7)
+			
+			BlitzcordSetLargeImage( "meme_icn" )
+			BlitzcordSetSmallImage( "" )
+			BlitzcordSetActivityDetails( "something something 682" )
+			BlitzcordSetActivityState( "playin" )
+			;BlitzcordSetTimestampStart( TimestampStart )
+			
+		EndIf
 	EndIf
 	
 	BlitzcordUpdateActivity()
-	
 	BlitzcordRunCallbacks()
 	
 End Function

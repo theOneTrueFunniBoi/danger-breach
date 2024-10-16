@@ -1369,14 +1369,14 @@ Function UpdateMainMenu()
 						If DrawButton(x+310*MenuScale,y-10*MenuScale,width/5,height/10, "Disable", False) Then
 							MemeMode = 0
 							SaveOptionsINI()
-							ExecFile Chr(34)+"SCP - Danger Breach Official.exe"+Chr(34)+" -nolauncher"
+							ExecFile Chr(34)+"SCP - Danger Breach.exe"+Chr(34)+" -nolauncher"
 							End
 						EndIf
 					Else
 						If DrawButton(x+310*MenuScale,y-10*MenuScale,width/5,height/10, "Enable", False) Then
 							MemeMode = 1
 							SaveOptionsINI()
-							ExecFile Chr(34)+"SCP - Danger Breach Official.exe"+Chr(34)+" -nolauncher"
+							ExecFile Chr(34)+"SCP - Danger Breach.exe"+Chr(34)+" -nolauncher"
 							End
 						EndIf
 					EndIf
@@ -1722,21 +1722,12 @@ Function UpdateLauncher()
 	
 	AppTitle GameIdent+GameIdentStrSeperator+"v"+VersionNumber+" - Launcher"
 	
-	;BlitzcordSetActivityState("In Launcher")
-
-	;BlitzcordSetActivityDetails("SCPDB v"+VersionNumber)
-
-	;BlitzcordUpdateActivity()
-	
-	;ResizeImage(LauncherIMG,LauncherWidth,LauncherHeight)
-	
-	;Local resizedWidth% = ((LauncherWidth * 1000) / 640) * 0.001
-	
-	;Local resizedHeight% = ((LauncherHeight * 1000) / 480) * 0.001
-	
 	CountGfxDrivers()
 	
 	Repeat
+		
+		BlitzcordGameStatus = 4
+		UpdateBlitzcord()
 		
 		;Cls
 		Color 0,0,0
@@ -1814,7 +1805,7 @@ Function UpdateLauncher()
 		EndIf
 		
 		Text(40 + 430 + 15, 262 - 55 + 5 - 8, LoadLanguageString(langLauncherF,"str_fullscreen"))
-		If FullScreen
+		If Fullscreen
 			Color 255, 0, 0
 			BorderlessWindowed = False
 		Else

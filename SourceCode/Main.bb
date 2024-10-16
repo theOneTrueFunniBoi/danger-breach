@@ -13849,6 +13849,9 @@ Function PlayStartupVideos()
 	If StartupPath = "" Then RuntimeError StartupVideosFile+"\[main] must Include a 'StartupPath' entry.",2
 	
 	Repeat
+		BlitzcordGameStatus = 5
+		UpdateBlitzcord()
+		
 		MovieFile=StartupPath+GetINIString(StartupVideosFile,"main","video"+Str c)
 		If MemeMode Or MemeMode_Intros Then MovieFile=StartupPath+GetINIString(StartupVideosFile,"main","memevideo"+Str c)
 		If MovieFile = StartupPath Then Return
