@@ -2,7 +2,10 @@ Global BlitzcordGameStatus=0
 
 Global TimestampStart=MilliSecs()*1000
 
-BlitzcordCreateCore("1141189053409132585")
+; stores discord rich presence bot id
+Include "SourceCode\BlitzcordCode.bb"
+
+BlitzcordCreateCore(BlitzcordCoreCode)
 
 Function UpdateBlitzcord(gameStatusOverride=0)
 	Local gameStatus=0

@@ -9,7 +9,7 @@
 </Settings>
 <Folders>
  AbsPath="\Launch BB Source" Expanded="False"
- AbsPath="\Main Game" Expanded="False"
+ AbsPath="\Main Game" Expanded="True"
  AbsPath="\Map Builder" Expanded="False"
  AbsPath="\Misc Tools" Expanded="True"
 </Folders>
@@ -20,6 +20,7 @@
  AbsPath="\SourceCode\Achievements.bb" PrjFolder="\Main Game" Line="0" Column="0" Tip="0" Visible="False"
  AbsPath="\SourceCode\MusicPlayer\BlitzAL.bb" PrjFolder="\Misc Tools" Line="0" Column="0" Tip="0" Visible="False"
  AbsPath="\SourceCode\Blitzcord.bb" PrjFolder="\Main Game" Line="0" Column="0" Tip="0" Visible="False"
+ AbsPath="\SourceCode\BlitzcordCode.bb" PrjFolder="\Main Game" Line="0" Column="0" Tip="0" Visible="False"
  AbsPath="\SourceCode\Blitz_Basic_Bank.bb" PrjFolder="\Main Game" Line="0" Column="0" Tip="0" Visible="False"
  AbsPath="\SourceCode\Blitz_File_FileName.bb" PrjFolder="\Main Game" Line="0" Column="0" Tip="0" Visible="False"
  AbsPath="\SourceCode\Blitz_File_ZipApi.bb" PrjFolder="\Main Game" Line="0" Column="0" Tip="0" Visible="False"
