@@ -2,6 +2,8 @@ Include "../SourceCode/MusicPlayer/BlitzAL.bb"
 
 AppTitle "SCP:DB BlitzAL Music Player"
 
+ChangeDir("..")
+
 Graphics 800,600,0,2
 SetBuffer BackBuffer()
 

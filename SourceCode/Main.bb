@@ -10480,8 +10480,9 @@ Function NullGame(playbuttonsfx%=True)
 		Delete de
 	Next
 	
-	For n.NPCs = Each NPCs
-		NullNPCs(n)
+	For n.NPCs = Each NPCs	
+		;life reflection: why do i need a nullnpcs function??? thank you Jabka666 for this catch
+		RemoveNPC(n)
 		Delete n
 	Next
 	

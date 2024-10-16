@@ -2,6 +2,8 @@ Graphics3D 640,480,0,2
 
 AppTitle "RMESH Lightmap Optimizer (converts bmp lightmaps to png)"
 
+ChangeDir("..")
+
 Const FIF_UNKNOWN = -1
 Const FIF_BMP = 0
 Const FIF_ICO = 1

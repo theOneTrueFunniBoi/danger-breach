@@ -2,6 +2,8 @@ Graphics3D 640,480,0,2
 
 AppTitle "Blitz2rmesh - Convert 3dw Blitz models to RMESH"
 
+ChangeDir("..")
+
 Const HIT_MAP%=1
 Const HIT_PLAYER%=2
 

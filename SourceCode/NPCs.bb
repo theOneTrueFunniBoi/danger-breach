@@ -5504,18 +5504,6 @@ Function UpdateNPCs()
 		EndIf
 	EndIf
 	
-End Function
-Function NullNPCs(n.NPCs)
-	
-	FreeEntity n\obj
-	FreeEntity n\obj2
-	FreeEntity n\obj3
-	FreeEntity n\obj4
-	n\SoundChn = 0
-	n\SoundChn2 = 0
-	If n\Sound <> 0 Then FreeSound_Strict(n\Sound)
-	If n\Sound2 <> 0 Then FreeSound_Strict(n\Sound2)
-	
 End Function
 
 Function TeleportCloser(n.NPCs)
@@ -7522,7 +7510,8 @@ Function Console_SpawnNPC(c_input$, c_state$ = "")
 				temporary=0
 			Else
 				consoleMSG = "SCP-106 enabled and triggered."
-			EndIf			
+			EndIf
+			
 		Case "173", "scp173", "scp-173", "statue"
 			n.NPCs = CreateNPC(NPCtype173, EntityX(Collider), EntityY(Collider) + 0.2, EntityZ(Collider))
 			Curr173 = n
