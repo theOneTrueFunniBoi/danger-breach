@@ -29,6 +29,121 @@ api_SetWindowPos( G_app_handle, C_HWND_TOP, 0, 0, ResWidth, ResHeight, C_SWP_SHO
 
 AppTitle "MapBuilder 3D Renderer"
 
+Global ErrorFile$ = "error_log_"
+Local ErrorFileInd% = 1
+While FileType(ErrorFile+Str(ErrorFileInd)+".log")<>0
+	ErrorFileInd = ErrorFileInd+1
+Wend
+ErrorFile = ErrorFile+Str(ErrorFileInd)+".log"
+
+DebugLog "ErrorFile is ready"
+
+Function CatchErrors(location$,fatal%=False)
+	Local errStr$ = ErrorLog()
+	;Local errStr$ = ""
+	Local errF%
+	;If DisableErrors=0 Then	
+	If fatal
+		If Len(errStr)>0 Or ManuallyInitiateError > 0 Then
+			errStr=errStr+" << "+location+Chr(13)+Chr(10)+"Save Format: "+SavFormatVersionNumber+Chr(13)+Chr(10)+"Blitz Info: "		
+			errStr=errStr+EngineIdentShort+" ("+EngineIdentShortest+") v"+EngineVersionNumber+Chr(13)+Chr(10)+"Date and time: "+CurrentDate()+" at "+CurrentTime()
+			errStr=errStr+Chr(13)+Chr(10);+"Stack line trace:"+Chr(13)+Chr(10)+Chr(13)+Chr(10)+GetFullLineTrace()
+			
+			RuntimeError(errStr,1)
+		EndIf
+	Else
+		If Len(errStr)>0 Or ManuallyInitiateError > 0 Then
+			If FileType(ErrorFile)=0 Then
+				errF = WriteFile(ErrorFile)
+				WriteLine errF,"--------------------------------------------------------------"
+				WriteLine errF,"An error occured in SCP-DB 3d map renderer, Version: "+VersionNumber+"!"
+				WriteLine errF,"Blitz Engine Ident: "+BlitzIdent()+" ("+BlitzShortestIdent()+")"
+				WriteLine errF,"Blitz Engine Version: "+BlitzVersion()
+				WriteLine errF,"Date and time: "+CurrentDate()+" at "+CurrentTime()
+				WriteLine errF,"Total video memory (MB): "+TotalVidMem()/1024/1024
+				WriteLine errF,"Available video memory (MB): "+AvailVidMem()/1024/1024
+				WriteLine errF,"Active textures: "+ActiveTextures()
+				WriteLine errF,"--------------------------------------------------------------"
+				WriteLine errF,"Screenshot the following, and send to either"
+				WriteLine errF,"    'funniman.exe' on discord"
+				WriteLine errF,"        or"
+				WriteLine errF,"    'https://github.com/theOneTrueFunniBoi/danger-breach'"
+				WriteLine errF,"--------------------------------------------------------------"
+				WriteLine errF,"Stack Information:"
+				WriteLine errF,"    Stack line trace:"
+				WriteLine errF,"    "
+				WriteLine errF,GetFullLineTrace()
+				;WriteLine errF,"    "
+				WriteLine errF,"    Stack address backtrace:"
+				WriteLine errF,"    "
+				WriteLine errF,GetFullAddressTrace()
+				WriteLine errF,"--------------------------------------------------------------"
+				WriteLine errF,"Error(s):"
+			Else
+				Local canwriteError% = True
+				errF = OpenFile(ErrorFile)
+				While (Not Eof(errF))
+					Local l$ = ReadLine(errF)
+					If Left(l,Len(location))=location
+						canwriteError = False
+						Exit
+					EndIf
+				Wend
+				If canwriteError
+					SeekFile errF,FileSize(ErrorFile)
+				EndIf
+			EndIf
+			If canwriteError
+				WriteLine errF,location+" ***************"
+				While Len(errStr)>0
+					WriteLine errF,errStr
+					DebugLog errStr
+					errStr = ErrorLog()
+					;errStr$ = ""
+				Wend
+			EndIf
+			Msg = "One or more Blitz3D Errors were caught! Details in "+Chr(34)+ErrorFile+Chr(34)
+			MsgTimer = 20*70
+			WriteLine errF,"--------------------------------------------------------------"
+			CloseFile errF
+			ManuallyInitiateError = False
+		EndIf
+	EndIf
+End Function
+
+Function LoadMesh_Strict(File$,parent=0)
+	CatchErrors("(Uncaught) LoadMesh_Strict - "+File)
+	If FileType(File$) <> 1 Then RuntimeError "3D Mesh " + File$ + " not found."
+	Local tmp = LoadMesh(File$, parent)
+	If tmp = 0 Then
+		;attempt to load again
+		DebugLog "Attempting to load again: "+File
+		Local tmp2 = LoadMesh(File$,parent)
+		If tmp2 = 0 Then RuntimeError "Failed to load 3D Mesh: " + File$ 
+		Return tmp2
+	Else
+		Return tmp
+	EndIf
+	CatchErrors("(Uncaught) LoadMesh_Strict - "+File)
+End Function   
+
+Function LoadAnimMesh_Strict(File$,parent=0)
+	CatchErrors("(Uncaught) LoadAnimMesh_Strict - "+File)
+	DebugLog File
+	If FileType(File$) <> 1 Then RuntimeError "3D Animated Mesh " + File$ + " not found."
+	Local tmp = LoadAnimMesh(File$, parent)
+	If tmp = 0 Then
+		;attempt to load again
+		DebugLog "Attempting to load again: "+File
+		Local tmp2 = LoadAnimMesh(File$,parent)
+		If tmp2 = 0 Then RuntimeError "Failed to load 3D Animated Mesh: " + File$ 
+		Return tmp2
+	Else
+		Return tmp
+	EndIf
+	CatchErrors("LoadAnimMesh_Strict - "+File)
+End Function
+
 Global Camera = CreateCamera()
 Global CamColorR% = GetINIInt("options.INI","3d scene","bg color R")
 Global CamColorG% = GetINIInt("options.INI","3d scene","bg color G")
@@ -77,7 +192,8 @@ Global MenuOpen% = True
 
 Const ROOM1% = 1, ROOM2% = 2, ROOM2C% = 3, ROOM3% = 4, ROOM4% = 5
 
-Global Font1 = LoadFont("..\GFX\Fonts\cour\Courier New.ttf", 16)
+;Global Font1 = LoadFont("..\GFX\Fonts\cour\Courier New.ttf", 16)
+Global Font1 = LoadFont("Courier", 16)
 
 Global RoomTempID%
 
@@ -908,7 +1024,7 @@ Function CreatePropObj(file$)
 	
 	p.Props = New Props
 	p\file = file
-	p\obj = LoadMesh(file)
+	p\obj = LoadMesh_Strict(file)
 	Return p\obj
 End Function
 
@@ -2149,5 +2265,5 @@ End Function
 
 
 ;~IDEal Editor Parameters:
-;~F#63D#71C
+;~F#6B1#790
 ;~C#Blitz3D

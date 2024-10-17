@@ -327,36 +327,42 @@ Function UpdateStreamSoundOrigin(streamHandle%,cam%,entity%,range#=10,volume#=1.
 End Function
 
 Function LoadMesh_Strict(File$,parent=0)
+	CatchErrors("(Uncaught) LoadMesh_Strict - "+File)
 	LoadingWhatAsset = File$
 	UpdateLoading() ;think of better way later
-	;If FileType(File$) <> 1 Then RuntimeError "3D Mesh " + File$ + " not found."
-	tmp = LoadMesh(File$, parent)
+	If FileType(File$) <> 1 Then RuntimeError "3D Mesh " + File$ + " not found."
+	Local tmp = LoadMesh(File$, parent)
 	;If tmp = 0 Then RuntimeError "Failed to load 3D Mesh: " + File$
 	If tmp = 0 Then
 		;attempt to load again
 		DebugLog "Attempting to load again: "+File
-		tmp2 = LoadMesh(File$,parent)
+		Local tmp2 = LoadMesh(File$,parent)
+		If tmp2 = 0 Then RuntimeError "Failed to load 3D Mesh: " + File$ 
 		Return tmp2
 	Else
 		Return tmp
 	EndIf
+	CatchErrors("LoadMesh_Strict - "+File)
 End Function   
 
 Function LoadAnimMesh_Strict(File$,parent=0)
+	CatchErrors("(Uncaught) LoadAnimMesh_Strict - "+File)
 	DebugLog File
 	LoadingWhatAsset = File$
 	UpdateLoading() ;think of better way later
-	;If FileType(File$) <> 1 Then RuntimeError "3D Animated Mesh " + File$ + " not found."
-	tmp = LoadAnimMesh(File$, parent)
+	If FileType(File$) <> 1 Then RuntimeError "3D Animated Mesh " + File$ + " not found."
+	Local tmp = LoadAnimMesh(File$, parent)
 	;If tmp = 0 Then RuntimeError "Failed to load 3D Animated Mesh: " + File$ 
 	If tmp = 0 Then
 		;attempt to load again
 		DebugLog "Attempting to load again: "+File
-		tmp2 = LoadAnimMesh(File$,parent)
+		Local tmp2 = LoadAnimMesh(File$,parent)
+		If tmp2 = 0 Then RuntimeError "Failed to load 3D Animated Mesh: " + File$ 
 		Return tmp2
 	Else
 		Return tmp
 	EndIf
+	CatchErrors("LoadAnimMesh_Strict - "+File)
 End Function   
 
 ;don't use in LoadRMesh, as Reg does this manually there. If you wanna fuck around with the logic in that function, be my guest 

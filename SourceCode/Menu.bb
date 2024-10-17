@@ -1836,10 +1836,10 @@ Function UpdateLauncher()
 		Else
 			Text(40+ 260 + 15, 489 - 30, LoadLanguageString(langLauncherF,"str_cur_res")+GfxModeWidths(SelectedGFXMode) + "x" + GfxModeHeights(SelectedGFXMode) + ",32")
 			If GfxModeWidths(SelectedGFXMode)<G_viewport_width Then
-				Text(40+ 360 + 65, 489 - 10, LoadLanguageString(langLauncherF,"str_upscaled"))
+				Text(40+ 360 + 65, 489 - 10, "("+LoadLanguageString(langLauncherF,"str_upscaled"))
 				Text(40+ 360 + 77.5, 489 + 10, G_viewport_width + "x" + G_viewport_height + ",32)")
 			ElseIf GfxModeWidths(SelectedGFXMode)>G_viewport_width Then
-				Text(40+ 360 + 65, 489 - 10, LoadLanguageString(langLauncherF,"str_downscaled"))
+				Text(40+ 360 + 65, 489 - 10, "("+LoadLanguageString(langLauncherF,"str_downscaled"))
 				Text(40+ 360 + 77.5, 489 + 10, G_viewport_width + "x" + G_viewport_height + ",32)")
 			EndIf
 		EndIf
