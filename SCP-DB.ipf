@@ -8,7 +8,7 @@
  CommandLine=""
 </Settings>
 <Folders>
- AbsPath="\Launch BB Source" Expanded="False"
+ AbsPath="\Launch BB Source" Expanded="True"
  AbsPath="\Main Game" Expanded="False"
  AbsPath="\Map Builder" Expanded="False"
  AbsPath="\Misc Tools" Expanded="True"
