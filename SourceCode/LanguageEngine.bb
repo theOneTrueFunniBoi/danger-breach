@@ -1,19 +1,17 @@
-;------------------------------------------------
-;      FUNNIMAN'S DYNAMIC LANGUAGE ENGINE
-;  "this is really shit" - FUNNIMAN.EXE, 2024
-;
-;            (c) 2024 funniman.exe
-;           (c) 2024 Action Software
-;            (c) 2024 Action Games
-;------------------------------------------------
+;----------------------------------------------;
+;      FUNNIMAN'S DYNAMIC LANGUAGE ENGINE	   ;
+;  "this is really shit" - FUNNIMAN.EXE, 2024  ;
+;											   ;
+;            (c) 2024 funniman.exe			   ;
+;           (c) 2024 Action Software		   ;
+;            (c) 2024 Action Games			   ;
+;----------------------------------------------;
 
 Global SubTimer#, SubText$, SubText2$, SubText3$, SubText4$, SubText5$, SubY#, SubLine#, SubDelay#;, NumActiveSubtitles% ; for when you decide to allow multiple subtitles at once oscar
 
-Global SelectedLanguage$ = GetINIString(OptionFile, "audio", "subtitlesLanguage")
+Global SelectedLanguage$ = GetINIString(OptionFile, "options", "language")
 
-If SelectedLanguage = ""
-	SelectedLanguage = "English"
-EndIf
+If SelectedLanguage = "" Then SelectedLanguage = "English"
 
 ;Function SetSubMSG(txt$="Placeholder Text", Sec# = 8.0, txt2$="", txt3$="", txt4$="", txt5$="", sLine#=1, sDelay#=0)
 Function SetSubMSG(txt$="Placeholder Text", Sec# = 8.0, txt2$="", txt3$="", txt4$="", txt5$="", sDelay#=0);set the subtitle paramaters
@@ -130,25 +128,55 @@ Function DrawSubMSG();draw subtitles to screen
 End Function
 
 Function LoadLanguageString$(file$,name$,param$="text")
-	Local searchPath$ = "Data\lang\"+SelectedLanguage	
-	Local tmp$
+	Local searchPath$ = ValidateLanguagePath("Data\lang\"+SelectedLanguage,file)
+	;Local tmp$
 	
-	If FileType(searchPath)=0 Then
-		PutINIValue(OptionFile,"audio","subtitlesLanguage","English")
-		RuntimeError("LANGUAGE DOES NOT EXIST: '"+searchPath+"'. ENTRY WILL BE RESET UPON NEXT STARTUP.")
-	EndIf
+	;If FileType(searchPath)=0 Then
+	;	PutINIValue(OptionFile,"options","language","English")
+	;	RuntimeError("INVALID LANGUAGE PATH: '"+searchPath+"'. ENTRY WILL BE RESET UPON NEXT STARTUP.")
+	;EndIf
 	
-	searchPath=searchPath+"\"+file
+	;If (MemeMode)
+	;	searchPath = searchPath + "\meme"
+	;	If FileType(searchPath)=0 Then
+	;		PutINIValue(OptionFile,"options","language","English")
+	;		RuntimeError("INVALID LANGUAGE PATH: '"+searchPath+"'. ENTRY WILL BE RESET UPON NEXT STARTUP.")
+	;	EndIf
+	;EndIf
 	
-	If FileType(searchPath)=0 Then RuntimeError("ILLEGAL LANGUAGE: '"+searchPath+"'. LANGUAGE MUST INCLUDE '"+file+"'.")
+	;searchPath=searchPath+"\"+file
 	
-	DebugLog name
+	;If FileType(searchPath)=0 Then RuntimeError("ILLEGAL LANGUAGE: '"+searchPath+"'. LANGUAGE MUST INCLUDE '"+file+"'.")
+	
+	;DebugLog name
 
-	tmp$ = GetINIString(searchPath, name, param)
+	Local tmp$ = GetINIString(searchPath, name, param)
 	If tmp$ = "" Then tmp = name
 	
 	Return tmp
+End Function
 
+Function ValidateLanguagePath$(path$,file$)
+	If FileType(path)=0 Then
+		PutINIValue(OptionFile,"options","language","English")
+		RuntimeError("INVALID LANGUAGE PATH: '"+path+"'. ENTRY WILL BE RESET UPON NEXT STARTUP.")
+	EndIf
+	
+	Local tmp$ = path
+	
+	If (MemeMode)
+		tmp = tmp + "\meme"
+		If FileType(tmp)=0 Then
+			PutINIValue(OptionFile,"options","language","English")
+			RuntimeError("INVALID LANGUAGE PATH: '"+tmp+"'. ENTRY WILL BE RESET UPON NEXT STARTUP.")
+		EndIf
+	EndIf
+	
+	Local tmpF$=tmp+"\"+file
+	
+	If FileType(path)=0 Then RuntimeError("ILLEGAL LANGUAGE: '"+tmp+"'. LANGUAGE MUST INCLUDE '"+file+"'.")
+	
+	Return tmpF
 End Function
 
 Function LoadSubtitles(name$);aquire subtitles
@@ -162,16 +190,26 @@ Function LoadSubtitles(name$);aquire subtitles
 	Local TempStr6$ = ""
 	Local TempStr7$ = ""
 	
-	Local subtitlesSearchPath$ = "Data\lang\"+SelectedLanguage
+	ValidateLanguagePath("Data\lang\"+SelectedLanguage,langSubtitlesF)
 	
-	If FileType(subtitlesSearchPath)=0 Then
-		PutINIValue(OptionFile,"audio","subtitlesLanguage","English")
-		RuntimeError("LANGUAGE DOES NOT EXIST: '"+subtitlesSearchPath+"'. ENTRY WILL BE RESET UPON NEXT STARTUP.")
-	EndIf
+	;Local subtitlesSearchPath$ = "Data\lang\"+SelectedLanguage
 	
-	subtitlesSearchPath=subtitlesSearchPath+"\"+langSubtitlesF
+	;If FileType(subtitlesSearchPath)=0 Then
+	;	PutINIValue(OptionFile,"options","language","English")
+	;	RuntimeError("INVALID LANGUAGE PATH: '"+subtitlesSearchPath+"'. ENTRY WILL BE RESET UPON NEXT STARTUP.")
+	;EndIf
 	
-	If FileType(subtitlesSearchPath)=0 Then RuntimeError("ILLEGAL LANGUAGE: '"+subtitlesSearchPath+"'. LANGUAGE MUST INCLUDE '"+langSubtitlesF+"'.")
+	;If (MemeMode) 
+	;	subtitlesSearchPath = subtitlesSearchPath + "\meme"
+	;	If FileType(subtitlesSearchPath)=0 Then
+	;		PutINIValue(OptionFile,"options","language","English")
+	;		RuntimeError("INVALID LANGUAGE PATH: '"+subtitlesSearchPath+"'. ENTRY WILL BE RESET UPON NEXT STARTUP.")
+	;	EndIf
+	;EndIf
+	
+	;subtitlesSearchPath=subtitlesSearchPath+"\"+langSubtitlesF
+	
+	;If FileType(subtitlesSearchPath)=0 Then RuntimeError("ILLEGAL LANGUAGE: '"+subtitlesSearchPath+"'. LANGUAGE MUST INCLUDE '"+langSubtitlesF+"'.")
 	
 	DebugLog name
 	
@@ -204,50 +242,65 @@ Function LoadSubtitles(name$);aquire subtitles
 												DebugLog "Subtitles Passed Check 1-12"
 												If (Instr(name,"SFX\Radio\scpradio") < 1) And (Instr(name,"SFX\Radio\static") < 1) And (Instr(name,"SFX\Radio\RadioAlarm") < 1) And (Instr(name,"SFX\Radio\squelch") < 1) And (Instr(name,"SFX\Radio\Buzz") < 1) And (Instr(name,"SFX\Radio\UserTracks\") < 1) Then
 													DebugLog "Subtitles Passed Check 1-13"
-													TempStr3 = GetINIString(subtitlesSearchPath, name, "Text")
-													If TempStr3 <> "" Then;specified subtitles are valid
-														DebugLog "Subtitles Passed Check 2"
-														TempStr4 = GetINIString(subtitlesSearchPath, name, "text2")
-														If TempStr4 <> "" Then;multiple lines of text
-															DebugLog "Subtitles Passed Optional Check 1"
-															;TempFloat = GetINIFloat(subtitlesSearchPath, name, "line");get specified longest line
-															TempStr5 = GetINIString(subtitlesSearchPath, name, "text3")
-															If TempStr5 <> "" Then
-																TempStr6 = GetINIString(subtitlesSearchPath, name, "text4")
-																If TempStr6 <> "" Then TempStr7 = GetINIString(subtitlesSearchPath, name, "text5")
-															EndIf
-														EndIf
-														TempFloat2 = GetINIFloat(subtitlesSearchPath, name, "time")
-														
-														TempFloat3 = GetINIFloat(subtitlesSearchPath, name, "delay")
-														;If TempFloat3 = 0 Then TempFloat3 = 0.0; what
-														
-														If TempFloat = 0 Then TempFloat = 1.0;no specified longest line
-														
-														DebugLog TempStr3
-														
-														;SetSubMSG(TempStr3,TempFloat2,TempStr4,TempStr5,TempStr6,TempStr7,TempFloat,TempFloat3)
-														SetSubMSG(TempStr3,TempFloat2,TempStr4,TempStr5,TempStr6,TempStr7,TempFloat3);set subtitle paramaters
-														
-														;NumActiveSubtitles = NumActiveSubtitles + 1
-														CreateConsoleMsg("Displayed Subtitles: "+TempStr3)
-														
-														DebugLog "Displayed Subtitles: "+TempStr3
-														;free memory
-														;[Block]
-														TempFloat = 0.0
-														TempFloat2 = 0.0
-														TempFloat3 = 0.0
-														TempStr3 = ""
-														TempStr4 = ""
-														TempStr5 = ""
-														TempStr6 = ""
-														TempStr7 = ""
-														;[End Block]
-													Else;specified subtitles are not valid
-														CreateConsoleMsg("Sound " + Chr(34) + name + Chr(34) + " does not have subtitles.")
-														DebugLog name + " aint got subtitles"
-													EndIf
+													;TempStr3 = GetINIString(subtitlesSearchPath, name, "text")
+													;If TempStr3 <> "" Then;specified subtitles are valid
+													;	DebugLog "Subtitles Passed Check 2"
+													;	TempStr4 = GetINIString(subtitlesSearchPath, name, "text2")
+													;	If TempStr4 <> "" Then;multiple lines of text
+													;		DebugLog "Subtitles Passed Optional Check 1"
+													;		;TempFloat = GetINIFloat(subtitlesSearchPath, name, "line");get specified longest line
+													;		TempStr5 = GetINIString(subtitlesSearchPath, name, "text3")
+													;		If TempStr5 <> "" Then
+													;			TempStr6 = GetINIString(subtitlesSearchPath, name, "text4")
+													;			If TempStr6 <> "" Then TempStr7 = GetINIString(subtitlesSearchPath, name, "text5")
+													;		EndIf
+													;	EndIf
+													
+													TempStr3 = LoadLanguageString(langSubtitlesF,name,"text")
+													TempStr4 = LoadLanguageString(langSubtitlesF,name,"text2")
+													TempStr5 = LoadLanguageString(langSubtitlesF,name,"text3")
+													TempStr6 = LoadLanguageString(langSubtitlesF,name,"text4")
+													TempStr7 = LoadLanguageString(langSubtitlesF,name,"text5")
+													
+													If (TempStr3 = name) Then TempStr3 = ""
+													If (TempStr4 = name) Then TempStr4 = ""
+													If (TempStr5 = name) Then TempStr5 = ""
+													If (TempStr6 = name) Then TempStr6 = ""
+													If (TempStr7 = name) Then TempStr7 = ""
+													
+													;TempFloat2 = GetINIFloat(subtitlesSearchPath, name, "time")
+													TempFloat2 = Float(LoadLanguageString(langSubtitlesF,name,"time"))
+													
+													;TempFloat3 = GetINIFloat(subtitlesSearchPath, name, "delay")
+													TempFloat3 = Float(LoadLanguageString(langSubtitlesF,name,"delay"))
+													;If TempFloat3 = 0 Then TempFloat3 = 0.0; what
+													
+													;If TempFloat = 0 Then TempFloat = 1.0;no specified longest line
+													
+													DebugLog TempStr3
+													
+													;SetSubMSG(TempStr3,TempFloat2,TempStr4,TempStr5,TempStr6,TempStr7,TempFloat,TempFloat3)
+													SetSubMSG(TempStr3,TempFloat2,TempStr4,TempStr5,TempStr6,TempStr7,TempFloat3);set subtitle paramaters
+													
+													;NumActiveSubtitles = NumActiveSubtitles + 1
+													CreateConsoleMsg("Displayed Subtitles: "+TempStr3)
+													
+													DebugLog "Displayed Subtitles: "+TempStr3
+													;free memory
+													;[Block]
+													TempFloat = 0.0
+													TempFloat2 = 0.0
+													TempFloat3 = 0.0
+													TempStr3 = ""
+													TempStr4 = ""
+													TempStr5 = ""
+													TempStr6 = ""
+													TempStr7 = ""
+													;[End Block]
+													;Else ;specified subtitles are not valid
+													;	CreateConsoleMsg("Sound " + Chr(34) + name + Chr(34) + " does not contain a valid subtitles entry.")
+													;	DebugLog name + " aint got subtitles"
+													;EndIf
 												EndIf
 											EndIf
 										EndIf

@@ -84,6 +84,173 @@ Global isUpgrade% = 0
 
 If IS_3DMENU_ENABLED Then Init3DMenu()
 
+;To reduce lag, only reload translations when necessary
+;[Block]
+
+;--buttons--
+Global btn_newgame$,btn_loadgame$,btn_options$,btn_changelog$,btn_quit$
+Global btn_enable$,btn_disable$,btn_deselect$,btn_load$,btn_upgrade$,btn_delete$,btn_yes$,btn_no$
+Global btn_graphics$,btn_audio$,btn_controls$,btn_advanced$,btn_mememode$,btn_back$,btn_start$
+Global btn_loadmap$,btn_usrtrack$,btn_refreshlang$
+
+;--strings--
+Global str_newgame$,str_loadmap$,str_loadgame$,str_options$,str_changelog$,str_quit$
+Global str_easy$,str_med$,str_hard$,str_repeat$,str_random$,str_savname$,str_savseed$,str_savmap$
+Global str_introseq$,str_difficulty$,str_permadeath$,str_savanywhere$,str_aggronpcs$,str_diffactors$
+Global str_page$,str_nosaves$,str_savedin$,str_savefmt$,str_deleteconf$,str_upgradeconf$
+Global str_usrtracksfound1$,str_usrtracksfound2$,str_nomaps$
+
+;--options--
+
+;--other--
+Global prevLang$ = SelectedLanguage
+
+;[End Block]
+Function ReloadMenuTranslations()
+	CatchErrors("Uncaught (ReloadMenuTranslations)")
+	
+	;null values
+	;[Block]
+	;--buttons--
+	btn_newgame = ""
+	btn_loadgame = ""
+	btn_options = ""
+	btn_changelog = ""
+	btn_quit = ""
+	
+	btn_enable = ""
+	btn_disable = ""
+	btn_deselect = ""
+	btn_load = ""
+	btn_upgrade = ""
+	btn_delete = ""
+	btn_yes = ""
+	btn_no = ""
+	
+	btn_graphics = ""
+	btn_audio = ""
+	btn_controls = ""
+	btn_advanced = ""
+	btn_mememode = ""
+	btn_back = ""
+	btn_start = ""
+	
+	btn_loadmap = ""
+	btn_usrtrack = ""
+	btn_refreshlang = ""
+	
+	;--strings--
+	str_newgame = ""
+	str_loadmap = ""
+	str_loadgame = ""
+	str_options = ""
+	str_changelog = ""
+	str_quit = ""
+	
+	str_easy = ""
+	str_med = ""
+	str_hard = ""
+	str_repeat = ""
+	str_random = ""
+	str_savname = ""
+	str_savseed = ""
+	str_savmap = ""
+	
+	str_introseq = ""
+	str_difficulty = ""
+	str_permadeath = ""
+	str_savanywhere = ""
+	str_aggronpcs = ""
+	str_diffactors = ""
+	
+	str_page = ""
+	str_nosaves = ""
+	str_savedin = ""
+	str_savefmt = ""
+	str_deleteconf = ""
+	str_upgradeconf = ""
+	
+	str_usrtracksfound1 = ""
+	str_usrtracksfound2 = ""
+	str_nomaps = ""
+	
+	;--options--
+	
+	
+	;[End Block]
+	
+	;assign values
+	;[Block]
+	;--buttons--
+	btn_newgame = LoadLanguageString(langMenuF,"btn_newgame")
+	btn_loadgame = LoadLanguageString(langMenuF,"btn_loadgame")
+	btn_options = LoadLanguageString(langMenuF,"btn_options")
+	btn_changelog = LoadLanguageString(langMenuF,"btn_changelog")
+	btn_quit = LoadLanguageString(langMenuF,"btn_quit")
+	
+	btn_enable = LoadLanguageString(langMenuF,"btn_enable")
+	btn_disable = LoadLanguageString(langMenuF,"btn_disable")
+	btn_deselect = LoadLanguageString(langMenuF,"btn_deselect")
+	btn_load = LoadLanguageString(langMenuF,"btn_load")
+	btn_upgrade = LoadLanguageString(langMenuF,"btn_upgrade")
+	btn_delete = LoadLanguageString(langMenuF,"btn_delete")
+	btn_yes = LoadLanguageString(langMenuF,"btn_yes")
+	btn_no = LoadLanguageString(langMenuF,"btn_no")
+	
+	btn_graphics = LoadLanguageString(langMenuF,"btn_graphics")
+	btn_audio = LoadLanguageString(langMenuF,"btn_audio")
+	btn_controls = LoadLanguageString(langMenuF,"btn_controls")
+	btn_advanced = LoadLanguageString(langMenuF,"btn_advanced")
+	btn_mememode = LoadLanguageString(langMenuF,"btn_mememode")
+	btn_back = LoadLanguageString(langMenuF,"btn_back")
+	btn_start = LoadLanguageString(langMenuF,"btn_start")
+	
+	btn_loadmap = LoadLanguageString(langMenuF,"btn_loadmap")
+	btn_usrtrack = LoadLanguageString(langMenuF,"btn_usrtrack")
+	btn_refreshlang = LoadLanguageString(langMenuF,"btn_refreshlang")
+	
+	;--strings--
+	str_newgame = LoadLanguageString(langMenuF,"str_newgame")
+	str_loadmap = LoadLanguageString(langMenuF, "str_loadmap")
+	str_loadgame = LoadLanguageString(langMenuF,"str_loadgame")
+	str_options = LoadLanguageString(langMenuF,"str_options")
+	str_changelog = LoadLanguageString(langMenuF,"str_changelog")
+	str_quit = LoadLanguageString(langMenuF,"str_quit")
+	
+	str_easy = LoadLanguageString(langMenuF,"str_easy")
+	str_med = LoadLanguageString(langMenuF,"str_med")
+	str_hard = LoadLanguageString(langMenuF,"str_hard")
+	str_repeat = LoadLanguageString(langMenuF,"str_repeat")
+	str_random = LoadLanguageString(langMenuF,"str_random")
+	str_savname = LoadLanguageString(langMenuF,"str_savname")
+	str_savseed = LoadLanguageString(langMenuF,"str_savseed")
+	str_savmap = LoadLanguageString(langMenuF,"str_savmap")
+	
+	str_introseq = LoadLanguageString(langMenuF,"str_introseq")
+	str_difficulty = LoadLanguageString(langMenuF,"str_difficulty")
+	str_permadeath = LoadLanguageString(langMenuF,"str_permadeath")
+	str_savanywhere = LoadLanguageString(langMenuF,"str_savanywhere")
+	str_aggronpcs = LoadLanguageString(langMenuF,"str_aggronpcs")
+	str_diffactors = LoadLanguageString(langMenuF,"str_diffactors")
+	
+	str_page = LoadLanguageString(langMenuF,"str_page")
+	str_nosaves = LoadLanguageString(langMenuF,"str_nosaves")
+	str_savedin = LoadLanguageString(langMenuF,"str_savedin")
+	str_savefmt = LoadLanguageString(langMenuF,"str_savefmt")
+	str_deleteconf = LoadLanguageString(langMenuF,"str_deleteconf")
+	str_upgradeconf = LoadLanguageString(langMenuF,"str_upgradeconf")
+	
+	str_usrtracksfound1 = LoadLanguageString(langMenuF,"str_usrtracksfound")
+	str_usrtracksfound2 = LoadLanguageString(langMenuF,"str_usrtracksfound","text2")
+	str_nomaps = LoadLanguageString(langMenuF,"str_nomaps")
+	
+	;--options--
+	
+	
+	;[End Block]
+	CatchErrors("ReloadMenuTranslations")
+End Function
+
 Function UpdateMainMenu()
 	CatchErrors("Uncaught (UpdateMainMenu)")
 	Local x%, y%, width%, height%, temp%
@@ -189,8 +356,9 @@ Function UpdateMainMenu()
 			Local txt$
 			Select i
 				Case 0
-					If (Not MemeMode) Then txt = "NEW GAME"
-					If (MemeMode) Then txt = "CONTINUE SUFFERING"
+					;If (Not MemeMode) Then txt = "NEW GAME"
+					;If (MemeMode) Then txt = "CONTINUE SUFFERING"
+					txt = btn_newgame
 					RandomSeed = ""
 					If temp Then 
 						If Rand(15)=1 Then 
@@ -266,23 +434,27 @@ Function UpdateMainMenu()
 						MainMenuTab = 1
 					EndIf
 				Case 1
-					If (Not MemeMode) Then txt = "LOAD GAME"
-					If (MemeMode) Then txt = "LOAD SHITTY SAVE"
+					;If (Not MemeMode) Then txt = "LOAD GAME"
+					;If (MemeMode) Then txt = "LOAD SHITTY SAVE"
+					txt = btn_loadgame
 					If temp Then
 						LoadSaveGames()
 						MainMenuTab = 2
 					EndIf
 				Case 2
-					If (Not MemeMode) Then txt = "OPTIONS"
-					If (MemeMode) Then txt = "NOTHING USEFUL"
+					;If (Not MemeMode) Then txt = "OPTIONS"
+					;If (MemeMode) Then txt = "NOTHING USEFUL"
+					txt = btn_options
 					If temp Then MainMenuTab = 3
 				Case 3
-					txt = "CHANGELOG"
+					;txt = "CHANGELOG"
+					txt = btn_changelog
 					If temp Then MainMenuTab = 8
 					changelogLoaded = False
 				Case 4
-					If (Not MemeMode) Then txt = "QUIT"
-					If (MemeMode) Then txt = "END SUFFERING"
+					;If (Not MemeMode) Then txt = "QUIT"
+					;If (MemeMode) Then txt = "END SUFFERING"
+					txt = btn_quit
 					If temp Then
 						;DeInitExt
 						;alDestroy()
@@ -313,7 +485,7 @@ Function UpdateMainMenu()
 		
 		DrawFrame(x, y, width, height)
 		
-		If DrawButton(x + width + 20 * MenuScale, y, 580 * MenuScale - width - 20 * MenuScale, height, "BACK", False) Then 
+		If DrawButton(x + width + 20 * MenuScale, y, 580 * MenuScale - width - 20 * MenuScale, height, LoadLanguageString(langMenuF,"btn_back"), False) Then 
 			Select MainMenuTab
 				Case 1
 					PutINIValue(OptionFile, "options", "intro enabled", IntroEnabled%)
@@ -350,8 +522,9 @@ Function UpdateMainMenu()
 				
 				Color(255, 255, 255)
 				AASetFont Font2
-				If (Not MemeMode) Then AAText(x + width / 2, y + height / 2, "NEW GAME", True, True)
-				If (MemeMode) Then AAText(x + width / 2, y + height / 2, "CHOOSE KETER YOU COWARD", True, True)
+				;If (Not MemeMode) Then AAText(x + width / 2, y + height / 2, "NEW GAME", True, True)
+				;If (MemeMode) Then AAText(x + width / 2, y + height / 2, "CHOOSE KETER YOU COWARD", True, True)
+				AAText(x + width / 2, y + height / 2, str_newgame, True, True)
 				
 				x = 160 * MenuScale
 				y = y + height + 20 * MenuScale
@@ -362,7 +535,7 @@ Function UpdateMainMenu()
 				
 				AASetFont Font1
 				
-				AAText (x + 20 * MenuScale, y + 20 * MenuScale, "Name:")
+				AAText (x + 20 * MenuScale, y + 20 * MenuScale, str_savname)
 				CurrSave = InputBox(x + 150 * MenuScale, y + 15 * MenuScale, 200 * MenuScale, 30 * MenuScale, CurrSave, 1)
 				CurrSave = Left(CurrSave, 15)
 				CurrSave = Replace(CurrSave,":","")
@@ -378,10 +551,10 @@ Function UpdateMainMenu()
 				
 				Color 255,255,255
 				If SelectedMap = "" Then
-					AAText (x + 20 * MenuScale, y + 60 * MenuScale, "Map seed:")
+					AAText (x + 20 * MenuScale, y + 60 * MenuScale, str_savseed)
 					RandomSeed = Left(InputBox(x+150*MenuScale, y+55*MenuScale, 200*MenuScale, 30*MenuScale, RandomSeed, 3),15)	
 				Else
-					AAText (x + 20 * MenuScale, y + 60 * MenuScale, "Selected map:")
+					AAText (x + 20 * MenuScale, y + 60 * MenuScale, str_savmap)
 					Color (255, 255, 255)
 					Rect(x+150*MenuScale, y+55*MenuScale, 200*MenuScale, 30*MenuScale)
 					Color (0, 0, 0)
@@ -394,16 +567,16 @@ Function UpdateMainMenu()
 						AAText(x+150*MenuScale + 100*MenuScale, y+55*MenuScale + 15*MenuScale, SelectedMap, True, True)
 					EndIf
 					
-					If DrawButton(x+370*MenuScale, y+55*MenuScale, 120*MenuScale, 30*MenuScale, "Deselect", False) Then
+					If DrawButton(x+370*MenuScale, y+55*MenuScale, 120*MenuScale, 30*MenuScale, btn_deselect, False) Then
 						SelectedMap=""
 					EndIf
 				EndIf
 				
-				AAText(x + 20 * MenuScale, y + 110 * MenuScale, "Enable intro sequence:")
+				AAText(x + 20 * MenuScale, y + 110 * MenuScale, str_introseq)
 				IntroEnabled = DrawTick(x + 280 * MenuScale, y + 110 * MenuScale, IntroEnabled)	
 				
 				;Local modeName$, modeDescription$, selectedDescription$
-				AAText (x + 20 * MenuScale, y + 150 * MenuScale, "Difficulty:")				
+				AAText (x + 20 * MenuScale, y + 150 * MenuScale, str_difficulty)				
 				For i = SAFE To CUSTOM
 					If DrawTick(x + 20 * MenuScale, y + (180+30*i) * MenuScale, (SelectedDifficulty = difficulties(i))) Then SelectedDifficulty = difficulties(i)
 					Color(difficulties(i)\r,difficulties(i)\g,difficulties(i)\b)
@@ -415,7 +588,7 @@ Function UpdateMainMenu()
 				
 				If SelectedDifficulty\customizable Then
 					SelectedDifficulty\permaDeath =  DrawTick(x + 160 * MenuScale, y + 165 * MenuScale, (SelectedDifficulty\permaDeath))
-					AAText(x + 200 * MenuScale, y + 165 * MenuScale, "Permadeath")
+					AAText(x + 200 * MenuScale, y + 165 * MenuScale, str_permadeath)
 					
 					If DrawTick(x + 160 * MenuScale, y + 195 * MenuScale, SelectedDifficulty\saveType = SAVEANYWHERE And (Not SelectedDifficulty\permaDeath), SelectedDifficulty\permaDeath) Then 
 						SelectedDifficulty\saveType = SAVEANYWHERE
@@ -423,10 +596,10 @@ Function UpdateMainMenu()
 						SelectedDifficulty\saveType = SAVEONSCREENS
 					EndIf
 					
-					AAText(x + 200 * MenuScale, y + 195 * MenuScale, "Save anywhere")	
+					AAText(x + 200 * MenuScale, y + 195 * MenuScale, str_savanywhere)	
 					
 					SelectedDifficulty\aggressiveNPCs =  DrawTick(x + 160 * MenuScale, y + 225 * MenuScale, SelectedDifficulty\aggressiveNPCs)
-					AAText(x + 200 * MenuScale, y + 225 * MenuScale, "Aggressive NPCs")
+					AAText(x + 200 * MenuScale, y + 225 * MenuScale, str_aggronpcs)
 					
 					;Other factor's difficulty
 					Color 255,255,255
@@ -442,26 +615,27 @@ Function UpdateMainMenu()
 						EndIf
 					EndIf
 					Color 255,255,255
+					Local tmpTxt$ = str_diffactors
 					Select SelectedDifficulty\otherFactors
 						Case EASY
-							AAText(x + 200 * MenuScale, y + 255 * MenuScale, "Other difficulty factors: Easy")
+							AAText(x + 200 * MenuScale, y + 255 * MenuScale, tmpTxt+str_easy)
 						Case NORMAL
-							AAText(x + 200 * MenuScale, y + 255 * MenuScale, "Other difficulty factors: Normal")
+							AAText(x + 200 * MenuScale, y + 255 * MenuScale, tmpTxt+str_med)
 						Case HARD
-							AAText(x + 200 * MenuScale, y + 255 * MenuScale, "Other difficulty factors: Hard")
+							AAText(x + 200 * MenuScale, y + 255 * MenuScale, tmpTxt+str_hard)
 					End Select
 				Else
 					RowText(SelectedDifficulty\description, x+160*MenuScale, y+160*MenuScale, (410-20)*MenuScale, 200)					
 				EndIf
 				
-				If DrawButton(x, y + height + 20 * MenuScale, 160 * MenuScale, 70 * MenuScale, "Load map", False) Then
+				If DrawButton(x, y + height + 20 * MenuScale, 160 * MenuScale, 70 * MenuScale, btn_load, False) Then
 					MainMenuTab = 4
 					LoadSavedMaps()
 				EndIf
 				
 				AASetFont Font2
 				
-				If DrawButton(x + 420 * MenuScale, y + height + 20 * MenuScale, 160 * MenuScale, 70 * MenuScale, "START", False) Then
+				If DrawButton(x + 420 * MenuScale, y + height + 20 * MenuScale, 160 * MenuScale, 70 * MenuScale, LoadLanguageString(langMenuF,"btn_start"), False) Then
 					If CurrSave = "" Then CurrSave = "Untitled Save"
 					
 					If RandomSeed = "" Then
@@ -511,8 +685,10 @@ Function UpdateMainMenu()
 				
 				Color(255, 255, 255)
 				AASetFont Font2
-				If (Not MemeMode) Then AAText(x + width / 2, y + height / 2, "LOAD GAME", True, True)
-				If (MemeMode) Then AAText(x + width / 2, y + height / 2, "COWARD", True, True)
+				;If (Not MemeMode) Then AAText(x + width / 2, y + height / 2, "LOAD GAME", True, True)
+				;If (MemeMode) Then AAText(x + width / 2, y + height / 2, "COWARD", True, True)
+				
+				AAText(x + width / 2, y + height / 2, str_loadgame, True, True)
 				
 				x = 160 * MenuScale
 				y = y + height + 20 * MenuScale
@@ -544,7 +720,7 @@ Function UpdateMainMenu()
 				
 				DrawFrame(x+50*MenuScale,y+510*MenuScale,width-100*MenuScale,55*MenuScale)
 				
-				AAText(x+(width/2.0),y+536*MenuScale,"Page "+Int(Max((CurrLoadGamePage+1),1))+"/"+Int(Max((Int(Ceil(Float(SaveGameAmount)/6.0))),1)),True,True)
+				AAText(x+(width/2.0),y+536*MenuScale,str_page+Int(Max((CurrLoadGamePage+1),1))+"/"+Int(Max((Int(Ceil(Float(SaveGameAmount)/6.0))),1)),True,True)
 				
 				AASetFont Font1
 				
@@ -553,7 +729,7 @@ Function UpdateMainMenu()
 				EndIf
 				
 				If SaveGameAmount = 0 Then
-					AAText (x + 20 * MenuScale, y + 20 * MenuScale, "No saved games.")
+					AAText (x + 20 * MenuScale, y + 20 * MenuScale, str_nosaves)
 				Else
 					x = x + 20 * MenuScale
 					y = y + 20 * MenuScale
@@ -568,26 +744,26 @@ Function UpdateMainMenu()
 										If Not (SaveGameVersion(i - 1) = "2.2.3" Or SaveGameVersion(i - 1) = "2.2.2" Or SaveGameVersion(i - 1) = "2.2.1")
 											If Not (SaveGameDataVersion(i - 1) > SavFormatVersionNumber Or SaveGameDataVersion(i - 1) < SavFormatVersionNumber)
 												Color 255,255,255
-												AAText(x + 20 * MenuScale, y + (10+36) * MenuScale, "Saved in: " + SaveGameVersion(i - 1) + " Save Fmt: " + SaveGameDataVersion(i - 1))
+												AAText(x + 20 * MenuScale, y + (10+36) * MenuScale, str_savedin + SaveGameVersion(i - 1) + " "+str_savefmt + SaveGameDataVersion(i - 1))
 											Else
 												Color 255,0,0
-												AAText(x + 20 * MenuScale, y + (10+36) * MenuScale, "Saved in: " + SaveGameVersion(i - 1) + " Save Fmt: Pre-2.0")
+												AAText(x + 20 * MenuScale, y + (10+36) * MenuScale, str_savedin + SaveGameVersion(i - 1) + " "+str_savefmt + "Pre-2.0")
 											EndIf
 										Else
 											Color 255,0,0
-											AAText(x + 20 * MenuScale, y + (10+36) * MenuScale, "Saved in: " + SaveGameVersion(i - 1) + " Save Fmt: Pre-2.0")
+											AAText(x + 20 * MenuScale, y + (10+36) * MenuScale, str_savedin + SaveGameVersion(i - 1) + " "+str_savefmt + "Pre-2.0")
 										EndIf
 									Else
 										Color 255,0,0
-										AAText(x + 20 * MenuScale, y + (10+36) * MenuScale, "Saved in: " + SaveGameVersion(i - 1) + " Save Fmt: Pre-2.0")
+										AAText(x + 20 * MenuScale, y + (10+36) * MenuScale, str_savedin + SaveGameVersion(i - 1) + " "+str_savefmt + "Pre-2.0")
 									EndIf
 								Else
 									Color 255,0,0
-									AAText(x + 20 * MenuScale, y + (10+36) * MenuScale, "Saved in: " + SaveGameVersion(i - 1) + " Save Fmt: Pre-2.0")
+									AAText(x + 20 * MenuScale, y + (10+36) * MenuScale, str_savedin + SaveGameVersion(i - 1) + " "+str_savefmt + "Pre-2.0")
 								EndIf
 							Else
 								Color 255,0,0
-								AAText(x + 20 * MenuScale, y + (10+36) * MenuScale, "Saved in: " + SaveGameVersion(i - 1) + " Save Fmt: Pre-2.0")
+								AAText(x + 20 * MenuScale, y + (10+36) * MenuScale, str_savedin + SaveGameVersion(i - 1) + " "+str_savefmt + "Pre-2.0")
 							EndIf
 							
 							AAText(x + 20 * MenuScale, y + 10 * MenuScale, SaveGames(i - 1))
@@ -599,10 +775,10 @@ Function UpdateMainMenu()
 									If SaveGameDataVersion(i - 1) > SavFormatVersionNumber Then
 										DrawFrame(x + 280 * MenuScale, y + 20 * MenuScale, 100 * MenuScale, 30 * MenuScale)
 										Color(255, 0, 0)
-										AAText(x + 330 * MenuScale, y + 34 * MenuScale, "Load", True, True)
+										AAText(x + 330 * MenuScale, y + 34 * MenuScale, btn_load, True, True)
 									Else
 										If SaveGameDataVersion(i - 1) < SavFormatVersionNumber Then
-											If DrawButton(x + 280 * MenuScale, y + 20 * MenuScale, 100 * MenuScale, 30 * MenuScale, "Upgrade", False) Then
+											If DrawButton(x + 280 * MenuScale, y + 20 * MenuScale, 100 * MenuScale, 30 * MenuScale, btn_upgrade, False) Then
 												isUpgrade = 1
 												DebugLog isUpgrade
 												SaveMSG = SaveGames(i - 1)
@@ -610,7 +786,7 @@ Function UpdateMainMenu()
 												Exit
 											EndIf
 										Else
-											If DrawButton(x + 280 * MenuScale, y + 20 * MenuScale, 100 * MenuScale, 30 * MenuScale, "Load", False) Then
+											If DrawButton(x + 280 * MenuScale, y + 20 * MenuScale, 100 * MenuScale, 30 * MenuScale, btn_load, False) Then
 												isLoadedSave = True
 												LoadEntities()
 												LoadAllSounds()
@@ -626,10 +802,10 @@ Function UpdateMainMenu()
 								Else
 									DrawFrame(x + 280 * MenuScale, y + 20 * MenuScale, 100 * MenuScale, 30 * MenuScale)
 									Color(255, 0, 0)
-									AAText(x + 330 * MenuScale, y + 34 * MenuScale, "Load", True, True)
+									AAText(x + 330 * MenuScale, y + 34 * MenuScale, btn_load, True, True)
 								EndIf
 								
-								If DrawButton(x + 400 * MenuScale, y + 20 * MenuScale, 100 * MenuScale, 30 * MenuScale, "Delete", False) Then
+								If DrawButton(x + 400 * MenuScale, y + 20 * MenuScale, 100 * MenuScale, 30 * MenuScale, btn_delete, False) Then
 									isUpgrade = 0
 									DebugLog isUpgrade
 									SaveMSG = SaveGames(i - 1)
@@ -641,19 +817,19 @@ Function UpdateMainMenu()
 								If SaveGameDataVersion(i - 1) > SavFormatVersionNumber Or SaveGameDataVersion(i - 1) < SavFormatVersionNumber Or SaveGameVersion(i - 1) = "2.3.1" Or SaveGameVersion(i - 1) = "2.3.0" Or SaveGameVersion(i - 1) = "2.2.9" Or SaveGameVersion(i - 1) = "2.2.8" Or SaveGameVersion(i - 1) = "2.2.7" Or SaveGameVersion(i - 1) = "2.2.6" Or SaveGameVersion(i - 1) = "2.2.5" Or SaveGameVersion(i - 1) = "2.2.4" Or SaveGameVersion(i - 1) = "2.2.3" Or SaveGameVersion(i - 1) = "2.2.2" Or SaveGameVersion(i - 1) = "2.2.1" Then
 									If SaveGameVersion(i - 1) = "2.3.2" Or SaveGameDataVersion(i - 1) < SavFormatVersionNumber Then
 										Color(100, 100, 100)
-										AAText(x + 330 * MenuScale, y + 34 * MenuScale, "Upgrade", True, True)
+										AAText(x + 330 * MenuScale, y + 34 * MenuScale, btn_upgrade, True, True)
 									Else
 										Color(255, 0, 0)
-										AAText(x + 330 * MenuScale, y + 34 * MenuScale, "Load", True, True)
+										AAText(x + 330 * MenuScale, y + 34 * MenuScale, btn_load, True, True)
 									EndIf
 								Else
 									Color(100, 100, 100)
-									AAText(x + 330 * MenuScale, y + 34 * MenuScale, "Load", True, True)
+									AAText(x + 330 * MenuScale, y + 34 * MenuScale, btn_load, True, True)
 								EndIf
 								
 								DrawFrame(x + 400 * MenuScale, y + 20 * MenuScale, 100 * MenuScale, 30 * MenuScale)
 								Color(100, 100, 100)
-								AAText(x + 450 * MenuScale, y + 34 * MenuScale, "Delete", True, True)
+								AAText(x + 450 * MenuScale, y + 34 * MenuScale, btn_delete, True, True)
 							EndIf
 							
 							y = y + 80 * MenuScale
@@ -667,14 +843,14 @@ Function UpdateMainMenu()
 						y = 376 * MenuScale
 						DrawFrame(x, y, 420 * MenuScale, 200 * MenuScale)
 						If isUpgrade = 1 Then
-							RowText("Are you sure you want to upgrade this save?", x + 15 * MenuScale, y + 15 * MenuScale, 400 * MenuScale, 200 * MenuScale)
+							RowText(str_upgradeconf, x + 15 * MenuScale, y + 15 * MenuScale, 400 * MenuScale, 200 * MenuScale)
 							;AAText(x + 20 * MenuScale, y + 15 * MenuScale, "Are you sure you want to upgrade this save?")
 							If Not FileSize(SavePath + SaveMSG + "\save.txt") = 0 Then
 								DrawFrame(x + 50 * MenuScale, y + 150 * MenuScale, 100 * MenuScale, 30 * MenuScale)
 								Color(100, 100, 100)
-								AAText(x + 50 * MenuScale, y + 150 * MenuScale, "Yes", True, True)
+								AAText(x + 50 * MenuScale, y + 150 * MenuScale, btn_yes, True, True)
 							Else
-								If DrawButton(x + 50 * MenuScale, y + 150 * MenuScale, 100 * MenuScale, 30 * MenuScale, "Yes", False) Then
+								If DrawButton(x + 50 * MenuScale, y + 150 * MenuScale, 100 * MenuScale, 30 * MenuScale, btn_yes, False) Then
 									Local f%
 									Local f2%
 									Local localVer$
@@ -723,9 +899,11 @@ Function UpdateMainMenu()
 									; basically: use if statements to check the game version, then use that to apply upgrades
 									; ex:
 									; If (Not localVer = "4.2.0")
-									;     WriteFloat(f, someSaveParamAddedIn4.2.0)
+									;	  ; added cigarettes
+									;     WriteFloat(f, cigarettesDefaultValue)
 									;     If (Not localVer = "4.1.9")
-									;         WriteFloat(f, someSaveParamAddedIn4.1.9)
+									;         ; added memes
+									;         WriteFloat(f, memesDefaultValue)
 									;     EndIf
 									; EndIf
 									;----------------------------
@@ -749,14 +927,14 @@ Function UpdateMainMenu()
 									LoadSaveGames()
 								EndIf
 							EndIf
-							If DrawButton(x + 250 * MenuScale, y + 150 * MenuScale, 100 * MenuScale, 30 * MenuScale, "No", False) Then
+							If DrawButton(x + 250 * MenuScale, y + 150 * MenuScale, 100 * MenuScale, 30 * MenuScale, btn_no, False) Then
 								;isUpgrade = 0
 								SaveMSG = ""
 							EndIf
 						Else
-							RowText("Are you sure you want to delete this save?", x + 15 * MenuScale, y + 15 * MenuScale, 400 * MenuScale, 200 * MenuScale)
+							RowText(str_deleteconf, x + 15 * MenuScale, y + 15 * MenuScale, 400 * MenuScale, 200 * MenuScale)
 							;AAText(x + 20 * MenuScale, y + 15 * MenuScale, "Are you sure you want to delete this save?")
-							If DrawButton(x + 50 * MenuScale, y + 150 * MenuScale, 100 * MenuScale, 30 * MenuScale, "Yes", False) Then
+							If DrawButton(x + 50 * MenuScale, y + 150 * MenuScale, 100 * MenuScale, 30 * MenuScale, btn_yes, False) Then
 								If FileSize(SavePath + SaveMSG + "\save.txt") = 0 Then
 									DeleteFile(SavePath + SaveMSG + "\Data.dbsav")
 								Else
@@ -767,7 +945,7 @@ Function UpdateMainMenu()
 								SaveMSG = ""
 								LoadSaveGames()
 							EndIf
-							If DrawButton(x + 250 * MenuScale, y + 150 * MenuScale, 100 * MenuScale, 30 * MenuScale, "No", False) Then
+							If DrawButton(x + 250 * MenuScale, y + 150 * MenuScale, 100 * MenuScale, 30 * MenuScale, btn_no, False) Then
 								;isUpgrade = 0
 								SaveMSG = ""
 							EndIf
@@ -789,8 +967,10 @@ Function UpdateMainMenu()
 				
 				Color(255, 255, 255)
 				AASetFont Font2
-				If (Not MemeMode) Then AAText(x + width / 2, y + height / 2, "OPTIONS", True, True)
-				If (MemeMode) Then AAText(x + width / 2, y + height / 2, "OOPCHEENS", True, True)
+				;If (Not MemeMode) Then AAText(x + width / 2, y + height / 2, "OPTIONS", True, True)
+				;If (MemeMode) Then AAText(x + width / 2, y + height / 2, "OOPCHEENS", True, True)
+				
+				AAText(x + width / 2, y + height / 2, str_options, True, True)
 				
 				x = 160 * MenuScale
 				y = y + height + 20 * MenuScale
@@ -812,6 +992,7 @@ Function UpdateMainMenu()
 				EndIf
 				
 				Color 255,255,255
+				/*
 				If (Not MemeMode)
 					If DrawButton(x+20*MenuScale,y+10*MenuScale,width/5,height/2, "GRAPHICS", False) Then MainMenuTab = 3
 					If DrawButton(x+160*MenuScale,y+10*MenuScale,width/5,height/2, "AUDIO", False) Then MainMenuTab = 5
@@ -825,6 +1006,13 @@ Function UpdateMainMenu()
 					If DrawButton(x+440*MenuScale,y+10*MenuScale,width/5,height/2, "ASSVANCED", False) Then MainMenuTab = 7
 					If DrawButton(x+20*MenuScale,y+35*MenuScale,width/5,height/2, "DONT TURN OFF", False) Then MainMenuTab = 9
 				EndIf
+				*/
+				
+				If DrawButton(x+20*MenuScale,y+10*MenuScale,width/5,height/2, btn_graphics, False) Then MainMenuTab = 3
+				If DrawButton(x+160*MenuScale,y+10*MenuScale,width/5,height/2, btn_audio, False) Then MainMenuTab = 5
+				If DrawButton(x+300*MenuScale,y+10*MenuScale,width/5,height/2, btn_controls, False) Then MainMenuTab = 6
+				If DrawButton(x+440*MenuScale,y+10*MenuScale,width/5,height/2, btn_advanced, False) Then MainMenuTab = 7
+				If DrawButton(x+20*MenuScale,y+35*MenuScale,width/5,height/2, btn_mememode, False) Then MainMenuTab = 9
 				
 				AASetFont Font1
 				y = y + 70 * MenuScale
@@ -844,13 +1032,13 @@ Function UpdateMainMenu()
 				If MainMenuTab = 3 ;Graphics
 					;[Block]
 					;height = 380 * MenuScale
-					height = 360 * MenuScale
+					height = 440 * MenuScale
 					DrawFrame(x, y, width, height)
 					
 					y=y+20*MenuScale
 					
 					Color 255,255,255				
-					AAText(x + 20 * MenuScale, y, "Enable bump mapping:")	
+					AAText(x + 20 * MenuScale, y, LoadLanguageString(langMenuF,"opt_bump"))	
 					BumpEnabled = DrawTick(x + 310 * MenuScale, y + MenuScale, BumpEnabled)
 					If MouseOn(x + 310 * MenuScale, y + MenuScale, 20*MenuScale,20*MenuScale) And OnSliderID=0
 						;DrawTooltip("Not available in this version")
@@ -860,7 +1048,7 @@ Function UpdateMainMenu()
 					y=y+30*MenuScale
 					
 					Color 255,255,255
-					AAText(x + 20 * MenuScale, y, "VSync:")
+					AAText(x + 20 * MenuScale, y, LoadLanguageString(langMenuF,"opt_vsync"))
 					Vsync% = DrawTick(x + 310 * MenuScale, y + MenuScale, Vsync%)
 					If MouseOn(x+310*MenuScale,y+MenuScale,20*MenuScale,20*MenuScale) And OnSliderID=0
 						DrawOptionsTooltip(tx,ty,tw,th,"vsync")
@@ -869,7 +1057,7 @@ Function UpdateMainMenu()
 					y=y+30*MenuScale
 					
 					Color 255,255,255
-					AAText(x + 20 * MenuScale, y, "Anti-aliasing:")
+					AAText(x + 20 * MenuScale, y, LoadLanguageString(langMenuF,"opt_antiali"))
 					Opt_AntiAlias = DrawTick(x + 310 * MenuScale, y + MenuScale, Opt_AntiAlias%)
 					;AAText(x + 20 * MenuScale, y + 15 * MenuScale, "(fullscreen mode only)")
 					If MouseOn(x+310*MenuScale,y+MenuScale,20*MenuScale,20*MenuScale) And OnSliderID=0
@@ -879,7 +1067,7 @@ Function UpdateMainMenu()
 					y=y+30*MenuScale ;40
 					
 					Color 255,255,255
-					AAText(x + 20 * MenuScale, y, "Enable room lights:")
+					AAText(x + 20 * MenuScale, y, LoadLanguageString(langMenuF,"opt_rmlights"))
 					EnableRoomLights = DrawTick(x + 310 * MenuScale, y + MenuScale, EnableRoomLights)
 					If MouseOn(x+310*MenuScale,y+MenuScale,20*MenuScale,20*MenuScale) And OnSliderID=0
 						DrawOptionsTooltip(tx,ty,tw,th,"roomlights")
@@ -892,7 +1080,7 @@ Function UpdateMainMenu()
 						ScreenGamma = (SlideBar(x + 310*MenuScale, y+6*MenuScale, 150*MenuScale, ScreenGamma*50.0)/50.0)
 					;EndIf
 					Color 255,255,255
-					AAText(x + 20 * MenuScale, y, "Screen gamma")
+					AAText(x + 20 * MenuScale, y, LoadLanguageString(langMenuF,"opt_gamma"))
 					If MouseOn(x+310*MenuScale,y+6*MenuScale,150*MenuScale+14,20) And OnSliderID=0
 						DrawOptionsTooltip(tx,ty,tw,th,"gamma",ScreenGamma)
 					EndIf
@@ -900,8 +1088,41 @@ Function UpdateMainMenu()
 					y=y+50*MenuScale
 					
 					Color 255,255,255
-					AAText(x + 20 * MenuScale, y, "Particle amount:")
-					ParticleAmount = Slider3(x+310*MenuScale,y+6*MenuScale,150*MenuScale,ParticleAmount,2,"MINIMAL","REDUCED","FULL")
+					AAText x + 20 * MenuScale, y, LoadLanguageString(langMenuF,"opt_lang")
+					SelectedLanguage = DrawLangDropdown(x+310*MenuScale,y-4*MenuScale,SelectedLanguage,1,"Data\lang\")
+					If MouseOn(x+310*MenuScale,y+MenuScale,137*MenuScale,20*MenuScale)
+						DrawOptionsTooltip(tx,ty,tw,th,"gamelang")
+					EndIf
+					
+					Local tmpPath = "Data\lang\"+SelectedLanguage
+					If (MemeMode) Then tmpPath = tmpPath+"\meme"
+					If (prevLang <> SelectedLanguage)
+						;we've changed the language, reload translations
+						UpdateINIFile(tmpPath+langSubtitlesF)
+						UpdateINIFile(tmpPath+langMenuF)
+						UpdateINIFile(tmpPath+langLauncherF)
+						UpdateINIFile(tmpPath+langMenuHintsF)
+						ReloadMenuTranslations()
+						prevLang = SelectedLanguage
+					EndIf
+					
+					y=y+30*MenuScale
+					
+					If DrawButton(x+300*MenuScale,y-5*MenuScale,width/3.5,height/15, btn_refreshlang, False) Then
+						;reload translations
+						Delay 1000
+						UpdateINIFile(tmpPath+langSubtitlesF)
+						UpdateINIFile(tmpPath+langMenuF)
+						UpdateINIFile(tmpPath+langLauncherF)
+						UpdateINIFile(tmpPath+langMenuHintsF)
+						ReloadMenuTranslations()
+					EndIf
+					
+					y=y+50*MenuScale
+					
+					Color 255,255,255
+					AAText(x + 20 * MenuScale, y, LoadLanguageString(langMenuF,"opt_particles"))
+					ParticleAmount = Slider3(x+310*MenuScale,y+6*MenuScale,150*MenuScale,ParticleAmount,2,LoadLanguageString(langMenuF,"opt_minimal"),LoadLanguageString(langMenuF,"opt_reduced"),LoadLanguageString(langMenuF,"opt_full"))
 					If (MouseOn(x + 310 * MenuScale, y-6*MenuScale, 150*MenuScale+14, 20) And OnSliderID=0) Or OnSliderID=2
 						DrawOptionsTooltip(tx,ty,tw,th,"particleamount",ParticleAmount)
 					EndIf
@@ -909,7 +1130,7 @@ Function UpdateMainMenu()
 					y=y+50*MenuScale
 					
 					Color 255,255,255
-					AAText(x + 20 * MenuScale, y, "Texture LOD Bias:")
+					AAText(x + 20 * MenuScale, y, LoadLanguageString(langMenuF,"opt_texlod"))
 					TextureDetails = Slider5(x+310*MenuScale,y+6*MenuScale,150*MenuScale,TextureDetails,3,"0.8","0.4","0.0","-0.4","-0.8")
 					Select TextureDetails%
 						Case 0
@@ -931,7 +1152,7 @@ Function UpdateMainMenu()
 					y=y+50*MenuScale
 					
 					Color 255,255,255
-					AAText(x + 20 * MenuScale, y, "Save textures in the VRAM:")
+					AAText(x + 20 * MenuScale, y, LoadLanguageString(langMenuF,"opt_texvram"))
 					EnableVRam = DrawTick(x + 310 * MenuScale, y + MenuScale, EnableVRam)
 					If MouseOn(x+310*MenuScale,y+MenuScale,20*MenuScale,20*MenuScale) And OnSliderID=0
 						DrawOptionsTooltip(tx,ty,tw,th,"vram")
@@ -940,7 +1161,7 @@ Function UpdateMainMenu()
 					y=y+30*MenuScale
 					
 					Color 255,255,255
-					AAText(x + 20 * MenuScale, y, "Use Computer's Cursor Icon:")
+					AAText(x + 20 * MenuScale, y, LoadLanguageString(langMenuF,"opt_cursor"))
 					NoCursor = DrawTick(x + 310 * MenuScale, y + MenuScale, NoCursor)
 					If MouseOn(x+310*MenuScale,y-6+MenuScale,20*MenuScale,20*MenuScale) And OnSliderID=0
 						DrawOptionsTooltip(tx,ty,tw,th,"nocursor")
@@ -949,7 +1170,7 @@ Function UpdateMainMenu()
 					;y=y+30*MenuScale
 					
 					;Color 255,255,255
-					;AAText(x + 20 * MenuScale, y, "???")
+					;AAText(x + 20 * MenuScale, y, LoadLanguageString(langMenuF,"opt_funni"))
 					;furri = DrawTick(x + 310 * MenuScale, y + MenuScale, furri)
 					;If MouseOn(x+310*MenuScale,y+MenuScale,20*MenuScale,20*MenuScale) And OnSliderID=0
 					;	DrawOptionsTooltip(tx,ty,tw,th,"furri")
@@ -969,7 +1190,7 @@ Function UpdateMainMenu()
 					
 					MusicVolume = (SlideBar(x + 310*MenuScale, y-4*MenuScale, 150*MenuScale, MusicVolume*100.0)/100.0)
 					Color 255,255,255
-					AAText(x + 20 * MenuScale, y, "Music volume:")
+					AAText(x + 20 * MenuScale, y, LoadLanguageString(langMenuF,"opt_musicvol"))
 					If MouseOn(x+310*MenuScale,y-4*MenuScale,150*MenuScale+14,20)
 						DrawOptionsTooltip(tx,ty,tw,th,"musicvol",MusicVolume)
 					EndIf
@@ -980,7 +1201,7 @@ Function UpdateMainMenu()
 					PrevSFXVolume = (SlideBar(x + 310*MenuScale, y-4*MenuScale, 150*MenuScale, SFXVolume*100.0)/100.0)
 					SFXVolume = PrevSFXVolume
 					Color 255,255,255
-					AAText(x + 20 * MenuScale, y, "Sound volume:")
+					AAText(x + 20 * MenuScale, y, LoadLanguageString(langMenuF,"opt_soundvol"))
 					If MouseOn(x+310*MenuScale,y-4*MenuScale,150*MenuScale+14,20)
 						DrawOptionsTooltip(tx,ty,tw,th,"soundvol",PrevSFXVolume)
 					EndIf
@@ -997,7 +1218,7 @@ Function UpdateMainMenu()
 					y = y + 30*MenuScale
 					
 					Color 255,255,255
-					AAText x + 20 * MenuScale, y, "Sound auto-release:"
+					AAText x + 20 * MenuScale, y, LoadLanguageString(langMenuF,"opt_sfxrelease")
 					EnableSFXRelease = DrawTick(x + 310 * MenuScale, y + MenuScale, EnableSFXRelease)
 					If EnableSFXRelease_Prev% <> EnableSFXRelease
 						If EnableSFXRelease%
@@ -1029,27 +1250,27 @@ Function UpdateMainMenu()
 					y = y + 30*MenuScale
 					
 					Color 255,255,255
-					AAText x + 20 * MenuScale, y, "Enable Subtitles:"
+					AAText x + 20 * MenuScale, y, LoadLanguageString(langMenuF,"opt_subtitles")
 					SubtitlesEnabled = DrawTick(x + 310 * MenuScale, y + MenuScale, SubtitlesEnabled)
 					If MouseOn(x+310*MenuScale,y+MenuScale,20*MenuScale,20*MenuScale)
 						DrawOptionsTooltip(tx,ty,tw,th,"subtitles")
 					EndIf
 					
-					If SubtitlesEnabled Then
-						y = y + 30*MenuScale
-						
-						Color 255,255,255
-						AAText x + 20 * MenuScale, y, " -   Subtitles Language:"
-						SelectedLanguage = DrawLangDropdown(x+310*MenuScale,y-4*MenuScale,SelectedLanguage,1,"Data\lang\")
-						If MouseOn(x+310*MenuScale,y+MenuScale,137*MenuScale,20*MenuScale)
-							DrawOptionsTooltip(tx,ty,tw,th,"subtitlelang")
-						EndIf
-					EndIf
+					;If SubtitlesEnabled Then
+					;	y = y + 30*MenuScale
+					;	
+					;	Color 255,255,255
+					;	AAText x + 20 * MenuScale, y, " -   Subtitles Language:"
+					;	SelectedLanguage = DrawLangDropdown(x+310*MenuScale,y-4*MenuScale,SelectedLanguage,1,"Data\lang\")
+					;	If MouseOn(x+310*MenuScale,y+MenuScale,137*MenuScale,20*MenuScale)
+					;		DrawOptionsTooltip(tx,ty,tw,th,"subtitlelang")
+					;	EndIf
+					;EndIf
 					
 					y = y + 30*MenuScale
 					
 					Color 255,255,255
-					AAText x + 20 * MenuScale, y, "Enable user tracks:"
+					AAText x + 20 * MenuScale, y, LoadLanguageString(langMenuF,"opt_usrtrack")
 					EnableUserTracks = DrawTick(x + 310 * MenuScale, y + MenuScale, EnableUserTracks)
 					If MouseOn(x+310*MenuScale,y+MenuScale,20*MenuScale,20*MenuScale)
 						DrawOptionsTooltip(tx,ty,tw,th,"usertrack")
@@ -1058,17 +1279,17 @@ Function UpdateMainMenu()
 					If EnableUserTracks
 						y = y + 30 * MenuScale
 						Color 255,255,255
-						AAText x + 20 * MenuScale, y, "User track mode:"
+						AAText x + 20 * MenuScale, y, LoadLanguageString(langMenuF,"opt_usrtrackmode")
 						UserTrackMode = DrawTick(x + 310 * MenuScale, y + MenuScale, UserTrackMode)
 						If UserTrackMode
-							AAText x + 350 * MenuScale, y + MenuScale, "Repeat"
+							AAText x + 350 * MenuScale, y + MenuScale, str_repeat
 						Else
-							AAText x + 350 * MenuScale, y + MenuScale, "Random"
+							AAText x + 350 * MenuScale, y + MenuScale, str_random
 						EndIf
 						If MouseOn(x+310*MenuScale,y+MenuScale,20*MenuScale,20*MenuScale)
 							DrawOptionsTooltip(tx,ty,tw,th,"usertrackmode")
 						EndIf
-						If DrawButton(x + 20 * MenuScale, y + 30 * MenuScale, 190 * MenuScale, 25 * MenuScale, "Scan for User Tracks",False)
+						If DrawButton(x + 20 * MenuScale, y + 30 * MenuScale, 190 * MenuScale, 25 * MenuScale, btn_usrtrack,False)
 							DebugLog "User Tracks Check Started"
 							
 							UserTrackCheck% = 0
@@ -1095,7 +1316,7 @@ Function UpdateMainMenu()
 							DrawOptionsTooltip(tx,ty,tw,th,"usertrackscan")
 						EndIf
 						If UserTrackCheck%>0
-							AAText x + 20 * MenuScale, y + 100 * MenuScale, "User tracks found ("+UserTrackCheck2+"/"+UserTrackCheck+" successfully loaded)"
+							AAText x + 20 * MenuScale, y + 100 * MenuScale, str_usrtracksfound1+" ("+UserTrackCheck2+"/"+UserTrackCheck+" "+str_usrtracksfound2+")"
 						EndIf
 					Else
 						UserTrackCheck%=0
@@ -1366,14 +1587,14 @@ Function UpdateMainMenu()
 					AAText(x + 20 * MenuScale, y, "Meme Mode (will restart game):")	
 					;BumpEnabled = DrawTick(x + 310 * MenuScale, y + MenuScale, BumpEnabled)
 					If MemeMode Then
-						If DrawButton(x+310*MenuScale,y-10*MenuScale,width/5,height/10, "Disable", False) Then
+						If DrawButton(x+310*MenuScale,y-10*MenuScale,width/5,height/10, btn_disable, False) Then
 							MemeMode = 0
 							SaveOptionsINI()
 							ExecFile Chr(34)+"SCP - Danger Breach.exe"+Chr(34)+" -nolauncher"
 							End
 						EndIf
 					Else
-						If DrawButton(x+310*MenuScale,y-10*MenuScale,width/5,height/10, "Enable", False) Then
+						If DrawButton(x+310*MenuScale,y-10*MenuScale,width/5,height/10, btn_enable, False) Then
 							MemeMode = 1
 							SaveOptionsINI()
 							ExecFile Chr(34)+"SCP - Danger Breach.exe"+Chr(34)+" -nolauncher"
@@ -1419,8 +1640,9 @@ Function UpdateMainMenu()
 				
 				Color(255, 255, 255)
 				AASetFont Font2
-				If (Not MemeMode) Then AAText(x + width / 2, y + height / 2, "LOAD MAP", True, True)
-				If (MemeMode) Then AAText(x + width / 2, y + height / 2, "GOOFY AHH", True, True)
+				;If (Not MemeMode) Then AAText(x + width / 2, y + height / 2, "LOAD MAP", True, True)
+				;If (MemeMode) Then AAText(x + width / 2, y + height / 2, "GOOFY AHH", True, True)
+				AAText(x + width / 2, y + height / 2, str_loadmap, True, True)
 				
 				x = 160 * MenuScale
 				y = y + height + 20 * MenuScale
@@ -1455,7 +1677,7 @@ Function UpdateMainMenu()
 				
 				DrawFrame(x+50*MenuScale,y+510*MenuScale,width-100*MenuScale,55*MenuScale)
 				
-				AAText(x+(width/2.0),y+536*MenuScale,"Page "+Int(Max((CurrLoadGamePage+1),1))+"/"+Int(Max((Int(Ceil(Float(SavedMapsAmount)/6.0))),1)),True,True)
+				AAText(x+(width/2.0),y+536*MenuScale,str_page+Int(Max((CurrLoadGamePage+1),1))+"/"+Int(Max((Int(Ceil(Float(SavedMapsAmount)/6.0))),1)),True,True)
 				
 				AASetFont Font1
 				
@@ -1466,7 +1688,7 @@ Function UpdateMainMenu()
 				AASetFont Font1
 				
 				If SavedMaps(0)="" Then 
-					AAText (x + 20 * MenuScale, y + 20 * MenuScale, "No saved maps. Use the Map Creator to create new maps.")
+					AAText (x + 20 * MenuScale, y + 20 * MenuScale, str_nomaps)
 				Else
 					x = x + 20 * MenuScale
 					y = y + 20 * MenuScale
@@ -1477,7 +1699,7 @@ Function UpdateMainMenu()
 							AAText(x + 20 * MenuScale, y + 10 * MenuScale, SavedMaps(i - 1))
 							AAText(x + 20 * MenuScale, y + (10+27) * MenuScale, SavedMapsAuthor(i - 1))
 							
-							If DrawButton(x + 400 * MenuScale, y + 20 * MenuScale, 100 * MenuScale, 30 * MenuScale, "Load", False) Then
+							If DrawButton(x + 400 * MenuScale, y + 20 * MenuScale, 100 * MenuScale, 30 * MenuScale, LoadLanguageString(langMenuF,"btn_load"), False) Then
 								SelectedMap=SavedMaps(i - 1)
 								MainMenuTab = 1
 							EndIf
@@ -1493,7 +1715,7 @@ Function UpdateMainMenu()
 				EndIf
 				;[End Block]
 			Case 8 ; CHANGELOG
-			;[Block]
+				;[Block]
 				
 				y = y + height + 20 * MenuScale
 				width = 580 * MenuScale
@@ -1510,8 +1732,9 @@ Function UpdateMainMenu()
 				
 				Color(255, 255, 255)
 				AASetFont Font2
-				If (Not MemeMode) Then AAText(x + width / 2, y + height / 2, "CHANGELOG", True, True)
-				If (MemeMode) Then AAText(x + width / 2, y + height / 2, "CHANGELOG", True, True)
+				;If (Not MemeMode) Then AAText(x + width / 2, y + height / 2, "CHANGELOG", True, True)
+				;If (MemeMode) Then AAText(x + width / 2, y + height / 2, "CHANGELOG", True, True)
+				AAText(x + width / 2, y + height / 2, str_changelog, True, True)
 				
 				x = 160 * MenuScale
 				y = y + height + 20 * MenuScale
@@ -3091,6 +3314,8 @@ Function DrawOptionsTooltip(x%,y%,width%,height%,option$,value#=0,ingame%=False)
 			G = 255
 			B = 255
 			txt2 = "Current value: "+Int(value*100)+"% (default is 100%)"
+		Case "gamelang"
+			txt = "The language of the game interface."
 		Case "texquality"
 			txt = Chr(34)+"Texture LOD Bias"+Chr(34)+" affects the distance at which texture detail will change to prevent aliasing. Change this option if textures flicker or look too blurry."
 		Case "particleamount"
@@ -3149,8 +3374,6 @@ Function DrawOptionsTooltip(x%,y%,width%,height%,option$,value#=0,ingame%=False)
 			txt = "Re-checks the user tracks directory for any new or removed sound files."
 		Case "subtitles"
 			txt = "Enables closed captions that display what characters are saying."
-		Case "subtitlelang"
-			txt = "The language of the closed captions should they be enabled."
 			;[End Block]
 		;Control options	
 			;[Block]

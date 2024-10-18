@@ -23,7 +23,7 @@ Color 255,255,255
 Text 5,5,"Initializing..."
 Flip
 
-Const langMenuF$="menu.ini", langLauncherF$="launcher.ini", langSubtitlesF$="subtitles.ini"
+Const langMenuF$="menu.ini", langLauncherF$="launcher.ini", langSubtitlesF$="subtitles.ini", langMenuHintsF$="menuHints.ini"
 
 Global ShowLogoTime%=0
 
@@ -69,7 +69,7 @@ Text 5,45,"Create options path"
 Flip
 
 If FileSize(OptionFile)=0 Then
-	If FileSize("options.ini")=0
+	If FileSize("defaultOptions.ini")=0
 		Local f = WriteFile(OptionFile)
 		WriteLine(f, "[options]")
 		WriteLine(f, "width = 1920")
@@ -80,6 +80,7 @@ If FileSize(OptionFile)=0 Then
 		WriteLine(f, "audio driver = 0")
 		WriteLine(f, "brightness = 50")
 		WriteLine(f, "screengamma = 1.0")
+		WriteLine(f, "language = English")
 		WriteLine(f, "show FPS = 1")
 		WriteLine(f, "framelimit = 0")
 		WriteLine(f, "vsync = 0")
@@ -152,9 +153,12 @@ If FileSize(OptionFile)=0 Then
 		WriteLine(f, "use loading = 0"); barrel loading screen
 		CloseFile(f)
 	Else
-		CopyFile("options.ini",OptionFile)
+		CopyFile("defaultOptions.ini",OptionFile)
 	EndIf
 EndIf
+
+Global MemeMode% = GetINIInt(OptionFile, "mememode", "enabled")
+DebugLog "mememode"
 
 Include "SourceCode\LanguageEngine.bb"
 
@@ -206,9 +210,6 @@ Global ConsoleFont%
 
 Global MenuWhite%, MenuGray%, MenuBlack%
 Global ButtonSFX%
-
-Global MemeMode% = GetINIInt(OptionFile, "mememode", "enabled")
-DebugLog "mememode"
 
 Global EnableSFXRelease% = GetINIInt(OptionFile, "audio", "sfx release")
 Global EnableSFXRelease_Prev% = EnableSFXRelease%
@@ -3455,6 +3456,8 @@ MainMenuOpen = True
 FlushKeys()
 FlushMouse()
 
+ReloadMenuTranslations()
+
 DrawLoading(100, True)
 
 If IS_3DMENU_ENABLED Then Init3dMenuQuick()
@@ -4750,6 +4753,7 @@ Function DrawCredits()
         ShouldPlay = 21
         MenuOpen = False
         MainMenuOpen = True
+		ReloadMenuTranslations()
         MainMenuTab = 0
         CurrSave = ""
         FlushKeys()
@@ -8995,6 +8999,7 @@ Function DrawMenu()
 						NullGame()
 						MenuOpen = False
 						MainMenuOpen = True
+						ReloadMenuTranslations()
 						MainMenuTab = 0
 						CurrSave = ""
 						FlushKeys()
@@ -9006,6 +9011,7 @@ Function DrawMenu()
 				NullGame()
 				MenuOpen = False
 				MainMenuOpen = True
+				ReloadMenuTranslations()
 				MainMenuTab = 0
 				CurrSave = ""
 				FlushKeys()
@@ -9266,6 +9272,7 @@ Function DrawMenu()
 					NullGame()
 					MenuOpen = False
 					MainMenuOpen = True
+					ReloadMenuTranslations()
 					MainMenuTab = 0
 					CurrSave = ""
 					FlushKeys()
@@ -12786,6 +12793,30 @@ Function UpdateINIFile$(filename$)
 	CloseFile(f)
 End Function
 
+;Function NullINIFile(file$)
+;	Local lfile.INIFile = Null
+;	For k.INIFile = Each INIFile
+;		If k\name = Lower(file) Then
+;			lfile = k
+;		EndIf
+;	Next
+;	
+;	If lfile <> Null Then
+;		DebugLog "DELETE BANK FOR "+file
+;		lfile\name = ""
+;		FreeBank lfile\bank : lfile\bank = 0
+;		lfile\bankOffset = 0
+;		lfile\size = 0
+;		lfile = Null
+;		Delete lfile
+;	EndIf
+;End Function
+
+;Function ReloadINIFile(file$)
+;	NullINIFile(file)
+;	GetINIString(file,"nil","nil")
+;End Function
+
 Function GetINIString$(file$, section$, parameter$, defaultvalue$="")
 	Local TemporaryString$ = ""
 	
@@ -13032,6 +13063,7 @@ Function SaveOptionsINI()
 	PutINIValue(OptionFile, "options", "subtitles", SubtitlesEnabled)			
 	PutINIValue(OptionFile, "options", "HUD enabled", HUDenabled)
 	PutINIValue(OptionFile, "options", "screengamma", ScreenGamma)
+	PutINIValue(OptionFile, "options", "language", SelectedLanguage$)
 	PutINIValue(OptionFile, "options", "antialias", Opt_AntiAlias)
 	PutINIValue(OptionFile, "options", "vsync", Vsync)
 	PutINIValue(OptionFile, "options", "show FPS", showfps)
@@ -13057,7 +13089,6 @@ Function SaveOptionsINI()
 	PutINIValue(OptionFile, "audio", "sfx release", EnableSFXRelease)
 	PutINIValue(OptionFile, "audio", "enable user tracks", EnableUserTracks%)
 	PutINIValue(OptionFile, "audio", "user track setting", UserTrackMode%)
-	PutINIValue(OptionFile, "audio", "subtitlesLanguage", SelectedLanguage$)
 	
 	PutINIValue(OptionFile, "binds", "Right key", KEY_RIGHT)
 	PutINIValue(OptionFile, "binds", "Left key", KEY_LEFT)
@@ -14068,5 +14099,5 @@ End Function
 
 
 ;~IDEal Editor Parameters:
-;~B#12D5#154D#1CF0
+;~B#12D9#1551#1CF4
 ;~C#Blitz3D
