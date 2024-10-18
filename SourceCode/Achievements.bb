@@ -18,7 +18,10 @@ Const AchvKeter% = 47, AchvConsole%=48
 
 Global UsedConsole
 
-DebugLog("All Achievements indexed.")
+DebugLog("All Achievements indexed.")
+Global AchvFile$ = "Data\achievementstrings.ini"
+
+If (MemeMode) Then AchvFile = "Data\achievementstrings_meme.ini"
 
 Local iCopy$
 
@@ -28,11 +31,11 @@ Dim AchievementStrings$(MAXACHIEVEMENTS)
 Dim AchievementDescs$(MAXACHIEVEMENTS)
 Dim AchvIMG%(MAXACHIEVEMENTS)
 For i = 0 To MAXACHIEVEMENTS-1
-	Local loc2% = GetINISectionLocation("Data\achievementstrings.ini", "s"+Str(i))
-	AchievementStrings(i) = GetINIString2("Data\achievementstrings.ini", loc2, "string1")
-	AchievementDescs(i) = GetINIString2("Data\achievementstrings.ini", loc2, "AchvDesc")
+	Local loc2% = GetINISectionLocation(AchvFile, "s"+Str(i))
+	AchievementStrings(i) = GetINIString2(AchvFile, loc2, "string1")
+	AchievementDescs(i) = GetINIString2(AchvFile, loc2, "AchvDesc")
 	
-	Local image$ = GetINIString2("Data\achievementstrings.ini", loc2, "image") 
+	Local image$ = GetINIString2(AchvFile, loc2, "image") 
 	
 	If FileSize("GFX\menu\achievements\"+image+".jpg") = 0 Then
 		AchvIMG(i) = LoadImage_Strict("GFX\menu\achievements\Achv055.jpg")
@@ -55,13 +58,13 @@ Function GiveAchievement(achvname%, showMessage%=True)
 	If Achievements(achvname)<>True Then
 		Achievements(achvname)=True
 		If AchvMSGenabled And showMessage Then
-			Local loc2% = GetINISectionLocation("Data\achievementstrings.ini", "s"+achvname)
-			Local AchievementName$ = GetINIString2("Data\achievementstrings.ini", loc2, "string1")
+			Local loc2% = GetINISectionLocation(AchvFile, "s"+achvname)
+			Local AchievementName$ = GetINIString2(AchvFile, loc2, "string1")
 			;Msg = "Achievement Unlocked - "+AchievementName
 			;MsgTimer=70*7
 			CreateAchievementMsg(achvname,AchievementName)
 			
-			Local image$ = GetINIString2("Data\achievementstrings.ini", loc2, "image")
+			Local image$ = GetINIString2(AchvFile, loc2, "image")
 			
 			If FileSize("GFX\menu\achievements\"+image+".jpg") = 0 Then
 			

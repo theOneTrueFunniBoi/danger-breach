@@ -205,7 +205,10 @@ Global Font1%, Font2%, Font3%, Font4%, Font5%, Font6%, FontChangelog%
 Global ConsoleFont%
 
 Global MenuWhite%, MenuGray%, MenuBlack%
-Global ButtonSFX% = LoadSound_Strict("SFX\Interact\Button.ogg")
+Global ButtonSFX%
+
+Global MemeMode% = GetINIInt(OptionFile, "mememode", "enabled")
+DebugLog "mememode"
 
 Global EnableSFXRelease% = GetINIInt(OptionFile, "audio", "sfx release")
 Global EnableSFXRelease_Prev% = EnableSFXRelease%
@@ -229,6 +232,9 @@ DebugLog "graphicwidth & height & fullscreen"
 Global SelectedGFXMode%
 Global SelectedGFXDriver% = Max(GetINIInt(OptionFile, "options", "gfx driver"), 1)
 DebugLog "gfx driver"
+
+If (Not MemeMode) Then ButtonSFX = LoadSound_Strict("SFX\Interact\Button.ogg")
+If (MemeMode) Then ButtonSFX = LoadSound_Strict("SFX\Interact\Button_meme.ogg")
 
 Global fresize_image%, fresize_texture%, fresize_texture2%
 Global fresize_cam%
@@ -365,8 +371,6 @@ Global OverrideGamma% = False
 
 Global CanOpenConsole% = GetINIInt(OptionFile, "console", "enabled")
 DebugLog "canopenconsole"
-Global MemeMode% = GetINIInt(OptionFile, "mememode", "enabled")
-DebugLog "mememode"
 
 Global MemeMode_Intros% = GetINIInt(OptionFile, "mememode", "use intros")
 DebugLog "memeintros"
@@ -832,6 +836,8 @@ Function UpdateConsole()
 				StrTemp$ = Lower(ConsoleInput)
 			End If
 			
+			ConsoleR = 255 : ConsoleG = 255 : ConsoleB = 255
+			
 			Select Lower(StrTemp)
 				Case "help"
 					;[Block]
@@ -1111,7 +1117,7 @@ Function UpdateConsole()
 				Case "camerapick"
 					;[Block]
 					ConsoleR = 0 : ConsoleG = 255 : ConsoleB = 0
-					c = CameraPick(Camera,GraphicWidth/2, GraphicHeight/2)
+					Local c = CameraPick(Camera,GraphicWidth/2, GraphicHeight/2)
 					If c = 0 Then
 						CreateConsoleMsg("******************************")
 						CreateConsoleMsg("No entity  picked")
@@ -1119,10 +1125,12 @@ Function UpdateConsole()
 					Else
 						CreateConsoleMsg("******************************")
 						CreateConsoleMsg("Picked entity:")
-						sf = GetSurface(c,1)
-						b = GetSurfaceBrush( sf )
-						t = GetBrushTexture(b,0)
-						texname$ =  StripPath(TextureName(t))
+						CreateConsoleMsg("ID: "+c)
+						CreateConsoleMsg("Parent: "+GetParent(c))
+						Local sf = GetSurface(c,1)
+						Local b = GetSurfaceBrush( sf )
+						Local t = GetBrushTexture(b,0)
+						Local texname$ =  StripPath(TextureName(t))
 						CreateConsoleMsg("Texture name: "+texname)
 						CreateConsoleMsg("Coordinates: "+EntityX(c)+", "+EntityY(c)+", "+EntityZ(c))
 						CreateConsoleMsg("******************************")							
@@ -14060,5 +14068,5 @@ End Function
 
 
 ;~IDEal Editor Parameters:
-;~B#12CD#1545#1CE8
+;~B#12D5#154D#1CF0
 ;~C#Blitz3D

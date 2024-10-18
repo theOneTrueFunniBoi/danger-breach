@@ -1793,7 +1793,7 @@ Function UpdateLauncher()
 		
 		Fullscreen = DrawTick(40 + 430 - 15, 260 - 55 + 5 - 8, Fullscreen, BorderlessWindowed)
 		BorderlessWindowed = DrawTick(40 + 430 - 15, 260 - 55 + 35, BorderlessWindowed, Fullscreen)
-		lock% = False
+		Local lock% = False
 		
 		If BorderlessWindowed Or (Not Fullscreen) Then lock% = True
 		Bit16Mode = DrawTick(40 + 430 - 15, 260 - 55 + 65 + 8, Bit16Mode,lock%)

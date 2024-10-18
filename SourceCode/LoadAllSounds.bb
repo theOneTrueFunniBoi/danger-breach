@@ -16,7 +16,8 @@ Function LoadAllSounds()
 	
 	KeyCardSFX1 = LoadSound_Strict("SFX\Interact\KeyCardUse1.ogg")
 	KeyCardSFX2 = LoadSound_Strict("SFX\Interact\KeyCardUse2.ogg")
-	ButtonSFX2 = LoadSound_Strict("SFX\Interact\Button2.ogg")
+	If (Not MemeMode) Then ButtonSFX2 = LoadSound_Strict("SFX\Interact\Button2.ogg")
+	If (MemeMode) Then ButtonSFX2 = LoadSound_Strict("SFX\Interact\Button2_meme.ogg")
 	ScannerSFX1 = LoadSound_Strict("SFX\Interact\ScannerUse1.ogg")
 	ScannerSFX2 = LoadSound_Strict("SFX\Interact\ScannerUse2.ogg")
 	
@@ -200,10 +201,18 @@ Function LoadAllSounds()
 	 ;CurrStepSFX
 	;Dim StepSFX%(4, 2, 8) ;(normal/metal, walk/run, id)
 	For i = 0 To 7
-		StepSFX(0, 0, i) = LoadSound_Strict("SFX\Step\Step" + (i + 1) + ".ogg")
-		StepSFX(1, 0, i) = LoadSound_Strict("SFX\Step\StepMetal" + (i + 1) + ".ogg")
-		StepSFX(0, 1, i)= LoadSound_Strict("SFX\Step\Run" + (i + 1) + ".ogg")
-		StepSFX(1, 1, i) = LoadSound_Strict("SFX\Step\RunMetal" + (i + 1) + ".ogg")
+		If (Not MemeMode) Then
+			StepSFX(0, 0, i) = LoadSound_Strict("SFX\Step\Step" + (i + 1) + ".ogg")
+			StepSFX(1, 0, i) = LoadSound_Strict("SFX\Step\StepMetal" + (i + 1) + ".ogg")
+			StepSFX(0, 1, i)= LoadSound_Strict("SFX\Step\Run" + (i + 1) + ".ogg")
+			StepSFX(1, 1, i) = LoadSound_Strict("SFX\Step\RunMetal" + (i + 1) + ".ogg")
+		Else
+			StepSFX(0, 0, i) = LoadSound_Strict("SFX\Step\Step_meme.ogg")
+			StepSFX(1, 0, i) = LoadSound_Strict("SFX\Step\StepMetal_meme.ogg")
+			StepSFX(0, 1, i)= LoadSound_Strict("SFX\Step\Run_meme.ogg")
+			StepSFX(1, 1, i) = LoadSound_Strict("SFX\Step\RunMetal_meme.ogg")
+		EndIf
+		
 		If i < 3
 			StepSFX(2, 0, i) = LoadSound_Strict("SFX\Character\MTF\Step" + (i + 1) + ".ogg")
 			StepSFX(3, 0, i) = LoadSound_Strict("SFX\SCP\049\Step"+ (i + 1) + ".ogg")

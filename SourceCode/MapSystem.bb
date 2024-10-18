@@ -2008,7 +2008,8 @@ Function LoadRoomTemplates(file$)
 	
 	i = 1
 	Repeat
-		StrTemp = GetINIString(file, "room ambience", "ambience"+i)
+		If (Not MemeMode) Then StrTemp = GetINIString(file, "room ambience", "ambience"+i)
+		If (MemeMode) Then StrTemp = GetINIString(file, "meme room ambience", "ambience"+i)
 		If StrTemp = "" Then Exit
 		
 		RoomAmbience[i]=LoadSound_Strict(StrTemp)
@@ -8120,21 +8121,24 @@ End Type
 
 Function CreatePropObj(file$,hostRMesh$)
 	Local p.Props
-	Local meshTmp$ = ""
+	Local meshTmp%
 	For p.Props = Each Props
 		If p\file = file Then
 			meshTmp = CopyEntity(p\obj)
+			HideEntity meshTmp
 		EndIf
 	Next
 	
 	p.Props = New Props
 	p\file = file
-	If (Not meshTmp = "")
-		p\obj = meshTmp
+	If (meshTmp)
+		p\obj = CopyEntity(meshTmp)
+		FreeEntity meshTmp : meshTmp=0
 	Else
 		p\obj = LoadMesh_Strict(file)
 	EndIf
 	p\RMeshFile = hostRMesh
+	ShowEntity p\obj
 	Return p\obj
 End Function
 
@@ -9964,5 +9968,5 @@ End Function
 
 ;~IDEal Editor Parameters:
 ;~F#148#150
-;~B#138D
+;~B#138E
 ;~C#Blitz3D

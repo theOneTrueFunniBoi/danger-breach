@@ -3124,9 +3124,11 @@ Function UpdateEvents()
 							e\EventState3 = e\EventState2*5
 						Else
 							If temp = 0 And e\EventState2 = 1.0 Then ;turn on the fan
-								PlaySound2 (LoadTempSound("SFX\ambient\Room ambience\FanOn.ogg"), Camera, e\room\Objects[0], 8.0)
+								If (Not MemeMode) Then PlaySound2 (LoadTempSound("SFX\ambient\Room ambience\FanOn.ogg"), Camera, e\room\Objects[0], 8.0)
+								If (MemeMode) Then PlaySound2 (LoadTempSound("SFX\ambient\Room ambience\FanOn_meme.ogg"), Camera, e\room\Objects[0], 8.0)
 							ElseIf temp = 1 And e\EventState2 = 0.0 ;turn off the fan
-								PlaySound2 (LoadTempSound("SFX\ambient\Room ambience\FanOff.ogg"), Camera, e\room\Objects[0], 8.0)
+								If (Not MemeMode) Then PlaySound2 (LoadTempSound("SFX\ambient\Room ambience\FanOff.ogg"), Camera, e\room\Objects[0], 8.0)
+								If (MemeMode) Then PlaySound2 (LoadTempSound("SFX\ambient\Room ambience\FanOff_meme.ogg"), Camera, e\room\Objects[0], 8.0)
 							EndIf
 						EndIf
 					Else
@@ -5471,7 +5473,10 @@ Function UpdateEvents()
 				Local tempDist# = EntityDistance(e\room\obj, Collider)
 				If Not e\EventState = 4 And tempDist < 20
 					;TODO: MAKE ME LOOP
-					If e\Sound = 0 Then LoadEventSound(e,"SFX\Ambient\Room ambience\Fan.ogg")
+					If e\Sound = 0 Then
+						If (Not MemeMode) Then LoadEventSound(e,"SFX\Ambient\Room ambience\Fan.ogg")
+						If (MemeMode) Then LoadEventSound(e,"SFX\Ambient\Room ambience\Fan_meme.ogg")
+					EndIf
 					e\SoundCHN=LoopSound2(e\Sound, e\SoundCHN, Camera, e\room\Objects[4], 24.0)
 					e\SoundCHN2=LoopSound2(e\Sound, e\SoundCHN2, Camera, e\room\Objects[5], 24.0)
 					e\SoundCHN3=LoopSound2(e\Sound, e\SoundCHN3, Camera, e\room\Objects[6], 24.0)
@@ -5524,7 +5529,8 @@ Function UpdateEvents()
 							
 							If e\EventState = 4 Then
 								PlaySound_Strict(LoadTempSound("SFX\General\LightSwitch.ogg"))
-								PlaySound_Strict(LoadTempSound("SFX\Ambient\Room ambience\FanOn.ogg"))
+								If (Not MemeMode) Then PlaySound_Strict(LoadTempSound("SFX\Ambient\Room ambience\FanOn.ogg"))
+								If (MemeMode) Then PlaySound_Strict(LoadTempSound("SFX\Ambient\Room ambience\FanOn_meme.ogg"))
 								e\EventState = 5
 							EndIf
 						Else
@@ -5551,7 +5557,8 @@ Function UpdateEvents()
 							CameraFogFar = 5
 							If e\EventState = 5 Then
 								PlaySound_Strict(LoadTempSound("SFX\Room\BlackoutShort.ogg"))
-								PlaySound_Strict(LoadTempSound("SFX\Ambient\Room ambience\FanOff.ogg"))
+								If (Not MemeMode) Then PlaySound_Strict(LoadTempSound("SFX\Ambient\Room ambience\FanOff.ogg"))
+								If (MemeMode) Then PlaySound_Strict(LoadTempSound("SFX\Ambient\Room ambience\FanOff_meme.ogg"))
 								e\EventState = 4
 							EndIf
 						EndIf
@@ -10824,6 +10831,6 @@ End Function
 
 
 ;~IDEal Editor Parameters:
-;~F#121E
-;~B#11B5#1EBF
+;~F#1220
+;~B#11B7#1EC6
 ;~C#Blitz3D
