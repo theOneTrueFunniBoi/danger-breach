@@ -98,9 +98,19 @@ Global str_newgame$,str_loadmap$,str_loadgame$,str_options$,str_changelog$,str_q
 Global str_easy$,str_med$,str_hard$,str_repeat$,str_random$,str_savname$,str_savseed$,str_savmap$
 Global str_introseq$,str_difficulty$,str_permadeath$,str_savanywhere$,str_aggronpcs$,str_diffactors$
 Global str_page$,str_nosaves$,str_savedin$,str_savefmt$,str_deleteconf$,str_upgradeconf$
-Global str_usrtracksfound1$,str_usrtracksfound2$,str_nomaps$
+Global str_usrtracksfound1$,str_usrtracksfound2$,str_nomaps$,str_fps$,str_high$,str_low$
+
+;NOTE: difficulty strings are stored in Difficulty.bb
 
 ;--options--
+Global opt_bump$,opt_vsync$,opt_antiali$,opt_rmlights$,opt_gamma$,opt_lang$,opt_particles$,opt_minimal$
+Global opt_reduced$,opt_full$,opt_texlod$,opt_texvram$,opt_cursor$,opt_funni$,opt_musicvol$,opt_soundvol$
+Global opt_sfxrelease$,opt_subtitles$,opt_usrtrack$,opt_usrtrackmode$,opt_mousesen$,opt_invertmse$
+Global opt_mousesmooth$,opt_ctrlconf$,opt_hud$,opt_console$,opt_consolerr$,opt_achv$,opt_fps$,opt_fpslimit$
+Global opt_aatext$,opt_3dmenu$,opt_launcher$,opt_mememode$,opt_memeintros$,opt_memeloading$
+;--controls--
+Global ctrl_fwrd$,ctrl_left$,ctrl_back$,ctrl_right$,ctrl_save$,ctrl_blink$,ctrl_run$,ctrl_inv$,ctrl_crouch$
+Global ctrl_console$
 
 ;--other--
 Global prevLang$ = SelectedLanguage
@@ -173,8 +183,86 @@ Function ReloadMenuTranslations()
 	str_usrtracksfound1 = ""
 	str_usrtracksfound2 = ""
 	str_nomaps = ""
+	str_fps = ""
+	str_high = ""
+	str_low = ""
+	
+	;str_diff_easy = ""
+	;str_diff_med = ""
+	;str_diff_hard = ""
+	;str_diff_custom = ""
+	
+	;str_diff_easy_desc = ""
+	;str_diff_med_desc = ""
+	;str_diff_med_desc2 = ""
+	
+	;str_diff_hard_desc = ""
+	;str_diff_hard_desc2 = ""
+	
+	difficulties(SAFE)\name = ""
+	difficulties(SAFE)\description = ""
+	difficulties(EUCLID)\name = ""
+	difficulties(EUCLID)\description = ""
+	difficulties(HARD)\name = ""
+	difficulties(HARD)\description = ""
+	difficulties(CUSTOM)\name = ""
 	
 	;--options--
+	opt_bump = ""
+	opt_vsync = ""
+	opt_antiali = ""
+	opt_rmlights = ""
+	opt_gamma = ""
+	opt_lang = ""
+	opt_particles = ""
+	opt_minimal = ""
+	
+	opt_reduced = ""
+	opt_full = ""
+	opt_texlod = ""
+	opt_texvram = ""
+	opt_cursor = ""
+	opt_funni = ""
+	opt_musicvol = ""
+	opt_soundvol = ""
+	
+	opt_sfxrelease = ""
+	opt_subtitles = ""
+	opt_usrtrack = ""
+	opt_usrtrackmode = ""
+	opt_mousesen = ""
+	opt_invertmse = ""
+	
+	opt_mousesmooth = ""
+	opt_ctrlconf = ""
+	opt_hud = ""
+	opt_console = ""
+	opt_consolerr = ""
+	opt_achv = ""
+	opt_fps = ""
+	opt_fpslimit = ""
+	
+	opt_aatext = ""
+	opt_3dmenu = ""
+	opt_launcher = ""
+	opt_mememode = ""
+	opt_memeintros = ""
+	opt_memeloading = ""
+	
+	;--controls--
+	ctrl_fwrd = ""
+	ctrl_left = ""
+	ctrl_back = ""
+	ctrl_right = ""
+	ctrl_save = ""
+	ctrl_blink = ""
+	ctrl_run = ""
+	ctrl_inv = ""
+	ctrl_crouch = ""
+	
+	ctrl_console = ""
+	
+	;--other--
 	
 	
 	;[End Block]
@@ -243,8 +331,86 @@ Function ReloadMenuTranslations()
 	str_usrtracksfound1 = LoadLanguageString(langMenuF,"str_usrtracksfound")
 	str_usrtracksfound2 = LoadLanguageString(langMenuF,"str_usrtracksfound","text2")
 	str_nomaps = LoadLanguageString(langMenuF,"str_nomaps")
+	str_fps = LoadLanguageString(langMenuF,"str_fps")
+	str_high = LoadLanguageString(langMenuF,"str_high")
+	str_low = LoadLanguageString(langMenuF,"str_low")
+	
+	;str_diff_easy = LoadLanguageString(langMenuF,"str_diff_easy")
+	;str_diff_med = LoadLanguageString(langMenuF,"str_diff_med")
+	;str_diff_hard = LoadLanguageString(langMenuF,"str_diff_hard")
+	;str_diff_custom = LoadLanguageString(langMenuF,"str_diff_custom")
+	
+	;str_diff_easy_desc = LoadLanguageString(langMenuF,"str_diff_easy_desc")
+	;str_diff_med_desc = LoadLanguageString(langMenuF,"str_diff_med_desc")
+	;str_diff_med_desc2 = LoadLanguageString(langMenuF,"str_diff_med_desc","text2")
+	
+	;str_diff_hard_desc = LoadLanguageString(langMenuF,"str_diff_hard_desc")
+	;str_diff_hard_desc2 = LoadLanguageString(langMenuF,"str_diff_hard_desc","text2")
+	
+	difficulties(SAFE)\name = LoadLanguageString(langMenuF,"str_diff_easy")
+	difficulties(SAFE)\description = LoadLanguageString(langMenuF,"str_diff_easy_desc")
+	difficulties(EUCLID)\name = LoadLanguageString(langMenuF,"str_diff_med")
+	difficulties(EUCLID)\description = LoadLanguageString(langMenuF,"str_diff_med_desc")+" "+LoadLanguageString(langMenuF,"str_diff_med_desc","text2")
+	difficulties(HARD)\name = LoadLanguageString(langMenuF,"str_diff_hard")
+	difficulties(HARD)\description = LoadLanguageString(langMenuF,"str_diff_hard_desc")+" "+LoadLanguageString(langMenuF,"str_diff_hard_desc","text2")
+	difficulties(CUSTOM)\name = LoadLanguageString(langMenuF,"str_diff_custom")
 	
 	;--options--
+	opt_bump = LoadLanguageString(langMenuF,"opt_bump")
+	opt_vsync = LoadLanguageString(langMenuF,"opt_vsync")
+	opt_antiali = LoadLanguageString(langMenuF,"opt_antiali")
+	opt_rmlights = LoadLanguageString(langMenuF,"opt_rmlights")
+	opt_gamma = LoadLanguageString(langMenuF,"opt_gamma")
+	opt_lang = LoadLanguageString(langMenuF,"opt_lang")
+	opt_particles = LoadLanguageString(langMenuF,"opt_particles")
+	opt_minimal = LoadLanguageString(langMenuF,"opt_minimal")
+	
+	opt_reduced = LoadLanguageString(langMenuF,"opt_reduced")
+	opt_full = LoadLanguageString(langMenuF,"opt_full")
+	opt_texlod = LoadLanguageString(langMenuF,"opt_texlod")
+	opt_texvram = LoadLanguageString(langMenuF,"opt_texvram")
+	opt_cursor = LoadLanguageString(langMenuF,"opt_cursor")
+	opt_funni = LoadLanguageString(langMenuF,"opt_funni")
+	opt_musicvol = LoadLanguageString(langMenuF,"opt_musicvol")
+	opt_soundvol = LoadLanguageString(langMenuF,"opt_soundvol")
+	
+	opt_sfxrelease = LoadLanguageString(langMenuF,"opt_sfxrelease")
+	opt_subtitles = LoadLanguageString(langMenuF,"opt_subtitles")
+	opt_usrtrack = LoadLanguageString(langMenuF,"opt_usrtrack")
+	opt_usrtrackmode = LoadLanguageString(langMenuF,"opt_usrtrackmode")
+	opt_mousesen = LoadLanguageString(langMenuF,"opt_mousesen")
+	opt_invertmse = LoadLanguageString(langMenuF,"opt_invertmse")
+	
+	opt_mousesmooth = LoadLanguageString(langMenuF,"opt_mousesmooth")
+	opt_ctrlconf = LoadLanguageString(langMenuF,"opt_ctrlconf")
+	opt_hud = LoadLanguageString(langMenuF,"opt_hud")
+	opt_console = LoadLanguageString(langMenuF,"opt_console")
+	opt_consolerr = LoadLanguageString(langMenuF,"opt_consolerr")
+	opt_achv = LoadLanguageString(langMenuF,"opt_achv")
+	opt_fps = LoadLanguageString(langMenuF,"opt_fps")
+	opt_fpslimit = LoadLanguageString(langMenuF,"opt_fpslimit")
+	
+	opt_aatext = LoadLanguageString(langMenuF,"opt_aatext")
+	opt_3dmenu = LoadLanguageString(langMenuF,"opt_3dmenu")
+	opt_launcher = LoadLanguageString(langMenuF,"opt_launcher")
+	opt_mememode = LoadLanguageString(langMenuF,"opt_mememode")
+	opt_memeintros = LoadLanguageString(langMenuF,"opt_memeintros")
+	opt_memeloading = LoadLanguageString(langMenuF,"opt_memeloading")
+	
+	;--controls--
+	ctrl_fwrd = LoadLanguageString(langMenuF,"ctrl_fwrd")
+	ctrl_left = LoadLanguageString(langMenuF,"ctrl_left")
+	ctrl_back = LoadLanguageString(langMenuF,"ctrl_back")
+	ctrl_right = LoadLanguageString(langMenuF,"ctrl_right")
+	ctrl_save = LoadLanguageString(langMenuF,"ctrl_save")
+	ctrl_blink = LoadLanguageString(langMenuF,"ctrl_blink")
+	ctrl_run = LoadLanguageString(langMenuF,"ctrl_run")
+	ctrl_inv = LoadLanguageString(langMenuF,"ctrl_inv")
+	ctrl_crouch = LoadLanguageString(langMenuF,"ctrl_crouch")
+	
+	ctrl_console = LoadLanguageString(langMenuF,"ctrl_console")
+	
+	;--other--
 	
 	
 	;[End Block]
@@ -523,7 +689,7 @@ Function UpdateMainMenu()
 				Color(255, 255, 255)
 				AASetFont Font2
 				;If (Not MemeMode) Then AAText(x + width / 2, y + height / 2, "NEW GAME", True, True)
-				;If (MemeMode) Then AAText(x + width / 2, y + height / 2, "CHOOSE KETER YOU COWARD", True, True)
+				;If (MemeMode) Then AAText(x + width / 2, y + height / 2, ":)", True, True)
 				AAText(x + width / 2, y + height / 2, str_newgame, True, True)
 				
 				x = 160 * MenuScale
@@ -615,7 +781,7 @@ Function UpdateMainMenu()
 						EndIf
 					EndIf
 					Color 255,255,255
-					Local tmpTxt$ = str_diffactors
+					Local tmpTxt$ = str_diffactors+" "
 					Select SelectedDifficulty\otherFactors
 						Case EASY
 							AAText(x + 200 * MenuScale, y + 255 * MenuScale, tmpTxt+str_easy)
@@ -720,7 +886,7 @@ Function UpdateMainMenu()
 				
 				DrawFrame(x+50*MenuScale,y+510*MenuScale,width-100*MenuScale,55*MenuScale)
 				
-				AAText(x+(width/2.0),y+536*MenuScale,str_page+Int(Max((CurrLoadGamePage+1),1))+"/"+Int(Max((Int(Ceil(Float(SaveGameAmount)/6.0))),1)),True,True)
+				AAText(x+(width/2.0),y+536*MenuScale,str_page+" "+Int(Max((CurrLoadGamePage+1),1))+"/"+Int(Max((Int(Ceil(Float(SaveGameAmount)/6.0))),1)),True,True)
 				
 				AASetFont Font1
 				
@@ -1038,7 +1204,7 @@ Function UpdateMainMenu()
 					y=y+20*MenuScale
 					
 					Color 255,255,255				
-					AAText(x + 20 * MenuScale, y, LoadLanguageString(langMenuF,"opt_bump"))	
+					AAText(x + 20 * MenuScale, y, opt_bump)	
 					BumpEnabled = DrawTick(x + 310 * MenuScale, y + MenuScale, BumpEnabled)
 					If MouseOn(x + 310 * MenuScale, y + MenuScale, 20*MenuScale,20*MenuScale) And OnSliderID=0
 						;DrawTooltip("Not available in this version")
@@ -1048,7 +1214,7 @@ Function UpdateMainMenu()
 					y=y+30*MenuScale
 					
 					Color 255,255,255
-					AAText(x + 20 * MenuScale, y, LoadLanguageString(langMenuF,"opt_vsync"))
+					AAText(x + 20 * MenuScale, y, opt_vsync)
 					Vsync% = DrawTick(x + 310 * MenuScale, y + MenuScale, Vsync%)
 					If MouseOn(x+310*MenuScale,y+MenuScale,20*MenuScale,20*MenuScale) And OnSliderID=0
 						DrawOptionsTooltip(tx,ty,tw,th,"vsync")
@@ -1057,7 +1223,7 @@ Function UpdateMainMenu()
 					y=y+30*MenuScale
 					
 					Color 255,255,255
-					AAText(x + 20 * MenuScale, y, LoadLanguageString(langMenuF,"opt_antiali"))
+					AAText(x + 20 * MenuScale, y, opt_antiali)
 					Opt_AntiAlias = DrawTick(x + 310 * MenuScale, y + MenuScale, Opt_AntiAlias%)
 					;AAText(x + 20 * MenuScale, y + 15 * MenuScale, "(fullscreen mode only)")
 					If MouseOn(x+310*MenuScale,y+MenuScale,20*MenuScale,20*MenuScale) And OnSliderID=0
@@ -1067,7 +1233,7 @@ Function UpdateMainMenu()
 					y=y+30*MenuScale ;40
 					
 					Color 255,255,255
-					AAText(x + 20 * MenuScale, y, LoadLanguageString(langMenuF,"opt_rmlights"))
+					AAText(x + 20 * MenuScale, y, opt_rmlights)
 					EnableRoomLights = DrawTick(x + 310 * MenuScale, y + MenuScale, EnableRoomLights)
 					If MouseOn(x+310*MenuScale,y+MenuScale,20*MenuScale,20*MenuScale) And OnSliderID=0
 						DrawOptionsTooltip(tx,ty,tw,th,"roomlights")
@@ -1080,7 +1246,7 @@ Function UpdateMainMenu()
 						ScreenGamma = (SlideBar(x + 310*MenuScale, y+6*MenuScale, 150*MenuScale, ScreenGamma*50.0)/50.0)
 					;EndIf
 					Color 255,255,255
-					AAText(x + 20 * MenuScale, y, LoadLanguageString(langMenuF,"opt_gamma"))
+					AAText(x + 20 * MenuScale, y, opt_gamma)
 					If MouseOn(x+310*MenuScale,y+6*MenuScale,150*MenuScale+14,20) And OnSliderID=0
 						DrawOptionsTooltip(tx,ty,tw,th,"gamma",ScreenGamma)
 					EndIf
@@ -1088,7 +1254,7 @@ Function UpdateMainMenu()
 					y=y+50*MenuScale
 					
 					Color 255,255,255
-					AAText x + 20 * MenuScale, y, LoadLanguageString(langMenuF,"opt_lang")
+					AAText x + 20 * MenuScale, y, opt_lang
 					SelectedLanguage = DrawLangDropdown(x+310*MenuScale,y-4*MenuScale,SelectedLanguage,1,"Data\lang\")
 					If MouseOn(x+310*MenuScale,y+MenuScale,137*MenuScale,20*MenuScale)
 						DrawOptionsTooltip(tx,ty,tw,th,"gamelang")
@@ -1110,7 +1276,7 @@ Function UpdateMainMenu()
 					
 					If DrawButton(x+300*MenuScale,y-5*MenuScale,width/3.5,height/15, btn_refreshlang, False) Then
 						;reload translations
-						Delay 1000
+						;Delay 1000
 						UpdateINIFile(tmpPath+langSubtitlesF)
 						UpdateINIFile(tmpPath+langMenuF)
 						UpdateINIFile(tmpPath+langLauncherF)
@@ -1121,8 +1287,8 @@ Function UpdateMainMenu()
 					y=y+50*MenuScale
 					
 					Color 255,255,255
-					AAText(x + 20 * MenuScale, y, LoadLanguageString(langMenuF,"opt_particles"))
-					ParticleAmount = Slider3(x+310*MenuScale,y+6*MenuScale,150*MenuScale,ParticleAmount,2,LoadLanguageString(langMenuF,"opt_minimal"),LoadLanguageString(langMenuF,"opt_reduced"),LoadLanguageString(langMenuF,"opt_full"))
+					AAText(x + 20 * MenuScale, y, opt_particles)
+					ParticleAmount = Slider3(x+310*MenuScale,y+6*MenuScale,150*MenuScale,ParticleAmount,2,opt_minimal,opt_reduced,opt_full)
 					If (MouseOn(x + 310 * MenuScale, y-6*MenuScale, 150*MenuScale+14, 20) And OnSliderID=0) Or OnSliderID=2
 						DrawOptionsTooltip(tx,ty,tw,th,"particleamount",ParticleAmount)
 					EndIf
@@ -1130,7 +1296,7 @@ Function UpdateMainMenu()
 					y=y+50*MenuScale
 					
 					Color 255,255,255
-					AAText(x + 20 * MenuScale, y, LoadLanguageString(langMenuF,"opt_texlod"))
+					AAText(x + 20 * MenuScale, y, opt_texlod)
 					TextureDetails = Slider5(x+310*MenuScale,y+6*MenuScale,150*MenuScale,TextureDetails,3,"0.8","0.4","0.0","-0.4","-0.8")
 					Select TextureDetails%
 						Case 0
@@ -1152,7 +1318,7 @@ Function UpdateMainMenu()
 					y=y+50*MenuScale
 					
 					Color 255,255,255
-					AAText(x + 20 * MenuScale, y, LoadLanguageString(langMenuF,"opt_texvram"))
+					AAText(x + 20 * MenuScale, y, opt_texvram)
 					EnableVRam = DrawTick(x + 310 * MenuScale, y + MenuScale, EnableVRam)
 					If MouseOn(x+310*MenuScale,y+MenuScale,20*MenuScale,20*MenuScale) And OnSliderID=0
 						DrawOptionsTooltip(tx,ty,tw,th,"vram")
@@ -1161,7 +1327,7 @@ Function UpdateMainMenu()
 					y=y+30*MenuScale
 					
 					Color 255,255,255
-					AAText(x + 20 * MenuScale, y, LoadLanguageString(langMenuF,"opt_cursor"))
+					AAText(x + 20 * MenuScale, y, opt_cursor)
 					NoCursor = DrawTick(x + 310 * MenuScale, y + MenuScale, NoCursor)
 					If MouseOn(x+310*MenuScale,y-6+MenuScale,20*MenuScale,20*MenuScale) And OnSliderID=0
 						DrawOptionsTooltip(tx,ty,tw,th,"nocursor")
@@ -1190,7 +1356,7 @@ Function UpdateMainMenu()
 					
 					MusicVolume = (SlideBar(x + 310*MenuScale, y-4*MenuScale, 150*MenuScale, MusicVolume*100.0)/100.0)
 					Color 255,255,255
-					AAText(x + 20 * MenuScale, y, LoadLanguageString(langMenuF,"opt_musicvol"))
+					AAText(x + 20 * MenuScale, y, opt_musicvol)
 					If MouseOn(x+310*MenuScale,y-4*MenuScale,150*MenuScale+14,20)
 						DrawOptionsTooltip(tx,ty,tw,th,"musicvol",MusicVolume)
 					EndIf
@@ -1201,7 +1367,7 @@ Function UpdateMainMenu()
 					PrevSFXVolume = (SlideBar(x + 310*MenuScale, y-4*MenuScale, 150*MenuScale, SFXVolume*100.0)/100.0)
 					SFXVolume = PrevSFXVolume
 					Color 255,255,255
-					AAText(x + 20 * MenuScale, y, LoadLanguageString(langMenuF,"opt_soundvol"))
+					AAText(x + 20 * MenuScale, y, opt_soundvol)
 					If MouseOn(x+310*MenuScale,y-4*MenuScale,150*MenuScale+14,20)
 						DrawOptionsTooltip(tx,ty,tw,th,"soundvol",PrevSFXVolume)
 					EndIf
@@ -1218,7 +1384,7 @@ Function UpdateMainMenu()
 					y = y + 30*MenuScale
 					
 					Color 255,255,255
-					AAText x + 20 * MenuScale, y, LoadLanguageString(langMenuF,"opt_sfxrelease")
+					AAText x + 20 * MenuScale, y, opt_sfxrelease
 					EnableSFXRelease = DrawTick(x + 310 * MenuScale, y + MenuScale, EnableSFXRelease)
 					If EnableSFXRelease_Prev% <> EnableSFXRelease
 						If EnableSFXRelease%
@@ -1250,7 +1416,7 @@ Function UpdateMainMenu()
 					y = y + 30*MenuScale
 					
 					Color 255,255,255
-					AAText x + 20 * MenuScale, y, LoadLanguageString(langMenuF,"opt_subtitles")
+					AAText x + 20 * MenuScale, y, opt_subtitles
 					SubtitlesEnabled = DrawTick(x + 310 * MenuScale, y + MenuScale, SubtitlesEnabled)
 					If MouseOn(x+310*MenuScale,y+MenuScale,20*MenuScale,20*MenuScale)
 						DrawOptionsTooltip(tx,ty,tw,th,"subtitles")
@@ -1270,7 +1436,7 @@ Function UpdateMainMenu()
 					y = y + 30*MenuScale
 					
 					Color 255,255,255
-					AAText x + 20 * MenuScale, y, LoadLanguageString(langMenuF,"opt_usrtrack")
+					AAText x + 20 * MenuScale, y, opt_usrtrack
 					EnableUserTracks = DrawTick(x + 310 * MenuScale, y + MenuScale, EnableUserTracks)
 					If MouseOn(x+310*MenuScale,y+MenuScale,20*MenuScale,20*MenuScale)
 						DrawOptionsTooltip(tx,ty,tw,th,"usertrack")
@@ -1279,7 +1445,7 @@ Function UpdateMainMenu()
 					If EnableUserTracks
 						y = y + 30 * MenuScale
 						Color 255,255,255
-						AAText x + 20 * MenuScale, y, LoadLanguageString(langMenuF,"opt_usrtrackmode")
+						AAText x + 20 * MenuScale, y, opt_usrtrackmode
 						UserTrackMode = DrawTick(x + 310 * MenuScale, y + MenuScale, UserTrackMode)
 						If UserTrackMode
 							AAText x + 350 * MenuScale, y + MenuScale, str_repeat
@@ -1331,7 +1497,7 @@ Function UpdateMainMenu()
 					
 					MouseSens = (SlideBar(x + 310*MenuScale, y-4*MenuScale, 150*MenuScale, (MouseSens+0.5)*100.0)/100.0)-0.5
 					Color(255, 255, 255)
-					AAText(x + 20 * MenuScale, y, "Mouse sensitivity:")
+					AAText(x + 20 * MenuScale, y, opt_mousesen)
 					If MouseOn(x+310*MenuScale,y-4*MenuScale,150*MenuScale+14,20)
 						DrawOptionsTooltip(tx,ty,tw,th,"mousesensitivity",MouseSens)
 					EndIf
@@ -1339,7 +1505,7 @@ Function UpdateMainMenu()
 					y = y + 40*MenuScale
 					
 					Color(255, 255, 255)
-					AAText(x + 20 * MenuScale, y, "Invert mouse Y-axis:")
+					AAText(x + 20 * MenuScale, y, opt_invertmse)
 					InvertMouse = DrawTick(x + 310 * MenuScale, y + MenuScale, InvertMouse)
 					If MouseOn(x+310*MenuScale,y+MenuScale,20*MenuScale,20*MenuScale)
 						DrawOptionsTooltip(tx,ty,tw,th,"mouseinvert")
@@ -1349,7 +1515,7 @@ Function UpdateMainMenu()
 					
 					MouseSmooth = (SlideBar(x + 310*MenuScale, y-4*MenuScale, 150*MenuScale, (MouseSmooth)*50.0)/50.0)
 					Color(255, 255, 255)
-					AAText(x + 20 * MenuScale, y, "Mouse smoothing:")
+					AAText(x + 20 * MenuScale, y, opt_mousesmooth)
 					If MouseOn(x+310*MenuScale,y-4*MenuScale,150*MenuScale+14,20)
 						DrawOptionsTooltip(tx,ty,tw,th,"mousesmoothing",MouseSmooth)
 					EndIf
@@ -1357,29 +1523,29 @@ Function UpdateMainMenu()
 					Color(255, 255, 255)
 					
 					y = y + 30*MenuScale
-					AAText(x + 20 * MenuScale, y, "Control configuration:")
+					AAText(x + 20 * MenuScale, y, opt_ctrlconf)
 					y = y + 10*MenuScale
 					
-					AAText(x + 20 * MenuScale, y + 20 * MenuScale, "Move Forward")
+					AAText(x + 20 * MenuScale, y + 20 * MenuScale, ctrl_fwrd)
 					InputBox(x + 160 * MenuScale, y + 20 * MenuScale,100*MenuScale,20*MenuScale,KeyName(Min(KEY_UP,210)),5)		
-					AAText(x + 20 * MenuScale, y + 40 * MenuScale, "Strafe Left")
+					AAText(x + 20 * MenuScale, y + 40 * MenuScale, ctrl_left)
 					InputBox(x + 160 * MenuScale, y + 40 * MenuScale,100*MenuScale,20*MenuScale,KeyName(Min(KEY_LEFT,210)),3)	
-					AAText(x + 20 * MenuScale, y + 60 * MenuScale, "Move Backward")
+					AAText(x + 20 * MenuScale, y + 60 * MenuScale, ctrl_back)
 					InputBox(x + 160 * MenuScale, y + 60 * MenuScale,100*MenuScale,20*MenuScale,KeyName(Min(KEY_DOWN,210)),6)				
-					AAText(x + 20 * MenuScale, y + 80 * MenuScale, "Strafe Right")
+					AAText(x + 20 * MenuScale, y + 80 * MenuScale, ctrl_right)
 					InputBox(x + 160 * MenuScale, y + 80 * MenuScale,100*MenuScale,20*MenuScale,KeyName(Min(KEY_RIGHT,210)),4)	
-					AAText(x + 20 * MenuScale, y + 100 * MenuScale, "Quick Save")
+					AAText(x + 20 * MenuScale, y + 100 * MenuScale, ctrl_save)
 					InputBox(x + 160 * MenuScale, y + 100 * MenuScale,100*MenuScale,20*MenuScale,KeyName(Min(KEY_SAVE,210)),11)
 					
-					AAText(x + 280 * MenuScale, y + 20 * MenuScale, "Manual Blink")
+					AAText(x + 280 * MenuScale, y + 20 * MenuScale, ctrl_blink)
 					InputBox(x + 470 * MenuScale, y + 20 * MenuScale,100*MenuScale,20*MenuScale,KeyName(Min(KEY_BLINK,210)),7)				
-					AAText(x + 280 * MenuScale, y + 40 * MenuScale, "Sprint")
+					AAText(x + 280 * MenuScale, y + 40 * MenuScale, ctrl_run)
 					InputBox(x + 470 * MenuScale, y + 40 * MenuScale,100*MenuScale,20*MenuScale,KeyName(Min(KEY_SPRINT,210)),8)
-					AAText(x + 280 * MenuScale, y + 60 * MenuScale, "Open/Close Inventory")
+					AAText(x + 280 * MenuScale, y + 60 * MenuScale, ctrl_inv)
 					InputBox(x + 470 * MenuScale, y + 60 * MenuScale,100*MenuScale,20*MenuScale,KeyName(Min(KEY_INV,210)),9)
-					AAText(x + 280 * MenuScale, y + 80 * MenuScale, "Crouch")
+					AAText(x + 280 * MenuScale, y + 80 * MenuScale, ctrl_crouch)
 					InputBox(x + 470 * MenuScale, y + 80 * MenuScale,100*MenuScale,20*MenuScale,KeyName(Min(KEY_CROUCH,210)),10)	
-					AAText(x + 280 * MenuScale, y + 100 * MenuScale, "Open/Close Console")
+					AAText(x + 280 * MenuScale, y + 100 * MenuScale, ctrl_console)
 					InputBox(x + 470 * MenuScale, y + 100 * MenuScale,100*MenuScale,20*MenuScale,KeyName(Min(KEY_CONSOLE,210)),12)
 					
 					If MouseOn(x+20*MenuScale,y,width-40*MenuScale,120*MenuScale)
@@ -1423,7 +1589,7 @@ Function UpdateMainMenu()
 					y = y + 20*MenuScale
 					
 					Color 255,255,255				
-					AAText(x + 20 * MenuScale, y, "Show HUD:")	
+					AAText(x + 20 * MenuScale, y, opt_hud)	
 					HUDenabled = DrawTick(x + 310 * MenuScale, y + MenuScale, HUDenabled)
 					If MouseOn(x+310*MenuScale,y+MenuScale,20*MenuScale,20*MenuScale)
 						DrawOptionsTooltip(tx,ty,tw,th,"hud")
@@ -1432,7 +1598,7 @@ Function UpdateMainMenu()
 					y=y+30*MenuScale
 					
 					Color 255,255,255
-					AAText(x + 20 * MenuScale, y, "Enable console:")
+					AAText(x + 20 * MenuScale, y, opt_console)
 					CanOpenConsole = DrawTick(x + 310 * MenuScale, y + MenuScale, CanOpenConsole)
 					If MouseOn(x+310*MenuScale,y+MenuScale,20*MenuScale,20*MenuScale)
 						DrawOptionsTooltip(tx,ty,tw,th,"consoleenable")
@@ -1441,7 +1607,7 @@ Function UpdateMainMenu()
 					y = y + 30*MenuScale
 					
 					Color 255,255,255
-					AAText(x + 20 * MenuScale, y, "Open console on error:")
+					AAText(x + 20 * MenuScale, y, opt_consolerr)
 					ConsoleOpening = DrawTick(x + 310 * MenuScale, y + MenuScale, ConsoleOpening)
 					If MouseOn(x+310*MenuScale,y+MenuScale,20*MenuScale,20*MenuScale)
 						DrawOptionsTooltip(tx,ty,tw,th,"consoleerror")
@@ -1450,7 +1616,7 @@ Function UpdateMainMenu()
 					y = y + 50*MenuScale
 					
 					Color 255,255,255
-					AAText(x + 20 * MenuScale, y, "Achievement popups:")
+					AAText(x + 20 * MenuScale, y, opt_achv)
 					AchvMSGenabled% = DrawTick(x + 310 * MenuScale, y + MenuScale, AchvMSGenabled%)
 					If MouseOn(x+310*MenuScale,y+MenuScale,20*MenuScale,20*MenuScale)
 						DrawOptionsTooltip(tx,ty,tw,th,"achpopup")
@@ -1459,7 +1625,7 @@ Function UpdateMainMenu()
 					y = y + 50*MenuScale
 					
 					Color 255,255,255
-					AAText(x + 20 * MenuScale, y, "Show FPS:")
+					AAText(x + 20 * MenuScale, y, opt_fps)
 					showfps% = DrawTick(x + 310 * MenuScale, y + MenuScale, showfps%)
 					If MouseOn(x+310*MenuScale,y+MenuScale,20*MenuScale,20*MenuScale)
 						DrawOptionsTooltip(tx,ty,tw,th,"showfps")
@@ -1468,7 +1634,7 @@ Function UpdateMainMenu()
 					y = y + 30*MenuScale
 					
 					Color 255,255,255
-					AAText(x + 20 * MenuScale, y, "Framelimit:")
+					AAText(x + 20 * MenuScale, y, opt_fpslimit)
 					Color 255,255,255
 					If DrawTick(x + 310 * MenuScale, y, CurrFrameLimit > 0.0) Then
 						;CurrFrameLimit# = (SlideBar(x + 150*MenuScale, y+30*MenuScale, 100*MenuScale, CurrFrameLimit#*50.0)/50.0)
@@ -1478,7 +1644,7 @@ Function UpdateMainMenu()
 						CurrFrameLimit# = Max(CurrFrameLimit, 0.01)
 						Framelimit% = 19+(CurrFrameLimit*100.0)
 						Color 255,255,0
-						AAText(x + 25 * MenuScale, y + 25 * MenuScale, Framelimit%+" FPS")
+						AAText(x + 25 * MenuScale, y + 25 * MenuScale, Framelimit%+" "+str_fps)
 					Else
 						CurrFrameLimit# = 0.0
 						Framelimit = 0
@@ -1499,7 +1665,7 @@ Function UpdateMainMenu()
 						Color 255,255,255
 						LOCKEDAA% = False
 					EndIf
-					AAText(x + 20 * MenuScale, y, "Antialiased text:")
+					AAText(x + 20 * MenuScale, y, opt_aatext)
 					AATextEnable% = DrawTick(x + 310 * MenuScale, y + MenuScale, AATextEnable%, LOCKEDAA%)
 					If AATextEnable_Prev% <> AATextEnable
 						For font.AAFont = Each AAFont
@@ -1552,7 +1718,7 @@ Function UpdateMainMenu()
 						Color 255,255,255
 						LOCKED3D% = False
 					EndIf
-					AAText(x + 20, y, "Enable 3D Menu:")
+					AAText(x + 20, y, opt_3dmenu)
 					IS_3DMENU_ENABLED% = DrawTick(x + 310 * MenuScale, y + MenuScale, IS_3DMENU_ENABLED%, LOCKED3D%)
 					If IS_3DMENU_ENABLED_PREV% <> IS_3DMENU_ENABLED
 						If (Not IS_3DMENU_ENABLED) Then
@@ -1569,7 +1735,7 @@ Function UpdateMainMenu()
 					
 					y = y + 50*MenuScale
 					Color 255,255,255
-					AAText(x + 20, y, "Use launcher:")
+					AAText(x + 20, y, opt_launcher)
 					LauncherEnabled% = DrawTick(x + 310 * MenuScale, y + MenuScale, LauncherEnabled%)
 					If MouseOn(x+310*MenuScale,y+MenuScale,20*MenuScale,20*MenuScale)
 						DrawOptionsTooltip(tx,ty,tw,th,"uselauncher")
@@ -1584,7 +1750,7 @@ Function UpdateMainMenu()
 					y=y+20*MenuScale
 					
 					Color 255,255,255				
-					AAText(x + 20 * MenuScale, y, "Meme Mode (will restart game):")	
+					AAText(x + 20 * MenuScale, y, opt_mememode)	
 					;BumpEnabled = DrawTick(x + 310 * MenuScale, y + MenuScale, BumpEnabled)
 					If MemeMode Then
 						If DrawButton(x+310*MenuScale,y-10*MenuScale,width/5,height/10, btn_disable, False) Then
@@ -1605,7 +1771,7 @@ Function UpdateMainMenu()
 					y=y+30*MenuScale
 					
 					Color 255,255,255				
-					AAText(x + 20 * MenuScale, y, "Always override Intro Videos:")	
+					AAText(x + 20 * MenuScale, y, opt_memeintros)	
 					MemeMode_Intros = DrawTick(x + 310 * MenuScale, y + MenuScale, MemeMode_Intros)
 					;If MouseOn(x + 310 * MenuScale, y + MenuScale, 20*MenuScale,20*MenuScale) And OnSliderID=0
 					;	;DrawTooltip("Not available in this version")
@@ -1615,7 +1781,7 @@ Function UpdateMainMenu()
 					y=y+30*MenuScale
 					
 					Color 255,255,255				
-					AAText(x + 20 * MenuScale, y, "Always override Loading Screens:")	
+					AAText(x + 20 * MenuScale, y, opt_memeloading)	
 					MemeMode_Loading = DrawTick(x + 310 * MenuScale, y + MenuScale, MemeMode_Loading)
 					;If MouseOn(x + 310 * MenuScale, y + MenuScale, 20*MenuScale,20*MenuScale) And OnSliderID=0
 					;	;DrawTooltip("Not available in this version")
@@ -1677,7 +1843,7 @@ Function UpdateMainMenu()
 				
 				DrawFrame(x+50*MenuScale,y+510*MenuScale,width-100*MenuScale,55*MenuScale)
 				
-				AAText(x+(width/2.0),y+536*MenuScale,str_page+Int(Max((CurrLoadGamePage+1),1))+"/"+Int(Max((Int(Ceil(Float(SavedMapsAmount)/6.0))),1)),True,True)
+				AAText(x+(width/2.0),y+536*MenuScale,str_page+" "+Int(Max((CurrLoadGamePage+1),1))+"/"+Int(Max((Int(Ceil(Float(SavedMapsAmount)/6.0))),1)),True,True)
 				
 				AASetFont Font1
 				
@@ -2972,8 +3138,8 @@ Function SlideBar#(x%, y%, width%, value#)
 	DrawImage(BlinkMeterIMG, x + width * value / 100.0 +3, y+3)
 	
 	Color 170,170,170 
-	AAText (x - 50 * MenuScale, y + 4*MenuScale, "LOW")					
-	AAText (x + width + 38 * MenuScale, y+4*MenuScale, "HIGH")	
+	AAText (x - 50 * MenuScale, y + 4*MenuScale, str_low)
+	AAText (x + width + 38 * MenuScale, y+4*MenuScale, str_high)
 	
 	Return value
 	

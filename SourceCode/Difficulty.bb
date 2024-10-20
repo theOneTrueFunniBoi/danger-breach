@@ -15,7 +15,9 @@ End Type
 
 Dim difficulties.Difficulty(4)
 
-Global SelectedDifficulty.Difficulty
+Global SelectedDifficulty.Difficulty;Global str_diff_easy$,str_diff_med$,str_diff_hard$,str_diff_custom$
+;Global str_diff_easy_desc$,str_diff_med_desc$,str_diff_med_desc2$
+;Global str_diff_hard_desc$,str_diff_hard_desc2$
 
 Const SAFE=0, EUCLID=1, KETER=2, CUSTOM=3
 
@@ -24,8 +26,8 @@ Const SAVEANYWHERE = 0, SAVEONQUIT=1, SAVEONSCREENS=2
 Const EASY = 0, NORMAL = 1, HARD = 2
 
 difficulties(SAFE) = New Difficulty
-difficulties(SAFE)\name = "Safe"
-difficulties(SAFE)\description ="The game can be saved any time. However, as in the case of SCP Objects, a Safe classification does not mean that handling it does not pose a threat."
+;difficulties(SAFE)\name = str_diff_easy
+;difficulties(SAFE)\description = str_diff_easy_desc
 difficulties(SAFE)\permaDeath = False
 difficulties(SAFE)\aggressiveNPCs = False
 difficulties(SAFE)\saveType = SAVEANYWHERE
@@ -35,9 +37,9 @@ difficulties(SAFE)\g = 150
 difficulties(SAFE)\b = 50
 
 difficulties(EUCLID) = New Difficulty
-difficulties(EUCLID)\name = "Euclid"
-difficulties(EUCLID)\description = "In Euclid difficulty, saving is only allowed at specific locations marked by lit up computer screens. "
-difficulties(EUCLID)\description = difficulties(EUCLID)\description +"Euclid-class objects are inherently unpredictable, so that reliable containment is not always possible."
+;difficulties(EUCLID)\name = str_diff_med
+;difficulties(EUCLID)\description = str_diff_med_desc
+;difficulties(EUCLID)\description = difficulties(EUCLID)\description +" "+str_diff_med_desc2
 difficulties(EUCLID)\permaDeath = False
 difficulties(EUCLID)\aggressiveNPCs = False
 difficulties(EUCLID)\saveType = SAVEONSCREENS
@@ -47,9 +49,9 @@ difficulties(EUCLID)\g = 200
 difficulties(EUCLID)\b = 0
 
 difficulties(KETER) = New Difficulty
-difficulties(KETER)\name = "Keter"
-difficulties(KETER)\description = "Keter-class objects are considered the most dangerous ones in Foundation containment. "
-difficulties(KETER)\description = difficulties(KETER)\description +"The same can be said for this difficulty level: the SCPs are more aggressive, and you have only one life - when you die, the game is over. "
+;difficulties(KETER)\name = str_diff_hard
+;difficulties(KETER)\description = str_diff_hard_desc
+;difficulties(KETER)\description = difficulties(KETER)\description +" "+str_diff_hard_desc2
 difficulties(KETER)\permaDeath = True
 difficulties(KETER)\aggressiveNPCs = True
 difficulties(KETER)\saveType = SAVEONQUIT
@@ -59,7 +61,7 @@ difficulties(KETER)\g = 0
 difficulties(KETER)\b = 0
 
 difficulties(CUSTOM) = New Difficulty
-difficulties(CUSTOM)\name = "Esoteric"
+;difficulties(CUSTOM)\name = str_diff_custom
 difficulties(CUSTOM)\permaDeath = False
 difficulties(CUSTOM)\aggressiveNPCs = True
 difficulties(CUSTOM)\saveType = SAVEANYWHERE
