@@ -110,7 +110,9 @@ Global opt_mousesmooth$,opt_ctrlconf$,opt_hud$,opt_console$,opt_consolerr$,opt_a
 Global opt_aatext$,opt_3dmenu$,opt_launcher$,opt_mememode$,opt_memeintros$,opt_memeloading$
 ;--controls--
 Global ctrl_fwrd$,ctrl_left$,ctrl_back$,ctrl_right$,ctrl_save$,ctrl_blink$,ctrl_run$,ctrl_inv$,ctrl_crouch$
-Global ctrl_console$
+Global ctrl_console$
+;--hints--
+
 
 ;--other--
 Global prevLang$ = SelectedLanguage
@@ -1198,7 +1200,7 @@ Function UpdateMainMenu()
 				If MainMenuTab = 3 ;Graphics
 					;[Block]
 					;height = 380 * MenuScale
-					height = 440 * MenuScale
+					height = 410 * MenuScale
 					DrawFrame(x, y, width, height)
 					
 					y=y+20*MenuScale
@@ -1272,17 +1274,21 @@ Function UpdateMainMenu()
 						prevLang = SelectedLanguage
 					EndIf
 					
-					y=y+30*MenuScale
-					
-					If DrawButton(x+300*MenuScale,y-5*MenuScale,width/3.5,height/15, btn_refreshlang, False) Then
-						;reload translations
-						;Delay 1000
-						UpdateINIFile(tmpPath+langSubtitlesF)
-						UpdateINIFile(tmpPath+langMenuF)
-						UpdateINIFile(tmpPath+langLauncherF)
-						UpdateINIFile(tmpPath+langMenuHintsF)
-						ReloadMenuTranslations()
-					EndIf
+					;once this starts working, i will re-enable it
+					;y=y+30*MenuScale
+					;
+					;If DrawButton(x+300*MenuScale,y-5*MenuScale,width/3.5,height/15, btn_refreshlang, False) Then
+					;	;reload translations
+					;	;Delay 1000
+					;	UpdateINIFile(tmpPath+langSubtitlesF)
+					;	UpdateINIFile(tmpPath+langMenuF)
+					;	UpdateINIFile(tmpPath+langLauncherF)
+					;	UpdateINIFile(tmpPath+langMenuHintsF)
+					;	ReloadMenuTranslations()
+					;EndIf
+					;If MouseOn(x+300*MenuScale,y-5*MenuScale,width/3.5,height/15)
+					;	DrawOptionsTooltip(tx,ty,tw,th,"refreshlang")
+					;EndIf
 					
 					y=y+50*MenuScale
 					
@@ -1422,6 +1428,7 @@ Function UpdateMainMenu()
 						DrawOptionsTooltip(tx,ty,tw,th,"subtitles")
 					EndIf
 					
+					;disabled because the language is not just for subtitles anymore
 					;If SubtitlesEnabled Then
 					;	y = y + 30*MenuScale
 					;	
@@ -1751,7 +1758,6 @@ Function UpdateMainMenu()
 					
 					Color 255,255,255				
 					AAText(x + 20 * MenuScale, y, opt_mememode)	
-					;BumpEnabled = DrawTick(x + 310 * MenuScale, y + MenuScale, BumpEnabled)
 					If MemeMode Then
 						If DrawButton(x+310*MenuScale,y-10*MenuScale,width/5,height/10, btn_disable, False) Then
 							MemeMode = 0
@@ -1759,6 +1765,9 @@ Function UpdateMainMenu()
 							ExecFile Chr(34)+"SCP - Danger Breach.exe"+Chr(34)+" -nolauncher"
 							End
 						EndIf
+						;If MouseOn(x+310*MenuScale,y-10*MenuScale,width/5,height/10)
+						;	DrawOptionsTooltip(tx,ty,tw,th,"mememode_disable")
+						;EndIf
 					Else
 						If DrawButton(x+310*MenuScale,y-10*MenuScale,width/5,height/10, btn_enable, False) Then
 							MemeMode = 1
@@ -1766,6 +1775,12 @@ Function UpdateMainMenu()
 							ExecFile Chr(34)+"SCP - Danger Breach.exe"+Chr(34)+" -nolauncher"
 							End
 						EndIf
+						;If MouseOn(x+310*MenuScale,y-10*MenuScale,width/5,height/10)
+						;	DrawOptionsTooltip(tx,ty,tw,th,"mememode_enable")
+						;EndIf
+					EndIf
+					If MouseOn(x+310*MenuScale,y-10*MenuScale,width/5,height/10)
+						DrawOptionsTooltip(tx,ty,tw,th,"mememode")
 					EndIf
 					
 					y=y+30*MenuScale
@@ -1773,20 +1788,18 @@ Function UpdateMainMenu()
 					Color 255,255,255				
 					AAText(x + 20 * MenuScale, y, opt_memeintros)	
 					MemeMode_Intros = DrawTick(x + 310 * MenuScale, y + MenuScale, MemeMode_Intros)
-					;If MouseOn(x + 310 * MenuScale, y + MenuScale, 20*MenuScale,20*MenuScale) And OnSliderID=0
-					;	;DrawTooltip("Not available in this version")
-					;	DrawOptionsTooltip(tx,ty,tw,th,"mememode_introvids")
-					;EndIf
+					If MouseOn(x+310*MenuScale,y+MenuScale,20*MenuScale,20*MenuScale)
+						DrawOptionsTooltip(tx,ty,tw,th,"mememode_intros")
+					EndIf
 					
 					y=y+30*MenuScale
 					
 					Color 255,255,255				
 					AAText(x + 20 * MenuScale, y, opt_memeloading)	
 					MemeMode_Loading = DrawTick(x + 310 * MenuScale, y + MenuScale, MemeMode_Loading)
-					;If MouseOn(x + 310 * MenuScale, y + MenuScale, 20*MenuScale,20*MenuScale) And OnSliderID=0
-					;	;DrawTooltip("Not available in this version")
-					;	DrawOptionsTooltip(tx,ty,tw,th,"mememode_loading")
-					;EndIf
+					If MouseOn(x+310*MenuScale,y+MenuScale,20*MenuScale,20*MenuScale)
+						DrawOptionsTooltip(tx,ty,tw,th,"mememode_loading")
+					EndIf
 					;[End Block]
 				EndIf
 				;[End Block]
@@ -3457,6 +3470,7 @@ Function DrawOptionsTooltip(x%,y%,width%,height%,option$,value#=0,ingame%=False)
 	
 	AASetFont Font1
 	Color 255,255,255
+	/*
 	Select Lower(option$)
 		;Graphic options
 			;[Block]
@@ -3503,8 +3517,8 @@ Function DrawOptionsTooltip(x%,y%,width%,height%,option$,value#=0,ingame%=False)
 			txt2 = "This option cannot be changed in-game."
 			R = 255
 		Case "nocursor"
-			txt = "Use The Computer's Default Cursor instead of the game's custom cursor."
-		Case "furri"
+			txt = "Use the computer's default cursor instead of the game's custom cursor."
+		Case "funni"
 			txt = "Enable if you dare..."
 			;[End Block]
 		;Sound options
@@ -3585,8 +3599,148 @@ Function DrawOptionsTooltip(x%,y%,width%,height%,option$,value#=0,ingame%=False)
 			txt = "Toggles the launcher window on startup which allows you to configure your resolution along with other settings that you cannot configure in-game."
 		Case "menu3d"
 			txt = "Toggles the 3D Menu."
+		Default
+			txt = Lower(option$)
 			;[End Block]
 	End Select
+	*/
+	
+	txt = LoadLanguageString(langMenuHintsF,Lower(option$))
+	txt2 = LoadLanguageString(langMenuHintsF,Lower(option$),"text2")	
+	R = LoadLanguageString(langMenuHintsF,Lower(option$),"R")
+	G = LoadLanguageString(langMenuHintsF,Lower(option$),"G")
+	B = LoadLanguageString(langMenuHintsF,Lower(option$),"B")
+	
+	If (txt2 = Lower(option$)) Then txt2 = ""
+	
+	Local updatedValue$
+	
+	;custom adjustments
+	Select Lower(option$)
+		;Graphic options
+			;[Block]
+		;Case "bump"
+		;	;txt = Chr(34)+"Bump mapping"+Chr(34)+" is used to simulate bumps and dents by distorting the lightmaps."
+		;	;txt2 = "This option cannot be changed in-game."
+		;	R = 255
+		;Case "antialias"
+		;	;txt = Chr(34)+"Anti-Aliasing"+Chr(34)+" is used to smooth the rendered image before displaying in order to reduce aliasing around the edges of models."
+		;	;txt2 = "This option only takes effect in fullscreen."
+		;	R = 255
+		Case "gamma"
+			;txt = Chr(34)+"Gamma correction"+Chr(34)+" is used to achieve a good brightness factor to balance out your display's gamma if the game appears either too dark or bright. "
+			;txt = txt + "Setting it too high or low can cause the graphics to look less detailed."
+			;R = 255
+			;G = 255
+			;B = 255
+			;txt2 = "Current value: "+Int(value*100)+"% (default is 100%)"
+			updatedValue = value*100
+		Case "particleamount"
+			;txt = "Determines the amount of particles that can be rendered per tick."
+			Select value
+				Case 0
+					R = 255
+					G = 0
+					B = 0
+					;txt2 = "Only smoke emitters will produce particles."
+					txt2 = LoadLanguageString(langMenuHintsF,Lower(option$),"text2")
+				Case 1
+					R = 255
+					G = 255
+					B = 0
+					;txt2 = "Only a few particles will be rendered per tick."
+					txt2 = LoadLanguageString(langMenuHintsF,Lower(option$),"text3")
+				Case 2
+					R = 0
+					G = 255
+					B = 0
+					;txt2 = "All particles are rendered."
+					txt2 = LoadLanguageString(langMenuHintsF,Lower(option$),"text4")
+			End Select
+		Case "vram"
+			;txt = "Textures that are stored in the Video-RAM will load faster, but this also has negative effects on the texture quality as well."
+			;txt2 = "This option cannot be changed in-game."
+			;R = 255
+		Case "musicvol"
+			;txt = "Adjusts the volume of background music. Sliding the bar fully to the left will mute all music."
+			;R = 255
+			;G = 255
+			;B = 255
+			;txt2 = "Current value: "+Int(value*100)+"% (default is 50%)"
+			updatedValue = value*100
+		Case "soundvol"
+			;txt = "Adjusts the volume of sound effects. Sliding the bar fully to the left will mute all sounds."
+			;R = 255
+			;G = 255
+			;B = 255
+			;txt2 = "Current value: "+Int(value*100)+"% (default is 100%)"
+			updatedValue = value*100
+		;Case "sfxautorelease"
+		;	;txt = Chr(34)+"Sound auto-release"+Chr(34)+" will free a sound from memory if it not used after 5 seconds. Prevents memory allocation issues."
+		;	R = 255
+		;	;txt2 = "This option cannot be changed in-game."
+		;Case "usertrack"
+		;	;txt = "Toggles the ability to play custom tracks over channel 1 of the radio. These tracks are loaded from the " + Chr(34) + "SFX\Radio\UserTracks\" + Chr(34)
+		;	;txt = txt + " directory. Press " + Chr(34) + "1" + Chr(34) + " when the radio is selected to change track."
+		;	R = 255
+		;	;txt2 = "This option cannot be changed in-game."
+		;Case "usertrackmode"
+		;	;txt = "Sets the playing mode for the custom tracks. "+Chr(34)+"Repeat"+Chr(34)+" plays every file in alphabetical order. "+Chr(34)+"Random"+Chr(34)+" chooses the "
+		;	;txt = txt + "next track at random."
+		;	R = 255
+		;	G = 255
+		;	;txt2 = "Note that the random mode does not prevent previously played tracks from repeating."
+		Case "mousesensitivity"
+			;txt = "Adjusts the speed of the mouse pointer."
+			;R = 255
+			;G = 255
+			;B = 255
+			;txt2 = "Current value: "+Int((0.5+value)*100)+"% (default is 50%)"
+			updatedValue = (0.5+value)*100
+		Case "mousesmoothing"
+			;txt = "Adjusts the amount of smoothing of the mouse pointer."
+			;R = 255
+			;G = 255
+			;B = 255
+			;txt2 = "Current value: "+Int(value*100)+"% (default is 100%)"
+			updatedValue = value*100
+		Case "consoleenable"
+			;txt = "Toggles the use of the developer console. Can be used in-game by pressing " + KeyName(KEY_CONSOLE) + "."
+			updatedValue = KeyName(KEY_CONSOLE)
+		Case "framelimit"
+			;txt = "Limits the frame rate that the game can run at to a desired value."
+			;If value > 0 And value < 60
+			;	R = 255
+			;	G = 255
+			;	;txt2 = "Usually, 60 FPS or higher is preferred. If you are noticing excessive stuttering at this setting, try lowering it to make your framerate more consistent."
+			;EndIf
+			If (value >= 60 Or (Framelimit = 0 And CurrFrameLimit = 0.0))
+				txt2 = ""
+				R = 0
+				G = 0
+				B = 0
+			EndIf
+		Case "antialiastext"
+			If Not IS_3DMENU_ENABLED
+				txt2 = ""
+				R = 0
+				G = 0
+				B = 0
+			EndIf
+		Case "menu3d"
+			If Not AATextEnable
+				txt2 = ""
+				R = 0
+				G = 0
+				B = 0
+			EndIf
+		Default
+			updatedValue = value
+			;[End Block]
+	End Select
+	
+	txt = ReplaceStr(txt,updatedValue)
+	txt2 = ReplaceStr(txt2,updatedValue)
 	
 	lines% = GetLineAmount(txt,fw,fh)
 	If usetestimg
@@ -3612,6 +3766,35 @@ Function DrawOptionsTooltip(x%,y%,width%,height%,option$,value#=0,ingame%=False)
 		EndIf
 	EndIf
 	
+End Function
+
+Function ReplaceStr$(inputstr$,value1$,value2$="NIL",value3$="NIL",value4$="NIL",value5$="NIL",value6$="NIL",value7$="NIL",value8$="NIL")
+	Local i%
+	Local updatedStr$ = inputstr
+	For i%=1 To 8
+		If (Instr(inputstr,"%%"+i))
+			Select i
+				Case 1
+					updatedStr = Replace(updatedStr,"%%"+i,value1)
+				Case 2
+					updatedStr = Replace(updatedStr,"%%"+i,value2)
+				Case 3
+					updatedStr = Replace(updatedStr,"%%"+i,value3)
+				Case 4
+					updatedStr = Replace(updatedStr,"%%"+i,value4)
+				Case 5
+					updatedStr = Replace(updatedStr,"%%"+i,value5)
+				Case 6
+					updatedStr = Replace(updatedStr,"%%"+i,value6)
+				Case 7
+					updatedStr = Replace(updatedStr,"%%"+i,value7)
+				Case 8
+					updatedStr = Replace(updatedStr,"%%"+i,value8)
+			End Select	
+		End If
+	Next
+	
+	Return updatedStr
 End Function
 
 Function DrawMapCreatorTooltip(x%,y%,width%,height%,mapname$)
