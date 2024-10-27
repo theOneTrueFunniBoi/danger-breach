@@ -193,13 +193,13 @@ Function INI_CreateKey%(INI_lFileHandle%, INI_sKey$, INI_sValue$)
 End Function
 
 ; matemaattiset funktiot:
-Function Min#(a#,b#)
-	If a < b Then Return a Else Return b
-End Function
+;Function Min#(a#,b#)
+;	If a < b Then Return a Else Return b
+;End Function
 
-Function Max#(a#,b#)
-	If a > b Then Return a Else Return b
-End Function
+;Function Max#(a#,b#)
+;	If a > b Then Return a Else Return b
+;End Function
 
 Function StripPath$(file$) 
 	
@@ -234,20 +234,20 @@ Function StripFilename$(file$)
 	Return Left(file,lastSlash)
 End Function
 
-Function EntityScaleX#(entity, globl=False) 
-	If globl Then TFormVector 1,0,0,entity,0 Else TFormVector 1,0,0,entity,GetParent(entity) 
-	Return Sqr(TFormedX()*TFormedX()+TFormedY()*TFormedY()+TFormedZ()*TFormedZ()) 
-End Function 
+;Function EntityScaleX#(entity, globl=False) 
+;	If globl Then TFormVector 1,0,0,entity,0 Else TFormVector 1,0,0,entity,GetParent(entity) 
+;	Return Sqr(TFormedX()*TFormedX()+TFormedY()*TFormedY()+TFormedZ()*TFormedZ()) 
+;End Function 
 
-Function EntityScaleY#(entity, globl=False)
-	If globl Then TFormVector 0,1,0,entity,0 Else TFormVector 0,1,0,entity,GetParent(entity)  
-	Return Sqr(TFormedX()*TFormedX()+TFormedY()*TFormedY()+TFormedZ()*TFormedZ()) 
-End Function 
+;Function EntityScaleY#(entity, globl=False)
+;	If globl Then TFormVector 0,1,0,entity,0 Else TFormVector 0,1,0,entity,GetParent(entity)  
+;	Return Sqr(TFormedX()*TFormedX()+TFormedY()*TFormedY()+TFormedZ()*TFormedZ()) 
+;End Function 
 
-Function EntityScaleZ#(entity, globl=False)
-	If globl Then TFormVector 0,0,1,entity,0 Else TFormVector 0,0,1,entity,GetParent(entity)  
-	Return Sqr(TFormedX()*TFormedX()+TFormedY()*TFormedY()+TFormedZ()*TFormedZ()) 
-End Function
+;Function EntityScaleZ#(entity, globl=False)
+;	If globl Then TFormVector 0,0,1,entity,0 Else TFormVector 0,0,1,entity,GetParent(entity)  
+;	Return Sqr(TFormedX()*TFormedX()+TFormedY()*TFormedY()+TFormedZ()*TFormedZ()) 
+;End Function
 
 Function Piece$(s$,entry,char$=" ")
 	While Instr(s,char+char)
@@ -851,5 +851,4 @@ EndIf
 
 
 ;~IDEal Editor Parameters:
-;~F#2B#40#4E#52#A3#B1#B9#C1#C5#C9#DA#EA#EF#F4#F9#10A#120#124#2EC
 ;~C#Blitz3D

@@ -1,5 +1,9 @@
 ;Global DisableErrors%=0
 
+;+----------+
+;|  EVENTS  |
+;+----------+
+
 Function UpdateEvents()
 	CatchErrors("Uncaught (UpdateEvents)")
 	Local dist#, i%, temp%, pvt%, strtemp$, j%, k%
@@ -29,7 +33,7 @@ Function UpdateEvents()
 							e\room\RoomDoors[4]\openstate = Min(e\room\RoomDoors[4]\openstate,50)
 							e\room\RoomDoors[4]\open = False
 							PlaySound2 (LoadTempSound("SFX\Door\DoorError.ogg"), Camera, e\room\RoomDoors[4]\frameobj)
-						EndIf							
+						EndIf
 					EndIf
 				Else
 					e\room\RoomDoors[4]\locked=False
@@ -50,7 +54,7 @@ Function UpdateEvents()
 			Case "alarm" ;the alarm in the starting room
 				;[Block]
 				;Local pvtAlarm%
-				If PlayerRoom = e\room Or IsRoomAdjacent(e\room,PlayerRoom) Then
+				If PlayerRoom = e\room Then ;Or IsRoomAdjacent(e\room,PlayerRoom) Then
 					e\room\SpinningAlarmStatus[0] = 0
 					UpdateAlarmRotor(e\room\SpinningAlarmRotor[0],e\room\SpinningAlarmLight[0],e\room\SpinningAlarmStatus[0])
 					ShowEntity e\room\SpinningAlarmRotor[0]
@@ -10253,6 +10257,12 @@ Function UpdateEndings()
 					Next					
 					ShowEntity e\room\obj
 					
+					;EntityPickMode e\room\obj,2
+					;EntityShininess e\room\obj,0.2					
+					UpdateSplashes3D(Camera,10)
+					UpdateRings3D()
+					UpdateRain3D(Camera,25)
+					
 					If e\EventState = 0 Then
 						DrawLoading(0)
 						e\room\Objects[0] = LoadMesh_Strict("GFX\map\gateatunnel.b3d")
@@ -10831,6 +10841,6 @@ End Function
 
 
 ;~IDEal Editor Parameters:
-;~F#1220
-;~B#11B7#1EC6
+;~F#1224
+;~B#11BB#1ECA
 ;~C#Blitz3D

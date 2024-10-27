@@ -825,7 +825,7 @@ Function UpdateMainMenu()
 				
 				AASetFont Font2
 				
-				If DrawButton(x + 420 * MenuScale, y + height + 20 * MenuScale, 160 * MenuScale, 70 * MenuScale, LoadLanguageString(langMenuF,"btn_start"), False) Then
+				If DrawButton(x + 420 * MenuScale, y + height + 20 * MenuScale, 160 * MenuScale, 70 * MenuScale, btn_start, False) Then
 					If CurrSave = "" Then CurrSave = "Untitled Save"
 					
 					If RandomSeed = "" Then

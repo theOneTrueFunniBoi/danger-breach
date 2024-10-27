@@ -1630,13 +1630,13 @@ Function INI_CreateKey%(INI_lFileHandle%, INI_sKey$, INI_sValue$)
 	
 End Function
 
-Function Min#(a#,b#)
-	If a < b Then Return a Else Return b
-End Function
+;Function Min#(a#,b#)
+;	If a < b Then Return a Else Return b
+;End Function
 
-Function Max#(a#,b#)
-	If a > b Then Return a Else Return b
-End Function
+;Function Max#(a#,b#)
+;	If a > b Then Return a Else Return b
+;End Function
 
 Const ROOM1% = 1, ROOM2% = 2, ROOM2C% = 3, ROOM3% = 4, ROOM4% = 5
 

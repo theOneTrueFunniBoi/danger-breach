@@ -64,6 +64,8 @@ Function LoadWorld(file$, rt.RoomTemplates)
 	Local x#,y#,z#,i%,c%
 	Local mat.Materials
 	
+	;EntityPickMode map,2,True
+	
 	Local world=CreatePivot()
 	Local meshes=CreatePivot(world)
 	Local renderbrushes=CreateMesh(world)
@@ -254,7 +256,8 @@ Function LoadWorld(file$, rt.RoomTemplates)
 	EntityFX renderbrushes, 1
 	;EntityFX renderbrushes, 2
 	
-	FreeEntity map
+	FreeEntity map	
+	;EntityPickMode world,2,True
 	
 	Return world	
 	
@@ -566,27 +569,46 @@ Function LoadRMesh(file$,rt.RoomTemplates)
 	
 	;trigger boxes
 	If hasTriggerBox
-		DebugLog "TriggerBoxEnable"
-		rt\TempTriggerboxAmount = ReadInt(f)
-		For tb = 0 To rt\TempTriggerboxAmount-1
-			rt\TempTriggerbox[tb] = CreateMesh(rt\obj)
-			count = ReadInt(f)
-			For i%=1 To count
-				surf=CreateSurface(rt\TempTriggerbox[tb])
-				count2=ReadInt(f)
-				For j%=1 To count2
-					x=ReadFloat(f) : y=ReadFloat(f) : z=ReadFloat(f)
-					vertex=AddVertex(surf,x,y,z)
+		;if there is no roomtemplate, then we can't use triggers
+		If rt = Null
+			numb = ReadInt(f)
+			For tb = 0 To numb-1
+				count = ReadInt(f)
+				For i%=1 To count
+					count2=ReadInt(f)
+					For j%=1 To count2
+						ReadFloat(f) : ReadFloat(f) : ReadFloat(f)
+					Next
+					count2=ReadInt(f)
+					For j%=1 To count2
+						ReadInt(f) : ReadInt(f) : ReadInt(f)
+					Next
 				Next
-				count2=ReadInt(f)
-				For j%=1 To count2
-					temp1i = ReadInt(f) : temp2i = ReadInt(f) : temp3i = ReadInt(f)
-					AddTriangle(surf,temp1i,temp2i,temp3i)
-					AddTriangle(surf,temp1i,temp3i,temp2i)
-				Next
+				ReadString(f)
 			Next
-			rt\TempTriggerboxName[tb] = ReadString(f)
-		Next
+		Else
+			DebugLog "TriggerBoxEnable"
+			rt\TempTriggerboxAmount = ReadInt(f)
+			For tb = 0 To rt\TempTriggerboxAmount-1
+				rt\TempTriggerbox[tb] = CreateMesh(rt\obj)
+				count = ReadInt(f)
+				For i%=1 To count
+					surf=CreateSurface(rt\TempTriggerbox[tb])
+					count2=ReadInt(f)
+					For j%=1 To count2
+						x=ReadFloat(f) : y=ReadFloat(f) : z=ReadFloat(f)
+						vertex=AddVertex(surf,x,y,z)
+					Next
+					count2=ReadInt(f)
+					For j%=1 To count2
+						temp1i = ReadInt(f) : temp2i = ReadInt(f) : temp3i = ReadInt(f)
+						AddTriangle(surf,temp1i,temp2i,temp3i)
+						AddTriangle(surf,temp1i,temp3i,temp2i)
+					Next
+				Next
+				rt\TempTriggerboxName[tb] = ReadString(f)
+			Next
+		EndIf
 	EndIf
 	
 	count=ReadInt(f) ;point entities
@@ -760,6 +782,12 @@ Function LoadRMesh(file$,rt.RoomTemplates)
 	
 	;AddMesh hiddenMesh,BigRoomMesh
 	
+	;EntityPickMode Opaque,2
+	If (rt <> Null)
+		If rt\Name = "gatea" Then EntityPickMode Opaque,2
+		If rt\Name = "gatea" Then EntityShininess Opaque,0.2
+	EndIf
+	
 	obj=CreatePivot()
 	CreatePivot(obj) ;skip "meshes" object
 	EntityParent Opaque,obj
@@ -769,6 +797,10 @@ Function LoadRMesh(file$,rt.RoomTemplates)
 	EntityParent collisionMeshes,obj
 	
 	CloseFile f
+	
+	;EntityPickMode obj,2
+	;If (rt\Name = "gatea") Then EntityPickMode obj,2,True
+	;If (rt\Name = "gatea") Then EntityShininess obj,0.2
 	
 	CatchErrors("LoadRMesh")
 	Return obj%
@@ -7863,9 +7895,9 @@ Function UpdateElevators#(State#, door1.Doors, door2.Doors, room1, room2, event.
 	door1\locked = True
 	door2\locked = True
 	If door1\open Then
-		If room079 = True Then
-			;room079ground = False
-		EndIf
+		;If room079 = True Then
+		;	;room079ground = False
+		;EndIf
 		door1\IsElevatorDoor = 3
 		If Abs(EntityX(Collider)-EntityX(room1,True))<280.0*RoomScale+(0.015*FPSfactor) Then
 			If Abs(EntityZ(Collider)-EntityZ(room1,True))<280.0*RoomScale+(0.015*FPSfactor) Then	
@@ -7877,9 +7909,9 @@ Function UpdateElevators#(State#, door1.Doors, door2.Doors, room1, room2, event.
 		EndIf
 	EndIf
 	If door2\open Then
-		If room079 = True Then
-			;room079ground = False
-		EndIf
+		;If room079 = True Then
+		;	;room079ground = False
+		;EndIf
 		door2\IsElevatorDoor = 3
 		If Abs(EntityX(Collider)-EntityX(room2,True))<280.0*RoomScale+(0.015*FPSfactor) Then
 			If Abs(EntityZ(Collider)-EntityZ(room2,True))<280.0*RoomScale+(0.015*FPSfactor) Then	
@@ -8121,22 +8153,23 @@ End Type
 
 Function CreatePropObj(file$,hostRMesh$)
 	Local p.Props
-	Local meshTmp%
+	;Local meshTmp%
 	For p.Props = Each Props
 		If p\file = file Then
-			meshTmp = CopyEntity(p\obj)
-			HideEntity meshTmp
+			;meshTmp = CopyEntity(p\obj)
+			;HideEntity meshTmp
+			Return CopyEntity(p\obj)
 		EndIf
 	Next
 	
 	p.Props = New Props
 	p\file = file
-	If (meshTmp)
-		p\obj = CopyEntity(meshTmp)
-		FreeEntity meshTmp : meshTmp=0
-	Else
+	;If (meshTmp)
+	;	p\obj = CopyEntity(meshTmp)
+	;	FreeEntity meshTmp : meshTmp=0
+	;Else
 		p\obj = LoadMesh_Strict(file)
-	EndIf
+	;EndIf
 	p\RMeshFile = hostRMesh
 	ShowEntity p\obj
 	Return p\obj
@@ -9256,30 +9289,26 @@ Function UpdateAlarmRotor(rotorMdl%,lightCone%, status%=0)
 	Local realStatus%
 	
 	Select status
-		Case 0
+		Case 0 ;open & spinning
 			If AnimTime(rotorMdl) < 111 Then SetAnimTime(rotorMdl,111)
 			Animate2(rotorMdl,AnimTime(rotorMdl),111,191,0.4,True)
 			RotateEntity(lightCone,45,(-4.444444444*(AnimTime(rotorMdl)-110))+90,0)
 			DebugLog "shitty alarm rotor animtime is "+AnimTime(rotorMdl)
 			ShowEntity lightCone
-			
-		Case 1
+		Case 1 ;open
 			If AnimTime(rotorMdl) > 49 Then SetAnimTime(rotorMdl,1)
 			Animate2(rotorMdl,AnimTime(rotorMdl),1,49,0.4,False)
 			HideEntity lightCone
 			If AnimTime(rotorMdl) = 49
 				status = 0
 			EndIf
-			
-		Case 2
+		Case 2 ;close
 			If AnimTime(rotorMdl) > 110 Or AnimTime(rotorMdl) < 50 Then SetAnimTime(rotorMdl,50)
 			Animate2(rotorMdl,AnimTime(rotorMdl),50,110,0.4,False)
 			HideEntity lightCone
-			
-		Case 3
+		Case 3 ;closed & idle
 			HideEntity lightCone
 			HideEntity rotorMdl
-			
 	End Select
 End Function
 
@@ -9967,6 +9996,6 @@ End Function
 
 
 ;~IDEal Editor Parameters:
-;~F#148#150
-;~B#138E
+;~F#14C#154
+;~B#13AF
 ;~C#Blitz3D

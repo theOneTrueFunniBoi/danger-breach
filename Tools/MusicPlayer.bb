@@ -274,13 +274,13 @@ Function Button%(x,y,width,height,txt$, disabled%=False)
 	If Pushed And MouseHit1 Then Return True
 End Function
 
-Function Min#(a#,b#)
-	If a < b Then Return a Else Return b
-End Function
+;Function Min#(a#,b#)
+;	If a < b Then Return a Else Return b
+;End Function
 
-Function Max#(a#,b#)
-	If a > b Then Return a Else Return b
-End Function
+;Function Max#(a#,b#)
+;	If a > b Then Return a Else Return b
+;End Function
 
 Function f2s$(n#, count%)
 	Return Left(n, Len(Int(n))+count+1)
@@ -388,5 +388,4 @@ End Function
 
 
 ;~IDEal Editor Parameters:
-;~F#E4#112#116#11A#11E#126#13A#156#160
 ;~C#Blitz3D

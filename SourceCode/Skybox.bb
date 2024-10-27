@@ -9,13 +9,13 @@ Function sky_CreateSky(filename$,parent%=0)
 		Local fname$ = filename$ + direction$ + ".jpg"
 		If FileType(fname$)=1
 			Local b = LoadBrush_Strict(fname$,%110001)
-			s = CreateSurface(sky,b)
+			Local sk = CreateSurface(sky,b)
 			For vert = 1 To 4
 				Read x,y,z,u,v
-				AddVertex s,x,y,z,u,v
+				AddVertex sk,x,y,z,u,v
 			Next
-			AddTriangle s,0,1,2
-			AddTriangle s,0,2,3
+			AddTriangle sk,0,1,2
+			AddTriangle sk,0,2,3
 			FreeBrush b
 		EndIf
 	Next
