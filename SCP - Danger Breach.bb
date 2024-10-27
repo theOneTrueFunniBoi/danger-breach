@@ -12,8 +12,11 @@
 ;	 Compile with debug disabled For a smaller, Faster, And more efficent game executable.     ;
 ;----------------------------------------------------------------------------------------------;
 
-Const GameIdent$ = "SCP - Danger Breach"
-Const GameIdentAllCaps$ = "SCP - DANGER BREACH"
+Const ScpIdent$ = "SCP"
+Const GameIdentShort$ = "Danger Breach"
+Const GameIdent$ = ScpIdent+" - "+GameIdentShort
+Const GameIdentShortAllCaps$ = "DANGER BREACH"
+Const GameIdentAllCaps$ = ScpIdent+" - "+GameIdentShortAllCaps
 Const GameIdentStrSeperator$ = " /-/-/ "
 
 Const VersionNumber$ = "2.3.3"

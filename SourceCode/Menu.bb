@@ -91,7 +91,7 @@ If IS_3DMENU_ENABLED Then Init3DMenu()
 Global btn_newgame$,btn_loadgame$,btn_options$,btn_changelog$,btn_quit$
 Global btn_enable$,btn_disable$,btn_deselect$,btn_load$,btn_upgrade$,btn_delete$,btn_yes$,btn_no$
 Global btn_graphics$,btn_audio$,btn_controls$,btn_advanced$,btn_mememode$,btn_back$,btn_start$
-Global btn_loadmap$,btn_usrtrack$,btn_refreshlang$
+Global btn_loadmap$,btn_usrtrack$,btn_refreshlang$,btn_importsav$,btn_importmap$,btn_export$
 
 ;--strings--
 Global str_newgame$,str_loadmap$,str_loadgame$,str_options$,str_changelog$,str_quit$
@@ -99,6 +99,7 @@ Global str_easy$,str_med$,str_hard$,str_repeat$,str_random$,str_savname$,str_sav
 Global str_introseq$,str_difficulty$,str_permadeath$,str_savanywhere$,str_aggronpcs$,str_diffactors$
 Global str_page$,str_nosaves$,str_savedin$,str_savefmt$,str_deleteconf$,str_upgradeconf$
 Global str_usrtracksfound1$,str_usrtracksfound2$,str_nomaps$,str_fps$,str_high$,str_low$
+Global str_savefile$,str_importsav$,str_exportsav$,str_mapfile$,str_importmap$,str_exportmap$
 
 ;NOTE: difficulty strings are stored in Difficulty.bb
 
@@ -111,10 +112,9 @@ Global opt_aatext$,opt_3dmenu$,opt_launcher$,opt_mememode$,opt_memeintros$,opt_m
 ;--controls--
 Global ctrl_fwrd$,ctrl_left$,ctrl_back$,ctrl_right$,ctrl_save$,ctrl_blink$,ctrl_run$,ctrl_inv$,ctrl_crouch$
 Global ctrl_console$
-;--hints--
-
-
 ;--other--
+
+
 Global prevLang$ = SelectedLanguage
 
 ;[End Block]
@@ -150,6 +150,9 @@ Function ReloadMenuTranslations()
 	btn_loadmap = ""
 	btn_usrtrack = ""
 	btn_refreshlang = ""
+	btn_importsav = ""
+	btn_importmap = ""
+	btn_export = ""
 	
 	;--strings--
 	str_newgame = ""
@@ -201,13 +204,16 @@ Function ReloadMenuTranslations()
 	;str_diff_hard_desc = ""
 	;str_diff_hard_desc2 = ""
 	
-	difficulties(SAFE)\name = ""
-	difficulties(SAFE)\description = ""
-	difficulties(EUCLID)\name = ""
-	difficulties(EUCLID)\description = ""
-	difficulties(HARD)\name = ""
-	difficulties(HARD)\description = ""
-	difficulties(CUSTOM)\name = ""
+	For i% = SAFE To CUSTOM
+		difficulties(i%)\name = ""
+		difficulties(i%)\description = ""
+	Next	
+	str_savefile = ""
+	str_importsav = ""
+	str_exportsav = ""
+	str_mapfile = ""
+	str_importmap = ""
+	str_exportmap = ""
 	
 	;--options--
 	opt_bump = ""
@@ -298,6 +304,9 @@ Function ReloadMenuTranslations()
 	btn_loadmap = LoadLanguageString(langMenuF,"btn_loadmap")
 	btn_usrtrack = LoadLanguageString(langMenuF,"btn_usrtrack")
 	btn_refreshlang = LoadLanguageString(langMenuF,"btn_refreshlang")
+	btn_importsav = LoadLanguageString(langMenuF,"btn_importsav")
+	btn_importmap = LoadLanguageString(langMenuF,"btn_importmap")
+	btn_export = LoadLanguageString(langMenuF,"btn_export")
 	
 	;--strings--
 	str_newgame = LoadLanguageString(langMenuF,"str_newgame")
@@ -349,13 +358,23 @@ Function ReloadMenuTranslations()
 	;str_diff_hard_desc = LoadLanguageString(langMenuF,"str_diff_hard_desc")
 	;str_diff_hard_desc2 = LoadLanguageString(langMenuF,"str_diff_hard_desc","text2")
 	
-	difficulties(SAFE)\name = LoadLanguageString(langMenuF,"str_diff_easy")
-	difficulties(SAFE)\description = LoadLanguageString(langMenuF,"str_diff_easy_desc")
-	difficulties(EUCLID)\name = LoadLanguageString(langMenuF,"str_diff_med")
-	difficulties(EUCLID)\description = LoadLanguageString(langMenuF,"str_diff_med_desc")+" "+LoadLanguageString(langMenuF,"str_diff_med_desc","text2")
-	difficulties(HARD)\name = LoadLanguageString(langMenuF,"str_diff_hard")
-	difficulties(HARD)\description = LoadLanguageString(langMenuF,"str_diff_hard_desc")+" "+LoadLanguageString(langMenuF,"str_diff_hard_desc","text2")
-	difficulties(CUSTOM)\name = LoadLanguageString(langMenuF,"str_diff_custom")
+	For i% = SAFE To CUSTOM
+		difficulties(i%)\name = LoadLanguageString(langMenuF,"str_diff_"+i%)
+		difficulties(i%)\description = LoadLanguageString(langMenuF,"str_diff_"+i%+"_desc")+" "+LoadLanguageString(langMenuF,"str_diff_"+i%+"_desc","text2")
+		If i%=1 Then difficulties(i%)\description = LoadLanguageString(langMenuF,"str_diff_"+i%+"_desc")
+		;difficulties(EUCLID)\name = LoadLanguageString(langMenuF,"str_diff_med")
+		;difficulties(EUCLID)\description = LoadLanguageString(langMenuF,"str_diff_med_desc")+" "+LoadLanguageString(langMenuF,"str_diff_med_desc","text2")
+		;difficulties(HARD)\name = LoadLanguageString(langMenuF,"str_diff_hard")
+		;difficulties(HARD)\description = LoadLanguageString(langMenuF,"str_diff_hard_desc")+" "+LoadLanguageString(langMenuF,"str_diff_hard_desc","text2")
+		;difficulties(CUSTOM)\name = LoadLanguageString(langMenuF,"str_diff_custom")
+	Next
+	
+	str_savefile = LoadLanguageString(langMenuF,"str_savefile")
+	str_importsav = LoadLanguageString(langMenuF,"str_importsav")
+	str_exportsav = LoadLanguageString(langMenuF,"str_exportsav")
+	str_mapfile = LoadLanguageString(langMenuF,"str_mapfile")
+	str_importmap = LoadLanguageString(langMenuF,"str_importmap")
+	str_exportmap = LoadLanguageString(langMenuF,"str_exportmap")
 	
 	;--options--
 	opt_bump = LoadLanguageString(langMenuF,"opt_bump")
@@ -649,11 +668,14 @@ Function UpdateMainMenu()
 		y = 286 * MenuScale
 		
 		width = 400 * MenuScale
+		;if in load game or load map
+		If (MainMenuTab = 2 Or MainMenuTab = 4) Then width = 500 * MenuScale
 		height = 70 * MenuScale
 		
 		DrawFrame(x, y, width, height)
 		
-		If DrawButton(x + width + 20 * MenuScale, y, 580 * MenuScale - width - 20 * MenuScale, height, LoadLanguageString(langMenuF,"btn_back"), False) Then 
+		;If DrawButton(x + width + 20 * MenuScale, y, 580 * MenuScale - width - 20 * MenuScale, height, btn_back, False) Then 
+		If DrawButton(x + width + 20 * MenuScale, y, 160 * MenuScale, height, btn_back, False) Then 
 			Select MainMenuTab
 				Case 1
 					PutINIValue(OptionFile, "options", "intro enabled", IntroEnabled%)
@@ -839,7 +861,7 @@ Function UpdateMainMenu()
 			Case 2 ;load game
 				;[Block]
 				y = y + height + 20 * MenuScale
-				width = 580 * MenuScale
+				width = 680 * MenuScale
 				;height = 300 * MenuScale
 				height = 510 * MenuScale
 				
@@ -848,7 +870,7 @@ Function UpdateMainMenu()
 				x = 159 * MenuScale
 				y = 286 * MenuScale
 				
-				width = 400 * MenuScale
+				width = 500 * MenuScale
 				height = 70 * MenuScale
 				
 				Color(255, 255, 255)
@@ -860,21 +882,42 @@ Function UpdateMainMenu()
 				
 				x = 160 * MenuScale
 				y = y + height + 20 * MenuScale
-				width = 580 * MenuScale
+				width = 680 * MenuScale
 				height = 296 * MenuScale
 				
-				;AASetFont Font1	
+				AASetFont Font1
+				
+				; import save
+				If SaveMSG = "" Then
+					If DrawButton(x+680*MenuScale, y, 150 * MenuScale, 55*MenuScale, btn_importsav, False) Then
+						Local io$ = CreateFileDialog(1,"","",GameIdentShort+" "+str_savefile+"|*.dbsav||",GameIdent+GameIdentStrSeperator+str_importsav,CurrentDir())
+						If (Not io = "") Then
+							Local path$ = io
+							Local index%
+							Repeat
+								index=Instr(path,"\")
+								If Not index Then Exit
+								path = Mid(path,index+1)
+							Forever
+							index=Instr(path,".")
+							If (index>0) Then path=Left$(path,index-1) Else RuntimeError ("NO NO NO! WHO'S CHANGING IMPORT SAVE? MESSAGE FUNNIMAN.EXE")
+							CreateDir(SavePath+"\"+path)
+							CopyFile(io, SavePath +"\"+path+ "\Data.dbsav")
+							LoadSaveGames()
+						EndIf
+					EndIf
+				EndIf
 				
 				AASetFont Font2
 				
 				If CurrLoadGamePage < Ceil(Float(SaveGameAmount)/6.0)-1 And SaveMSG = "" Then 
-					If DrawButton(x+530*MenuScale, y + 510*MenuScale, 50*MenuScale, 55*MenuScale, ">") Then
+					If DrawButton(x+630*MenuScale, y + 510*MenuScale, 50*MenuScale, 55*MenuScale, ">") Then
 						CurrLoadGamePage = CurrLoadGamePage+1
 					EndIf
 				Else
-					DrawFrame(x+530*MenuScale, y + 510*MenuScale, 50*MenuScale, 55*MenuScale)
+					DrawFrame(x+630*MenuScale, y + 510*MenuScale, 50*MenuScale, 55*MenuScale)
 					Color(100, 100, 100)
-					AAText(x+555*MenuScale, y + 537.5*MenuScale, ">", True, True)
+					AAText(x+655*MenuScale, y + 537.5*MenuScale, ">", True, True)
 				EndIf
 				If CurrLoadGamePage > 0 And SaveMSG = "" Then
 					If DrawButton(x, y + 510*MenuScale, 50*MenuScale, 55*MenuScale, "<") Then
@@ -886,9 +929,9 @@ Function UpdateMainMenu()
 					AAText(x+25*MenuScale, y + 537.5*MenuScale, "<", True, True)
 				EndIf
 				
-				DrawFrame(x+50*MenuScale,y+510*MenuScale,width-100*MenuScale,55*MenuScale)
+				DrawFrame(x+50*MenuScale,y+510*MenuScale,580*MenuScale,55*MenuScale)
 				
-				AAText(x+(width/2.0),y+536*MenuScale,str_page+" "+Int(Max((CurrLoadGamePage+1),1))+"/"+Int(Max((Int(Ceil(Float(SaveGameAmount)/6.0))),1)),True,True)
+				AAText(x+(width/2),y+536*MenuScale,str_page+" "+Int(Max((CurrLoadGamePage+1),1))+"/"+Int(Max((Int(Ceil(Float(SaveGameAmount)/6.0))),1)),True,True)
 				
 				AASetFont Font1
 				
@@ -904,7 +947,7 @@ Function UpdateMainMenu()
 					
 					For i% = (1+(6*CurrLoadGamePage)) To 6+(6*CurrLoadGamePage)
 						If i <= SaveGameAmount Then
-							DrawFrame(x,y,540* MenuScale, 70* MenuScale)
+							DrawFrame(x,y,640* MenuScale, 70* MenuScale)
 							
 							If Not (SaveGameVersion(i - 1) = "2.3.2" Or SaveGameVersion(i - 1) = "2.3.1" Or SaveGameVersion(i - 1) = "2.3.0")
 								If Not (SaveGameVersion(i - 1) = "2.2.9" Or SaveGameVersion(i - 1) = "2.2.8" Or SaveGameVersion(i - 1) = "2.2.7")
@@ -912,26 +955,26 @@ Function UpdateMainMenu()
 										If Not (SaveGameVersion(i - 1) = "2.2.3" Or SaveGameVersion(i - 1) = "2.2.2" Or SaveGameVersion(i - 1) = "2.2.1")
 											If Not (SaveGameDataVersion(i - 1) > SavFormatVersionNumber Or SaveGameDataVersion(i - 1) < SavFormatVersionNumber)
 												Color 255,255,255
-												AAText(x + 20 * MenuScale, y + (10+36) * MenuScale, str_savedin + SaveGameVersion(i - 1) + " "+str_savefmt + SaveGameDataVersion(i - 1))
+												AAText(x + 20 * MenuScale, y + (10+36) * MenuScale, str_savedin + " " + SaveGameVersion(i - 1) + " "+str_savefmt + " " + SaveGameDataVersion(i - 1))
 											Else
 												Color 255,0,0
-												AAText(x + 20 * MenuScale, y + (10+36) * MenuScale, str_savedin + SaveGameVersion(i - 1) + " "+str_savefmt + "Pre-2.0")
+												AAText(x + 20 * MenuScale, y + (10+36) * MenuScale, str_savedin + " " + SaveGameVersion(i - 1) + " "+str_savefmt + " " + "Pre-2.0")
 											EndIf
 										Else
 											Color 255,0,0
-											AAText(x + 20 * MenuScale, y + (10+36) * MenuScale, str_savedin + SaveGameVersion(i - 1) + " "+str_savefmt + "Pre-2.0")
+											AAText(x + 20 * MenuScale, y + (10+36) * MenuScale, str_savedin + " " + SaveGameVersion(i - 1) + " "+str_savefmt + " " + "Pre-2.0")
 										EndIf
 									Else
 										Color 255,0,0
-										AAText(x + 20 * MenuScale, y + (10+36) * MenuScale, str_savedin + SaveGameVersion(i - 1) + " "+str_savefmt + "Pre-2.0")
+										AAText(x + 20 * MenuScale, y + (10+36) * MenuScale, str_savedin + " " + SaveGameVersion(i - 1) + " "+str_savefmt + " " + "Pre-2.0")
 									EndIf
 								Else
 									Color 255,0,0
-									AAText(x + 20 * MenuScale, y + (10+36) * MenuScale, str_savedin + SaveGameVersion(i - 1) + " "+str_savefmt + "Pre-2.0")
+									AAText(x + 20 * MenuScale, y + (10+36) * MenuScale, str_savedin + " " + SaveGameVersion(i - 1) + " "+str_savefmt + " " + "Pre-2.0")
 								EndIf
 							Else
 								Color 255,0,0
-								AAText(x + 20 * MenuScale, y + (10+36) * MenuScale, str_savedin + SaveGameVersion(i - 1) + " "+str_savefmt + "Pre-2.0")
+								AAText(x + 20 * MenuScale, y + (10+36) * MenuScale, str_savedin + " " + SaveGameVersion(i - 1) + " "+str_savefmt + " " + "Pre-2.0")
 							EndIf
 							
 							AAText(x + 20 * MenuScale, y + 10 * MenuScale, SaveGames(i - 1))
@@ -973,7 +1016,15 @@ Function UpdateMainMenu()
 									AAText(x + 330 * MenuScale, y + 34 * MenuScale, btn_load, True, True)
 								EndIf
 								
-								If DrawButton(x + 400 * MenuScale, y + 20 * MenuScale, 100 * MenuScale, 30 * MenuScale, btn_delete, False) Then
+								If DrawButton(x+400*MenuScale, y + 20*MenuScale, 100 * MenuScale, 30*MenuScale, btn_export, False) Then
+									isUpgrade = 2
+									DebugLog isUpgrade
+									SaveMSG = SaveGames(i - 1)
+									DebugLog SaveMSG
+									Exit
+								EndIf
+								
+								If DrawButton(x + 520 * MenuScale, y + 20 * MenuScale, 100 * MenuScale, 30 * MenuScale, btn_delete, False) Then
 									isUpgrade = 0
 									DebugLog isUpgrade
 									SaveMSG = SaveGames(i - 1)
@@ -997,7 +1048,11 @@ Function UpdateMainMenu()
 								
 								DrawFrame(x + 400 * MenuScale, y + 20 * MenuScale, 100 * MenuScale, 30 * MenuScale)
 								Color(100, 100, 100)
-								AAText(x + 450 * MenuScale, y + 34 * MenuScale, btn_delete, True, True)
+								AAText(x + 450 * MenuScale, y + 34 * MenuScale, btn_export, True, True)
+								
+								DrawFrame(x + 520 * MenuScale, y + 20 * MenuScale, 100 * MenuScale, 30 * MenuScale)
+								Color(100, 100, 100)
+								AAText(x + 570 * MenuScale, y + 34 * MenuScale, btn_delete, True, True)
 							EndIf
 							
 							y = y + 80 * MenuScale
@@ -1007,7 +1062,7 @@ Function UpdateMainMenu()
 					Next
 					
 					If SaveMSG <> ""
-						x = 740 * MenuScale
+						x = 840 * MenuScale
 						y = 376 * MenuScale
 						DrawFrame(x, y, 420 * MenuScale, 200 * MenuScale)
 						If isUpgrade = 1 Then
@@ -1099,6 +1154,11 @@ Function UpdateMainMenu()
 								;isUpgrade = 0
 								SaveMSG = ""
 							EndIf
+						ElseIf isUpgrade = 2 Then
+							Local exio$ = CreateFileDialog(0,SaveMSG,"dbsav",GameIdentShort+" "+str_savefile+"|*.dbsav||",GameIdent+GameIdentStrSeperator+str_exportsav,CurrentDir())
+							If (Not exio="") Then CopyFile(SavePath +SaveMSG+ "\Data.dbsav", exio)
+							SaveMSG = ""
+							LoadSaveGames()
 						Else
 							RowText(str_deleteconf, x + 15 * MenuScale, y + 15 * MenuScale, 400 * MenuScale, 200 * MenuScale)
 							;AAText(x + 20 * MenuScale, y + 15 * MenuScale, "Are you sure you want to delete this save?")
@@ -1806,7 +1866,8 @@ Function UpdateMainMenu()
 			Case 4 ; load map
 				;[Block]
 				y = y + height + 20 * MenuScale
-				width = 580 * MenuScale
+				;width = 580 * MenuScale
+				width = 680 * MenuScale
 				height = 510 * MenuScale
 				
 				DrawFrame(x, y, width, height)
@@ -1814,7 +1875,7 @@ Function UpdateMainMenu()
 				x = 159 * MenuScale
 				y = 286 * MenuScale
 				
-				width = 400 * MenuScale
+				width = 500 * MenuScale
 				height = 70 * MenuScale
 				
 				Color(255, 255, 255)
@@ -1825,8 +1886,29 @@ Function UpdateMainMenu()
 				
 				x = 160 * MenuScale
 				y = y + height + 20 * MenuScale
-				width = 580 * MenuScale
+				;width = 580 * MenuScale
+				width = 680 * MenuScale
 				height = 350 * MenuScale
+				
+				AASetFont Font1
+				
+				; import map
+				If DrawButton(x+680*MenuScale, y, 150 * MenuScale, 55*MenuScale, btn_importmap, False) Then
+					Local mio$ = CreateFileDialog(1,"","","All supported files|*.cbmap;*.cbmap2|"+GameIdentShort+" "+str_mapfile+" v1.0|*.cbmap|"+GameIdentShort+" "+str_mapfile+" v2.0|*.cbmap2||",GameIdent+GameIdentStrSeperator+str_importmap,CurrentDir())
+					If (Not mio = "") Then
+						Local mpath$ = mio
+						Local mindex%
+						Repeat
+							mindex=Instr(mpath,"\")
+							If Not mindex Then Exit
+							mpath = Mid(mpath,mindex+1)
+						Forever
+						;mindex=Instr(mpath,".")
+						;If (mindex>0) Then mpath=Left$(mpath,mindex-1) Else RuntimeError ("NO NO NO! WHO'S CHANGING IMPORT MAP? MESSAGE FUNNIMAN.EXE")
+						CopyFile(mio, "Map Creator\Maps\"+mpath)
+						LoadSavedMaps()
+					EndIf
+				EndIf
 				
 				AASetFont Font2
 				
@@ -1836,13 +1918,13 @@ Function UpdateMainMenu()
 				th# = 150*MenuScale
 				
 				If CurrLoadGamePage < Ceil(Float(SavedMapsAmount)/6.0)-1 Then 
-					If DrawButton(x+530*MenuScale, y + 510*MenuScale, 50*MenuScale, 55*MenuScale, ">") Then
+					If DrawButton(x+630*MenuScale, y + 510*MenuScale, 50*MenuScale, 55*MenuScale, ">") Then
 						CurrLoadGamePage = CurrLoadGamePage+1
 					EndIf
 				Else
-					DrawFrame(x+530*MenuScale, y + 510*MenuScale, 50*MenuScale, 55*MenuScale)
+					DrawFrame(x+630*MenuScale, y + 510*MenuScale, 50*MenuScale, 55*MenuScale)
 					Color(100, 100, 100)
-					AAText(x+555*MenuScale, y + 537.5*MenuScale, ">", True, True)
+					AAText(x+655*MenuScale, y + 537.5*MenuScale, ">", True, True)
 				EndIf
 				If CurrLoadGamePage > 0 Then
 					If DrawButton(x, y + 510*MenuScale, 50*MenuScale, 55*MenuScale, "<") Then
@@ -1873,18 +1955,31 @@ Function UpdateMainMenu()
 					y = y + 20 * MenuScale
 					For i = (1+(6*CurrLoadGamePage)) To 6+(6*CurrLoadGamePage)
 						If i <= SavedMapsAmount Then
-							DrawFrame(x,y,540* MenuScale, 70* MenuScale)
+							DrawFrame(x,y,640* MenuScale, 70* MenuScale)
 							
 							AAText(x + 20 * MenuScale, y + 10 * MenuScale, SavedMaps(i - 1))
 							AAText(x + 20 * MenuScale, y + (10+27) * MenuScale, SavedMapsAuthor(i - 1))
 							
-							If DrawButton(x + 400 * MenuScale, y + 20 * MenuScale, 100 * MenuScale, 30 * MenuScale, LoadLanguageString(langMenuF,"btn_load"), False) Then
+							If DrawButton(x + 380 * MenuScale, y + 20 * MenuScale, 100 * MenuScale, 30 * MenuScale, btn_load, False) Then
 								SelectedMap=SavedMaps(i - 1)
 								MainMenuTab = 1
 							EndIf
-							If MouseOn(x + 400 * MenuScale, y + 20 * MenuScale, 100*MenuScale,30*MenuScale)
-								DrawMapCreatorTooltip(tx,ty,tw,th,SavedMaps(i-1))
+							If DrawButton(x + 500 * MenuScale, y + 20 * MenuScale, 100 * MenuScale, 30 * MenuScale, btn_export, False) Then
+								Local exmindex% = Instr(SavedMaps(i - 1),".")
+								Local ext$ = Mid(SavedMaps(i - 1),exmindex+1)
+								Local dynamicStr$ = "1.0"
+								If ext$ = "cbmap2" Then dynamicStr = "2.0"
+								Local exmio$ = CreateFileDialog(0,SavedMaps(i - 1),ext,GameIdentShort+" "+str_mapfile+" v"+dynamicStr+"|*."+ext+"||",GameIdent+GameIdentStrSeperator+str_exportmap,CurrentDir())
+								If (Not exmio="") Then CopyFile("Map Creator\Maps\"+SavedMaps(i - 1), exmio)
+								LoadSavedMaps()
 							EndIf
+							;If DrawButton(x + 500 * MenuScale, y + 20 * MenuScale, 100 * MenuScale, 30 * MenuScale, btn_delete, False) Then
+							;	DeleteFile("Map Creator\Maps\"+SavedMaps(i - 1))
+							;	LoadSavedMaps()
+							;EndIf
+							;If MouseOn(x + 400 * MenuScale, y + 20 * MenuScale, 100*MenuScale,30*MenuScale)
+							;	DrawMapCreatorTooltip(tx,ty,tw,th,SavedMaps(i-1))
+							;EndIf
 							
 							y = y + 80 * MenuScale
 						Else

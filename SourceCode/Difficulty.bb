@@ -25,6 +25,8 @@ Const SAVEANYWHERE = 0, SAVEONQUIT=1, SAVEONSCREENS=2
 
 Const EASY = 0, NORMAL = 1, HARD = 2
 
+;Const TotalDifficulties = 4
+
 difficulties(SAFE) = New Difficulty
 ;difficulties(SAFE)\name = str_diff_easy
 ;difficulties(SAFE)\description = str_diff_easy_desc
