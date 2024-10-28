@@ -64,7 +64,7 @@ Function LoadWorld(file$, rt.RoomTemplates)
 	Local x#,y#,z#,i%,c%
 	Local mat.Materials
 	
-	;EntityPickMode map,2,True
+	EntityPickMode map,2
 	
 	Local world=CreatePivot()
 	Local meshes=CreatePivot(world)
@@ -257,7 +257,7 @@ Function LoadWorld(file$, rt.RoomTemplates)
 	;EntityFX renderbrushes, 2
 	
 	FreeEntity map	
-	;EntityPickMode world,2,True
+	EntityPickMode world,2
 	
 	Return world	
 	
@@ -782,11 +782,13 @@ Function LoadRMesh(file$,rt.RoomTemplates)
 	
 	;AddMesh hiddenMesh,BigRoomMesh
 	
-	;EntityPickMode Opaque,2
-	If (rt <> Null)
-		If rt\Name = "gatea" Then EntityPickMode Opaque,2
-		If rt\Name = "gatea" Then EntityShininess Opaque,0.2
-	EndIf
+	EntityPickMode Opaque,2
+	;If (rt <> Null)
+	;	If rt\Name = "gatea" Then EntityPickMode Opaque,2
+	;	If rt\Name = "gatea" Then EntityShininess Opaque,0.2
+	;EndIf
+	
+	If (rt <> Null) DebugLog rt\Name
 	
 	obj=CreatePivot()
 	CreatePivot(obj) ;skip "meshes" object
@@ -9997,5 +9999,5 @@ End Function
 
 ;~IDEal Editor Parameters:
 ;~F#14C#154
-;~B#13AF
+;~B#13B1
 ;~C#Blitz3D

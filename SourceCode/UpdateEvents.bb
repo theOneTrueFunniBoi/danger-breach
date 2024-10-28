@@ -10258,7 +10258,8 @@ Function UpdateEndings()
 					ShowEntity e\room\obj
 					
 					;EntityPickMode e\room\obj,2
-					;EntityShininess e\room\obj,0.2					
+					;EntityShininess e\room\obj,0.2
+					
 					UpdateSplashes3D(Camera,10)
 					UpdateRings3D()
 					UpdateRain3D(Camera,25)
